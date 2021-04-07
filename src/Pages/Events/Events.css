@@ -1,0 +1,15 @@
+.Evnthd{
+    min-height: 100vh;
+    margin: 0;
+    background: #151516;
+    padding-top: 100px;
+    padding-bottom: 20px;
+    color : white;
+}
+.eveleft{
+    width:50%;
+}
+.eventitem{
+    width: 60%;
+    margin : 10px auto;
+}
