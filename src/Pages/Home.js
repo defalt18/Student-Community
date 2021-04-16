@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { db } from '../lib/firebase.prod';
+import { db, auth } from '../lib/firebase.prod';
 import {
     Header,
     Sidebar,
@@ -9,17 +9,20 @@ import {
     Post,
 } from '../Components';
 import './Home.css';
+import { useHistory } from 'react-router-dom'
 import Usersuggest from './Usersuggest';
 import Story from './Story'
+import Welcome from '../Components/Modal/WelcomeModal.js'
 import Storycreate from './Storycreate'
 import { useAuthListener } from '../hooks';
 
-export default function Home({imgs}) {
+export default function Home({ imgs }) {
     const { user } = useAuthListener();
+    const [wel,setwel] = useState(0);
     const [posts, setPosts] = useState([]);
     const [tales, settales] = useState([]);
     const [dum, setd] = useState(0);
-    const [shows,setshow] = useState(1);
+    const [shows, setshow] = useState(1);
 
 
     useEffect(() => {
@@ -34,6 +37,8 @@ export default function Home({imgs}) {
                 );
             });
 
+        db.collection('users').doc(user.uid).onSnapshot((snapshot) => {setwel(snapshot.data().firstLogin);});
+
         db.collection('stories')
             .orderBy('timestamp', 'desc')
             .onSnapshot((snapshot) => {
@@ -47,35 +52,42 @@ export default function Home({imgs}) {
 
         setd(dum + 1);
 
-        for (let k =0 ;k<tales.length;k++)
-        {
-            if(user.uid===tales[k].ids) setshow(0)
+        for (let k = 0; k < tales.length; k++) {
+            if (user.uid === tales[k].ids) setshow(0)
         }
+
     }, [tales.length]);
-     
+
 
     return (
         <div className="app">
-            <Header uimg={imgs}/>
+            <Header uimg={imgs} />
             <CssBaseline />
             <Sidebar />
+            {
+                wel ? (
+                    <Welcome uid={user.uid}/>
+                ):(
+                    <></>
+                )
+            }
             <div className="appmain">
                 <div className="appleft">
-                    <div style={{margin:'20px',overflowX:'scroll'}}>
-                        <div style={{padding:0,background:'transparent',display:'flex',gap:'15px',width:'100%',flexWrap: 'no-wrap'}}>
+                    <div style={{ margin: '20px', overflowX: 'scroll' }}>
+                        <div style={{ padding: 0, background: 'transparent', display: 'flex', gap: '15px', width: '100%', flexWrap: 'no-wrap' }}>
                             {
-                            shows===1?
-                                (<Storycreate img={imgs}/>)
-                                :
-                                (<></>)
+                                shows === 1 ?
+                                    (<Storycreate img={imgs} />)
+                                    :
+                                    (<></>)
                             }
                             {
-                                tales.map(({ids,tale})=>(
+                                tales.map(({ ids, tale }) => (
                                     <Story
-                                    key = {ids}
-                                    img = {tale.avimg}
-                                    bg = {tale.imgurl}
-                                    name = {tale.name}
+                                        key={ids}
+                                        img={tale.avimg}
+                                        bg={tale.imgurl}
+                                        name={tale.name}
                                     />
                                 ))
                             }
@@ -87,8 +99,12 @@ export default function Home({imgs}) {
                     >
                         <CarouselMain style={{ borderRadius: '25px' }} />
                     </div>
-                    <div className="appitem welcome">
-                        <h1>Welcome {user?.displayName}</h1>
+                    <div className="appitem welcome" style={{ boxShadow: '0 0 5px 0 rgba(0,0,0,0.75)' }}>
+                        <h1>
+                            {
+                                wel ? (<span> Welcome {user?.displayName}</span>):(<span> Welcome back {user?.displayName}</span>)
+                            }
+                            </h1>
                     </div>
                     {posts.map(({ id, post }) => (
                         <div
@@ -125,8 +141,8 @@ export default function Home({imgs}) {
                                 <CarouselAdd style={{ borderRadius: '25px' }} />
                             </div>
                         </div>
-                        <div className='appitem' style={{background:'url("https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80")',padding:'0px',backgroundSize:'cover'}}>
-                            <div className = 'reminderevent' style={{textAlign:'center',background:'rgba(0,0,0,0.2)',backdropFilter:'saturate(180%) blur(20px)', borderRadius:'20px',padding:'10px'}}>
+                        <div className='appitem' style={{ background: 'url("https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80")', padding: '0px', backgroundSize: 'cover' }}>
+                            <div className='reminderevent' style={{ textAlign: 'center', background: 'rgba(0,0,0,0.2)', backdropFilter: 'saturate(180%) blur(20px)', borderRadius: '20px', padding: '10px' }}>
                                 <h1>Upcoming Event</h1>
                                 <h2>Step up by DADC</h2>
                                 <h2>Venue : OAT</h2>

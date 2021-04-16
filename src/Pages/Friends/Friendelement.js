@@ -28,7 +28,7 @@ function Friendelement({uid}) {
             color: 'lightgray',
             }}>
            <Avatar src={names.image} style={{margin:'1rem 0',height:'8rem',width:'8rem'}}/>
-           <Link to={`/profile/${uid}/posts`} style={{textDecoration:'none'}}>
+           <Link to={`/profile/${uid}`} style={{textDecoration:'none'}}>
                 <h2 style={{color:'white'}}>{names.Name}</h2>
                 </Link>
            <p style={{margin:0}}>Message</p>

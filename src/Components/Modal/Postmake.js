@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './Postmake.css';
 import { Avatar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -6,18 +6,25 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Firebase, storage, db } from '../../lib/firebase.prod';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { useAuthListener } from '../../hooks';
+import IconButton from '@material-ui/core/IconButton';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-function Postmake({ handleClose , imgus}) {
+
+function Postmake({ handleClose, imgus }) {
     const [img, setimg] = useState(null);
     const [imgprev, setimgprev] = useState('');
     const [caption, setCaption] = useState('');
-    
+    const [divmake, setdivm] = useState(1);
+
+
     const { user } = useAuthListener();
     const useriden = user.uid.toString();
-    
+
     useEffect(() => {
-        document.getElementById('postbut').disabled=true
-    }, [])
+        document.getElementById('postbut').disabled = true
+    }, [divmake.value])
 
     const handleCh = (e) => {
         if (e.target.files[0]) {
@@ -25,12 +32,13 @@ function Postmake({ handleClose , imgus}) {
             setimgprev(URL.createObjectURL(e.target.files[0]));
         }
     };
+
     const handleUp = () => {
         if (img || imgprev) {
             let nameit = (img.name + Date.now().toString()).toString();
             const upTak = storage.ref(`images/${nameit}`).put(img);
             upTak.on(
-                'state_changed',null,null,
+                'state_changed', null, null,
                 () => {
                     storage
                         .ref('images')
@@ -53,8 +61,7 @@ function Postmake({ handleClose , imgus}) {
             );
             handleClose();
         } else {
-            if(caption!=='')
-            {
+            if (caption !== '') {
                 db.collection('posts').add({
                     timestamp: Firebase.firestore.FieldValue.serverTimestamp(),
                     caption: caption,
@@ -67,7 +74,7 @@ function Postmake({ handleClose , imgus}) {
                 handleClose();
             }
         }
-        
+
     };
 
     function vwimg() {
@@ -81,25 +88,26 @@ function Postmake({ handleClose , imgus}) {
         }
     }
     function viewdiv() {
-        var m = document.getElementsByClassName('imageps');
-        var k = document.getElementById('uppicbut');
-        var sp = document.getElementById('writespacemake');
-        var def = sp.style.height;
-        if (m[0].style.display === 'block') {
-            sp.style.height = def;
-            m[0].style.display = 'none';
-            k.textContent = 'UPLOAD PIC';
-        } else {
-            sp.style.height = 'auto';
-            m[0].style.display = 'block';
-            k.textContent = 'CANCEL';
-        }
+        // var m = document.getElementsByClassName('imageps');
+        // var k = document.getElementById('uppicbut');
+        // var sp = document.getElementById('writespacemake');
+        // var def = sp.style.height;
+        // if (m[0].style.display === 'block') {
+        // sp.style.height = def;
+        // m[0].style.display = 'none';
+        setdivm((divmake + 1) % 2);
+        if(divmake===1) {setimg(null);setimgprev("");} 
+        // } else {
+        // sp.style.height = 'auto';
+        // m[0].style.display = 'block';
+        // setdivm((divmake + 1) % 2);
+        // }
     }
     return (
         <div className="postmaker">
             <CssBaseline />
-            <div className="writepos">
-                <div className="writetop">
+            <div className="writepos" style={{padding:0, overflow:"hidden"}}>
+                <div className="writetop" style={{background:"transparent", padding:'0 10px'}}>
                     <Avatar src={imgus} />
                     <h3 className="model-username">{user.displayName}</h3>
                     <CloseIcon
@@ -114,10 +122,11 @@ function Postmake({ handleClose , imgus}) {
                         <textarea
                             id="writespacemake"
                             onChange={(e) => {
+                                console.log(e.target.value);
                                 setCaption(e.target.value);
                                 let textarea = document.querySelector("#writespacemake");
                                 textarea.addEventListener('input', autoResize, false);
-                            
+
                                 function autoResize() {
                                     this.style.height = 'auto';
                                     this.style.height = this.scrollHeight + 'px';
@@ -128,8 +137,8 @@ function Postmake({ handleClose , imgus}) {
                         />
                     </form>
                 </div>
-                <div className="writedown">
-                    <Button
+                <div className="writedown" style={{width:'100%',padding:"10px"}}>
+                    <IconButton aria-label="upload"
                         variant="contained"
                         onClick={handleUp}
                         id='postbut'
@@ -137,12 +146,12 @@ function Postmake({ handleClose , imgus}) {
                         style={{
                             backgroundColor: 'rgba(36, 160, 237, 0.8)',
                             color: 'white',
-                            borderRadius: '10px',
+                            // borderRadius: '10px',
                         }}
                     >
-                        POST
-                    </Button>
-                    <Button
+                        <SendRoundedIcon />
+                    </IconButton>
+                    {/* <Button
                         id="uppicbut"
                         onClick={viewdiv}
                         variant="contained"
@@ -152,12 +161,45 @@ function Postmake({ handleClose , imgus}) {
                             border: '1px solid white',
                             borderRadius: '10px',
                         }}
-                    >
-                        UPLOAD PIC
-                    </Button>
+                    > */}
+                    {
+                        divmake ? (
+                            <IconButton aria-label="upload"
+                                // id="uppicbut"
+                                onClick={viewdiv}
+                                variant="contained"
+                                color="secondary"
+                                style={{
+                                    backgroundColor: '#24292e',
+                                    color: 'white',
+                                    // border: '1px solid white',
+                                    // borderRadius: '10px',
+                                }}
+                            >
+                                <AddPhotoAlternateIcon />
+                            </IconButton>
+                        ) : (
+
+                            <IconButton aria-label="upload"
+                                // id="uppicbut"
+                                onClick={viewdiv}
+                                variant="contained"
+                                style={{
+                                    backgroundColor: 'rgba(255,100,0,0.5)',
+                                    color: 'white',
+                                    // border: '1px solid white',
+                                    // borderRadius: '10px',
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        )
+                    }
+                    {/* </Button> */}
                 </div>
             </div>
-            <div className="imageps">
+
+            <div className="imageps" style={{ display: `${divmake ? "none" : "block"}` }}>
                 <img id="output" src={imgprev} alt="" />
                 <input
                     type="file"
@@ -188,6 +230,7 @@ function Postmake({ handleClose , imgus}) {
                     </Button>
                 </div>
             </div>
+
         </div>
     );
 }

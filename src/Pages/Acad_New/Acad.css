@@ -22,16 +22,15 @@ html {
     /* z-index: 10; */
 }
 #rest_rec{
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
     width: 100%;
-    flex-direction: column;
     flex:auto;
-    /* justify-content: center; */
-    /* align-items: center; */
     gap: 10px;
-    padding-left: 80px;
     background: black;
-    padding-top: 60px;
+    padding: 10px;
+    padding-left: 100px;
+    padding-bottom: 20px;
 }
 
 .rec_element_new{

@@ -143,7 +143,7 @@ const MenuProps = {
 };
 
 const initialValues = {
-    emailid: '',
+    emaiid: '',
     username: '',
     password: '',
     firstName: '',
@@ -187,11 +187,12 @@ export default function SignUp() {
 
         return firebase
             .auth()
-            .createUserWithEmailAndPassword(values.emailid, values.password)
+            .createUserWithEmailAndPassword(values.emailid + "@daiict.ac.in", values.password)
             .then((result) =>
                 result.user
                     .updateProfile({
                         displayName: values.firstName,
+                        studentID: values.emailid,
                         displayImg : imgprev,
                     })
                     .then(() => {
@@ -199,6 +200,7 @@ export default function SignUp() {
                             Name: values.firstName,
                             image: '',
                             cover: '',
+                            firstLogin : 1
                         });
                         db.collection('users')
                             .doc(result.user.uid)
@@ -216,6 +218,7 @@ export default function SignUp() {
                                 state: values.state,
                                 country: values.country,
                                 skills: skls,
+                                studentid: values.emailid,
                             });
                         
                         if (imgprev)
@@ -251,13 +254,28 @@ export default function SignUp() {
             <div style={{
                 width:'100%',display:'flex',flexDirection:'column'}}>
                 <div className='cranac'>
-                    Register as a student
+                    Register into the community
                 </div>
             </div>
             <Link to ='/signin' style={{position:'absolute',zIndex:1,top:'30px',left:'30px'}}>
                 <ArrowBackIosIcon fontSize='large' />
             </Link>
                 <div className="signup-inner">
+                    <div style={{padding:'20px', background:'rgba(0,0,0,0.3)', color:'lightgray', marginTop:'20px', borderRadius:'10px'}}>
+                        <h3>Sign up Instructions</h3>
+                        <ol>
+                            <li>For Clubs Enter the name which comes before @daiict.ac.in in club email address
+                                <br/>Club Email format : club_name@daiict.ac.in
+                                <br/>You have to only enter <b>club_name</b> in Club ID section
+                            </li>
+                            <li>
+                                Please enter valid details in order to maintain consistency and harmony
+                            </li>
+                            <li>
+                                If account details are found to be invalid then that account shall be suspended indefinetly
+                            </li>
+                        </ol>
+                    </div>
                     <form className={classes.root} autoComplete="off">
                         <label htmlFor='dp'>
                             <div id='backdiv' style={{borderRadius:'25px',backgroundSize:'cover',backgroundPosition:'center',background:'rgba(0,0,0,0.3)'}}>
@@ -276,9 +294,34 @@ export default function SignUp() {
                                 </div>
                             </div>
                         </label>
+                        <div className={classes.inputRow} style={{alignItems:'center'}}>
+                        <FormControl component="fieldset">
+                        <FormLabel style={{color:'white' , fontSize:'20px', margin:'auto'}} component="legend">What are you signing up as ?</FormLabel>
+                        <RadioGroup row aria-label="position" name="position" defaultValue="Individual">
+                        <div style={{display:'flex',alignItems:'center',width:'46vw',marginTop:'20px',border:'0px solid green',justifyContent:'space-evenly'}}>
+                            <FormControlLabel
+                                style={{color:'white',padding:'0 20px',borderRadius:'10px',background : 'rgba(0,0,0,0.3)'}}
+                                value="Club"
+                                control={<Radio color="primary" />}
+                                label="Club"
+                                labelPlacement="start"
+                                onChange={e=>{setdim(e.target.value)}}
+                                />
+                            <FormControlLabel
+                                style={{color:'white',padding:'0 20px',borderRadius:'10px',background : 'rgba(0,0,0,0.3)'}}
+                                value="Individual"
+                                control={<Radio color="primary" />}
+                                label="Individual"
+                                labelPlacement="start"
+                                onChange={e=>setdim(e.target.value)}
+                                />
+                        </div>
+                        </RadioGroup>
+                        </FormControl>
+                        </div>
                         <div className={classes.inputRow}>
                             <TextField
-                                label="Email-id"
+                                label="Student/Club ID"
                                 name="emailid"
                                 inputProps={{
                                     autocomplete: 'nope',
@@ -320,31 +363,6 @@ export default function SignUp() {
                                 }}
                                 variant='outlined'
                                 />
-                        </div>
-                        <div className={classes.inputRow} style={{alignItems:'center'}}>
-                        <FormControl component="fieldset">
-                        <FormLabel style={{color:'white' , fontSize:'20px', margin:'auto'}} component="legend">What are you signing up as ?</FormLabel>
-                        <RadioGroup row aria-label="position" name="position" defaultValue="Individual">
-                        <div style={{display:'flex',alignItems:'center',width:'46vw',marginTop:'20px',border:'0px solid green',justifyContent:'space-evenly'}}>
-                            <FormControlLabel
-                                style={{color:'white',padding:'0 20px',borderRadius:'10px',background : 'rgba(0,0,0,0.3)'}}
-                                value="Club"
-                                control={<Radio color="primary" />}
-                                label="Club"
-                                labelPlacement="start"
-                                onChange={e=>{setdim(e.target.value)}}
-                                />
-                            <FormControlLabel
-                                style={{color:'white',padding:'0 20px',borderRadius:'10px',background : 'rgba(0,0,0,0.3)'}}
-                                value="Individual"
-                                control={<Radio color="primary" />}
-                                label="Individual"
-                                labelPlacement="start"
-                                onChange={e=>setdim(e.target.value)}
-                                />
-                        </div>
-                        </RadioGroup>
-                        </FormControl>
                         </div>
                         {
                             dim==='Individual'?

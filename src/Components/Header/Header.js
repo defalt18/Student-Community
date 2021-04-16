@@ -1,5 +1,6 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { db } from '../../lib/firebase.prod';
+import IconButton from '@material-ui/core/IconButton';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import SchoolIcon from '@material-ui/icons/School';
@@ -12,7 +13,7 @@ import ForumOutlinedIcon from '@material-ui/icons/ForumOutlined';
 import Badge from '@material-ui/core/Badge';
 import './Header.css';
 import CreatePost from '../Modal/CreatePost';
-import {useLocation} from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuthListener } from '../../hooks';
 import { CancelRoundedIcon } from '@material-ui/icons/CancelRounded';
 import Popover from '@material-ui/core/Popover';
@@ -38,7 +39,7 @@ const HeaderItemList = [
 ];
 
 
-export default function Header({uimg}) {
+export default function Header({ uimg }) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -49,8 +50,8 @@ export default function Header({uimg}) {
         setAnchorEl(null);
     };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     const { user } = useAuthListener();
     var userstring = user?.uid.toString();
@@ -88,7 +89,7 @@ export default function Header({uimg}) {
             console.log('close');
         }
     }
-    
+
     let location = useLocation();
 
     function useOuterClick(callback) {
@@ -137,18 +138,18 @@ export default function Header({uimg}) {
     }
 
     useEffect(() => {
-        if(user)
-        db.collection('users')
-            .doc(user.uid)
-            .collection('Notifs')
-            .onSnapshot((snapshot) => {
-                setnots(
-                    snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        noti: doc.data(),
-                    }))
-                );
-            });
+        if (user)
+            db.collection('users')
+                .doc(user.uid)
+                .collection('Notifs')
+                .onSnapshot((snapshot) => {
+                    setnots(
+                        snapshot.docs.map((doc) => ({
+                            id: doc.id,
+                            noti: doc.data(),
+                        }))
+                    );
+                });
     }, [nots.length]);
 
     const hanchan = (e) => {
@@ -165,7 +166,7 @@ export default function Header({uimg}) {
                     }))
                 );
             });
-        
+
         // setAnchorEl(event.currentTarget);
         // handleClick();
         document.getElementById('serres').style.display = '';
@@ -191,7 +192,7 @@ export default function Header({uimg}) {
                 <ul className="header-itemlist-center">
                     {HeaderItemList.map((item, key) => {
                         return (
-                            <li className={`header-item ${item.listPath===location.pathname?"active-class":""}`} key={key}>
+                            <li className={`header-item ${item.listPath === location.pathname ? "active-class" : ""}`} key={key}>
                                 <NavLink
                                     to={item.listPath}
                                     className="header-itemlink"
@@ -206,7 +207,7 @@ export default function Header({uimg}) {
                     <li>
                         <div className="createpost">
                             <CreatePost
-                            img={uimg}
+                                img={uimg}
                             />
                         </div>
                     </li>
@@ -240,7 +241,7 @@ export default function Header({uimg}) {
                         >
 
                             {search.map(({ id, sers }) => (
-                                <NavLink to={`/profile/${id}/posts`} key={id}>
+                                <NavLink to={`/profile/${id}`} key={id}>
                                     <div
                                         className="serele"
                                         key={id}
@@ -254,7 +255,7 @@ export default function Header({uimg}) {
                                             alignItems: 'center',
                                             color: 'white',
                                         }}
-                                        >
+                                    >
                                         <Avatar
                                             alt="Remy Sharp"
                                             src={sers.image}
@@ -263,7 +264,7 @@ export default function Header({uimg}) {
                                                 width: 50,
                                                 fontSize: '15px',
                                             }}
-                                            />
+                                        />
                                         <h4 style={{ margin: 0 }}>
                                             {sers.Name}
                                         </h4>
@@ -290,61 +291,67 @@ export default function Header({uimg}) {
                         </div>
                     </li>
                     <li className="header-item-right">
-                    <div className="header-itemicon header-right-">
+                        <div className="header-itemicon header-right-">
                             <Badge
                                 color="secondary"
                                 badgeContent={nots.length}
                                 variant="dot"
                             >
-                                
+
                                 <div>
-                                <Button aria-describedby={id} onClick={handleClick}>
+                                    <IconButton
+                                        aria-describedby={id} onClick={handleClick}>
+                                        <NotificationsNoneOutlinedIcon
+                                            style={{ color: 'lightgray' }}
+                                        />
+                                    </IconButton>
+                                    {/* <Button aria-describedby={id} onClick={handleClick}>
                                     <NotificationsNoneOutlinedIcon
                                         style={{ fontSize: '25px' , color:'lightgray'}}
                                     />
-                                </Button>
-                                <Popover
-                                    className='popover'
-                                    id={id}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    onClose={handleClose}
-                                    anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
-                                    }}
-                                    transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'center',
-                                    }}
+                                </Button> */}
+                                    <Popover
+                                        className='popover'
+                                        id={id}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        onClose={handleClose}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'center',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'center',
+                                        }}
                                     // className={classes.paper}
-                                >
-                                    {nots.map(({ id, noti }) => (
-                                        <div
-                                            key={id}
-                                            className="notif-element"
-                                            style={{
-                                                display: 'flex',
-                                                gap: '0.5rem',
-                                                flexDirection: 'column',
-                                                margin: 0,
-                                                padding: '10px',
-                                                width: '20vw',
-                                                cursor: 'pointer',
-                                            }}
-                                        >
-                                            <p
+                                    >
+                                        {nots.map(({ id, noti }) => (
+                                            <div
+                                                key={id}
+                                                className="notif-element"
                                                 style={{
-                                                    fontSize: '13px',
+                                                    display: 'flex',
+                                                    gap: '0.5rem',
+                                                    flexDirection: 'column',
                                                     margin: 0,
-                                                    color: 'lightgray',
+                                                    padding: '10px',
+                                                    width: '20vw',
+                                                    cursor: 'pointer',
                                                 }}
                                             >
-                                                {noti.text}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </Popover>
+                                                <p
+                                                    style={{
+                                                        fontSize: '13px',
+                                                        margin: 0,
+                                                        color: 'lightgray',
+                                                    }}
+                                                >
+                                                    {noti.text}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </Popover>
                                 </div>
                             </Badge>
                         </div>
@@ -382,7 +389,7 @@ export default function Header({uimg}) {
                                             height: 25,
                                             width: 25,
                                             fontSize: '15px',
-                                            border:'2px solid white'
+                                            border: '2px solid white'
                                         }}
                                     />
                                 </Badge>

@@ -163,9 +163,11 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                 style={{
                     margin: '0',
                     display: 'flex',
+                    borderRadius: '20px',
                     flex: '1',
                     padding: '0',
                     overflow: 'hidden',
+                    boxShadow:'0 0 5px 0 rgba(0,0,0,0.75)',
                 }}
             >
                 <div
@@ -191,7 +193,7 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                         }}
                     >
                         <Link
-                            to={`/profile/${lclss}/posts`}
+                            to={`/profile/${lclss}`}
                             style={{
                                 textDecoration: 'none',
                                 color: 'lightgray',
@@ -202,7 +204,6 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                             }}
                         >
                             <Avatar
-                                alt="Ridham"
                                 src={
                                     conimg !== ''
                                         ? conimg
@@ -254,7 +255,10 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                         className="leftpost_middle"
                         style={{ padding: ' 0 1rem', lineHeight: '1.5rem' }}
                     >
-                        <p style={{ textAlign: 'left' }}>{text}</p>
+                        {/* <p style={{ textAlign: 'left' }}>{text}</p> */}
+                        <p dangerouslySetInnerHTML={{
+                        __html: `${text}`,
+                    }} />
                     </div>
                     <div className="space" style={{ height: '4rem' }}></div>
                     <div
@@ -303,7 +307,7 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                         src={img === '' ? null : img}
                         alt=""
                         style={{
-                            objectFit: 'contain',
+                            objectFit: 'cover',
                             height: '100%',
                             width: '100%',
                             borderTopRightRadius: '20px',
@@ -365,6 +369,7 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                         onChange={(e) => setCommpost(e.target.value)}
                         type="text"
                         id='commbox'
+                        value={commpost}
                         placeholder="Write your comment here..."
                         style={{
                             width: '100%',

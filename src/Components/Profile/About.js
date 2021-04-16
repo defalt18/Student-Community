@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         FormatAlignJustify: 'left',
         flexDirection: 'column',
-        padding: '20px',
         textAlign: 'left',
         '& .MuiFormControl-root': {
             background: '#232324',
@@ -65,64 +64,64 @@ const useStyles = makeStyles((theme) => ({
     },
     inputFname: {
         width: '40%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         borderRadius: '10px',
     },
     inputLname: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '40%',
         borderRadius: '10px',
     },
     inputGender: {
         width: '40%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         borderRadius: '10px',
     },
     inputBdate: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '40%',
         borderRadius: '10px',
         color: 'white',
     },
     inputCourse: {
         width: '26%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         borderRadius: '10px',
     },
     inputDegree: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '26%',
         borderRadius: '10px',
     },
     inputBatch: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '26%',
         borderRadius: '10px',
     },
     inputCity: {
         width: '30%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         borderRadius: '10px',
     },
     inputState: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '30%',
         borderRadius: '10px',
     },
     inputCountry: {
         marginLeft: '10%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         width: '30%',
         borderRadius: '10px',
     },
     inputSkills: {
         width: '100%',
-        background: 'rgba(0,0,0,0.3)',
+        background: '#232324',
         borderRadius: '10px',
     },
 }));
@@ -150,9 +149,13 @@ const initialValues = {
     state: '',
     country: '',
     skls: [],
+    insta: '',
+    linkedin: '',
+    whatsapp: '',
+    fb: '',
 };
 
-export default function About(props) {
+export default function About({ uid, func }) {
     const classes = useStyles();
     const { user } = useAuthListener();
 
@@ -167,12 +170,12 @@ export default function About(props) {
     };
 
     const [names, setName] = useState([]);
-    var userstring = props.uid.toString();
+    var userstring = uid.toString();
 
-    const toTitleCase = (str)=> {
+    const toTitleCase = (str) => {
         str = str.toLowerCase().split(' ');
         for (var i = 0; i < str.length; i++) {
-          str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+            str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
         }
         return str.join(' ');
     }
@@ -203,7 +206,11 @@ export default function About(props) {
             (initialValues.city = name.city),
             (initialValues.state = name.state),
             (initialValues.country = name.country),
-            (initialValues.skls = name.skills)
+            (initialValues.skls = name.skills),
+            (initialValues.insta = name.insta),
+            (initialValues.fb = name.fb),
+            (initialValues.linkedin = name.linkedin),
+            (initialValues.whatsapp = name.whatsapp)
         )
     );
 
@@ -211,7 +218,7 @@ export default function About(props) {
         db.collection('users')
             .doc(userstring)
             .collection('About')
-            .doc(props.uid)
+            .doc(uid)
             .update({
                 firstname: values.firstName,
                 lastname: values.lastName,
@@ -230,12 +237,13 @@ export default function About(props) {
             .catch(function (error) {
                 console.error('Error adding document: ', error);
             });
+        func();
     };
 
     return (
-        <div className="about-right">
-            {props.uid === user.uid ? (
-                <div className="appitem">
+        <div className="about-right" style={{ minWidth: '60vw', background: "#232324" }}>
+            {user.uid === uid ? (
+                <div className="appitem" style={{ background: '#232324' }}>
                     <ThemeProvider theme={theme}>
                         <form className={classes.root} autoComplete="off">
                             <div className={classes.inputRow}>
@@ -403,101 +411,138 @@ export default function About(props) {
                                     )}
                                 />
                             </div>
+
                             <div className={classes.inputRow}>
-                                <Button
-                                    variant="contained"
-                                    onClick={handlesave}
-                                    color="primary"
-                                    // className={classes.button}
-                                    style={{
-                                        color: ' white',
-                                        background: ' #2997ff',
-                                        fontWeight: '600',
-                                    }}
-                                >
-                                    SAVE
-                                </Button>
+                                <d style={{fontSize:'20px', fontWeight:'bold'}}>Where can one reach you at !?</d>
                             </div>
+                            <div className={classes.inputRow}>
+                                <TextField
+                                    label="Instagram"
+                                    name="insta"
+                                    className={classes.inputFname}
+                                    value={values.insta}
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    label="LinkedIn"
+                                    name="linkedin"
+                                    className={classes.inputLname}
+                                    value={values.linkedin}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className={classes.inputRow}>
+
+                                <TextField
+                                    label="WhatsApp Number"
+                                    name="whatsapp"
+                                    className={classes.inputFname}
+                                    value={values.whatsapp}
+                                    onChange={handleChange}
+                                />
+                                <TextField
+                                    label="Facebook"
+                                    name="fb"
+                                    className={classes.inputLname}
+                                    value={values.fb}
+                                    onChange={handleChange}
+                                />
+                                </div>
+                                <div className={classes.inputRow}>
+                                    <Button
+                                        variant="contained"
+                                        onClick={handlesave}
+                                        color="primary"
+                                        // className={classes.button}
+                                        style={{
+                                            color: ' white',
+                                            background: ' #2997ff',
+                                            fontWeight: '600',
+                                        }}
+                                    >
+                                        SAVE
+                                </Button>
+                                </div>
                         </form>
                     </ThemeProvider>
                 </div>
             ) : (
-                <div>
-                    <div className="appitem">
-                        <div className="about-right-title">General</div>
-                        <div className="about-right-detail">
-                            <div className="about-right-detail-row">
-                                <div className="about-right-detail-lable">
-                                    First Name{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {toTitleCase(values.firstName)}
-                                    </span>{' '}
+                    <div>
+                        <div className="appitem">
+                            <div className="about-right-title">General</div>
+                            <div className="about-right-detail">
+                                <div className="about-right-detail-row">
+                                    <div className="about-right-detail-lable">
+                                        First Name{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {toTitleCase(values.firstName)}
+                                        </span>{' '}
+                                    </div>
+                                    <div className="about-right-detail-lable">
+                                        Last Name{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {toTitleCase(values.lastName)}
+                                        </span>{' '}
+                                    </div>
+                                    <div className="about-right-detail-lable">
+                                        Gender{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp;{toTitleCase(values.gender)}
+                                        </span>{' '}
+                                    </div>
                                 </div>
-                                <div className="about-right-detail-lable">
-                                    Last Name{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {toTitleCase(values.lastName)}
-                                    </span>{' '}
-                                </div>
-                                <div className="about-right-detail-lable">
-                                    Gender{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp;{toTitleCase(values.gender)}
-                                    </span>{' '}
-                                </div>
-                            </div>
-                            <div className="about-right-detail-row">
-                                <div className="about-right-detail-lable">
-                                    Birth Date{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {values.bdate}
-                                    </span>{' '}
-                                </div>
-                                <div className="about-right-detail-lable">
-                                    From{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {toTitleCase(values.city)},&nbsp;{' '}
-                                        {values.state}
+                                <div className="about-right-detail-row">
+                                    <div className="about-right-detail-lable">
+                                        Birth Date{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {values.bdate}
+                                        </span>{' '}
+                                    </div>
+                                    <div className="about-right-detail-lable">
+                                        From{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {toTitleCase(values.city)},&nbsp;{' '}
+                                            {values.state}
                                         ,&nbsp; {values.country}
-                                    </span>{' '}
+                                        </span>{' '}
+                                    </div>
+                                </div>
+                                <div className="about-right-detail-row">
+                                    <div className="about-right-detail-lable">
+                                        Degree{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {toTitleCase(values.degree)}
+                                        </span>{' '}
+                                    </div>
+                                    <div className="about-right-detail-lable">
+                                        Course{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp; {values.course.toUpperCase()}
+                                        </span>{' '}
+                                    </div>
+                                    <div className="about-right-detail-lable">
+                                        Batch{DASH_CHAR}
+                                        <span className="about-right-detail-value">
+                                            &nbsp;{values.batch}
+                                        </span>{' '}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="about-right-detail-row">
-                                <div className="about-right-detail-lable">
-                                    Degree{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {toTitleCase(values.degree)}
-                                    </span>{' '}
-                                </div>
-                                <div className="about-right-detail-lable">
-                                    Course{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp; {values.course.toUpperCase()}
-                                    </span>{' '}
-                                </div>
-                                <div className="about-right-detail-lable">
-                                    Batch{DASH_CHAR}
-                                    <span className="about-right-detail-value">
-                                        &nbsp;{values.batch}
-                                    </span>{' '}
+                        </div>
+                        <div className="appitem" style={{ marginTop: '40px' }}>
+                            <div className="about-right-title">Skills</div>
+                            <div className="about-right-detail">
+                                <div className="about-right-skill-set">
+                                    {initialValues.skls.map((_, id) => (
+                                        <div className="about-right-skill-item" key={id}>{initialValues.skls[id]}</div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="appitem" style={{ marginTop: '40px' }}>
-                        <div className="about-right-title">Skills</div>
-                        <div className="about-right-detail">
-                            <div className="about-right-skill-set">
-                                {initialValues.skls.map((_, id) => (
-                                    <div className="about-right-skill-item" key={id}>{initialValues.skls[id]}</div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             )}
-        </div>
-    );
+                </div>
+            );
 }
 
 const USER_SKILLSETS = ['C/C++', 'Python', 'JavaScript', 'Web Development'];

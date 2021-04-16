@@ -2,14 +2,18 @@ import { Button } from '@material-ui/core'
 import Globe from 'react-globe.gl';
 import React from 'react'
 import './Acad.css'
-import img from './istockphoto-905271678-612x612.jpg'
+import Books from './Books.png'
+import Links from './Links.png'
+import Videos from './Videos.png'
+import Softwares from './Softwares.png'
+import Rexit from './RexItem'
 
 function Acad() {
     return (
         <div style={{ color: 'white', overflow:"hidden",paddingTop: '0px', paddingLeft: '0px', background: '#151516', minHeight: '100vh' }}>
             <div className='rec__head'>
                 <div className="left__rec">
-                    <h1 style={{fontSize:'60px'}}>All the tools right on your screen</h1>
+                    <h1 style={{fontSize:'60px', lineHeight:1}}>All the tools right on your screen</h1>
                     <p style={{fontSize:'20px'}}> So here we welcome you to the <b>Academics Page</b> which
                     offers a compact view to all the resources an institute as
                     well as the student community has to offer!. Dive in and
@@ -29,8 +33,13 @@ function Acad() {
                     />
                 </div>
             </div>
+            <p style={{paddingLeft:"100px", margin:0,fontSize:"35px", fontWeight:"bold",background:"black"}}>Available Resources</p>
             <div id="rest_rec">
-                <div className="rec_element_new" style={{background:'#800000'}}>
+                <Rexit name="Books" text="Tired of finding the pdfs online. Well have a look at this vault it may reduce the apparent tediousness!" image={Books}/>
+                <Rexit name="Useful Links" text="Links to all the resource material and course pages where all the brewing happens!. Make sure you don't wander off!" image={Links}/>
+                <Rexit name="Softwares" text="All the productivity tools provided to you by DA-IICT for free under the license of the institute. Use them wisely!" image={Softwares}/>
+                <Rexit name="Videos" text="Short videos on the most crucial topics to help you through the last minute preparations!. Report if a link is broken" image={Videos}/>
+                {/* <div className="rec_element_new" style={{background:'#800000'}}>
                     <div className='ele_left'>
                         <h1>Books</h1>
                         <h4>Tired of finding the pdfs online. Well have a look at this vault it may reduce the apparent tediousness!</h4>
@@ -69,7 +78,7 @@ function Acad() {
                         <h4>Short videos on the most crucial topics to help you through the last minute preparations!</h4>
                         <a style={{ color: 'rgba(0,155,250)', margin: '10px 0', textDecoration: 'none' }}>Go to resource &#8689;</a>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     )

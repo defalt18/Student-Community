@@ -39,7 +39,7 @@ export default function Sidebar() {
         {
             listIcon: <AccountCircleIcon />,
             listText: 'Profile',
-            listPath: `/profile/${user?.uid}/about`,
+            listPath: `/profile/${user?.uid}`,
         },
     ];
     const { firebase } = useContext(FirebaseContext);

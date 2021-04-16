@@ -12,6 +12,7 @@ import {
     ProfileAbout,
     Settings,
 } from './Pages';
+import Prof from './Pages/Profile_New/Prof'
 import * as ROUTES from './Constants/routes';
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
 import { useAuthListener } from './hooks';
@@ -232,10 +233,10 @@ export default function App() {
                 </ProtectedRoute>
                 <ProtectedRoute
                     user={user}
-                    path="/profile/:id/posts"
-                    component={ProfilePosts}
+                    path="/profile/:id"
+                    component={Prof}
                 ></ProtectedRoute>
-                <ProtectedRoute
+                {/* <ProtectedRoute
                     user={user}
                     path="/profile/:id/about"
                     component={ProfileAbout}
@@ -244,7 +245,7 @@ export default function App() {
                     user={user}
                     path="/profile/:id/photos"
                     component={ProfilePhotos}>
-                </ProtectedRoute>
+                </ProtectedRoute> */}
                 <ProtectedRoute
                     user={user}
                     exact
