@@ -118,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
 function Prof(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
+    let date;
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -360,6 +361,12 @@ function Prof(props) {
         });
 
     };
+
+    const convert = (date) => {
+        let year=Number(date.substring(0,4)),month=Number(date.substring(5,7)),day=Number(date.substring(8));
+        return new Date(year,month-1,day);
+    }
+
     return (
         <>
             <Header uimg={head} />
@@ -619,8 +626,9 @@ function Prof(props) {
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                                                     <h3 style={{ margin: 0 }}>{data.name}</h3>
                                                     {
-                                                        console.log(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())),
-                                                        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) < new Date(new Date(data.date).getFullYear(), new Date(data.date).getMonth(), new Date(data.date).getDate()) ?
+                                                        // console.log(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())),
+                                                        date = convert(data.date),console.log(date),
+                                                        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) < date ?
                                                             <Chip
                                                                 label="Running"
                                                                 variant="outlined"

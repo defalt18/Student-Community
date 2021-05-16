@@ -35,3 +35,14 @@
 #desc{
     color: white;
 }
+.wrapper-class{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+.editor-class{
+    min-height: 30vh;
+}
+.wrapper-class .toolbar-class{
+    display: none;
+}

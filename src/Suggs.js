@@ -2,6 +2,7 @@ import React from 'react'
 import { db } from './lib/firebase.prod'
 import { useAuthListener } from './hooks';
 import Usersuggest from './Pages/Usersuggest';
+import peep from './Pages/People.png'
 
 function Suggs() {
 
@@ -74,20 +75,26 @@ function Suggs() {
                 padding: '0',
                 overflow: 'auto',
                 height: '40vh',
+                borderRadius:'10px'
             }}
         >
             <h3
                 style={{
                     margin: '0',
-                    background: 'rgba(17,17,18)',
+                    background: 'black',
                     padding: '1rem 1rem',
                     color: 'white',
                     position: 'sticky',
                     top: '0',
                     zIndex: '100',
+                    display:'flex',
+                    gap:'10px',
+                    alignItems:'center'
                 }}
             >
+                <img src={peep} alt="" height="30px"/>
                 Suggestions
+                <u style={{marginLeft:'auto', cursor:'pointer'}}>See all</u>
             </h3>
             {
                 console.log(suggests?.length),

@@ -1,6 +1,5 @@
 /* eslint-disable no-dupe-keys */
 /* eslint-disable no-unused-vars */
-import 'date-fns';
 import React, { useState, useEffect, useRef } from 'react';
 import './Eventmake.css';
 import { FileDrop } from 'react-file-drop'

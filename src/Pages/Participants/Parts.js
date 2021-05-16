@@ -47,6 +47,7 @@ function Parts() {
     const classes = useStyles();
     const { user } = useAuthListener();
     const [eventDet, seteventDet] = React.useState([]);
+    const [name, setname] = React.useState("");
 
     const [csvData, setCsv] = React.useState([
         ["S.No", "Name", "Student ID", "Email", "Course", "Degree", "Batch"],
@@ -54,6 +55,7 @@ function Parts() {
 
     React.useEffect(() => {
 
+        db.collection('events').doc(params.id).onSnapshot(snap=>setname(snap.data().name));
         db.collection('events').doc(params.id).collection('participants')
             .onSnapshot(
                 snap => {
@@ -78,7 +80,7 @@ function Parts() {
 
     return (
         <div style={{ minHeight: '100vh', width: '100%', background: 'black', paddingLeft: '80px', paddingTop: '100px', color: 'white' }}>
-            <h1 style={{ paddingLeft: '10px', margin: 0 }}>List of participants for {params.id} ({eventDet.length})</h1>
+            <h1 style={{ paddingLeft: '10px', margin: 0 }}>List of participants for {name} ({eventDet.length})</h1>
             <span style={{ color: 'lightgray', width: '100%', display: 'flex', padding: '0 10px', marginBottom: '10px' }}>
                 <p style={{ margin: 0, fontSize: '20px' }}>Event</p>
                 <CSVLink data={csvData} filename={`${params.id}-participants.csv`} style={{marginLeft:'auto'}}>

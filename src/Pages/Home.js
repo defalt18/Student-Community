@@ -10,6 +10,8 @@ import {
     Post,
 } from '../Components';
 import './Home.css';
+import Cal from './Calendar.svg'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { useHistory } from 'react-router-dom'
 import Usersuggest from './Usersuggest';
 import Story from './Story'
@@ -20,11 +22,18 @@ import { useAuthListener } from '../hooks';
 export default function Home({ imgs }) {
     const { user } = useAuthListener();
     const [wel, setwel] = useState(0);
+    const [state, setState] = useState([]);
     const [posts, setPosts] = useState([]);
     const [tales, settales] = useState([]);
     const [dum, setd] = useState(0);
     const [shows, setshow] = useState(1);
 
+    const convert = (date) => {
+        if (date!==  undefined){
+            let year = Number(date.substring(0, 4)), month = Number(date.substring(5, 7)), day = Number(date.substring(8));
+            return new Date(year, month - 1, day);
+        }
+    }
 
     useEffect(() => {
         db.collection('posts')
@@ -37,6 +46,11 @@ export default function Home({ imgs }) {
                     }))
                 );
             });
+
+        db.collection('events').orderBy('date', 'desc').onSnapshot(snap => {
+            if(convert(snap.docs[0].data().date) > new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()))
+            setState(snap.docs[0].data())
+        })
 
         db.collection('users').doc(user.uid).onSnapshot((snapshot) => { setwel(snapshot.data().firstLogin); });
 
@@ -142,78 +156,33 @@ export default function Home({ imgs }) {
                                 <CarouselAdd style={{ borderRadius: '25px' }} />
                             </div>
                         </div>
-                        <div className='appitem' style={{ background: 'url("https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80")', padding: '0px', backgroundSize: 'cover' }}>
-                            <div className='reminderevent' style={{ textAlign: 'center', background: 'rgba(0,0,0,0.2)', backdropFilter: 'saturate(180%) blur(20px)', borderRadius: '20px', padding: '10px' }}>
-                                <h1>Upcoming Event</h1>
-                                <h2>Step up by DADC</h2>
-                                <h2>Venue : OAT</h2>
-                                <h2>Time : 15:00 onwards</h2>
+                        <div style={{
+                            display: 'flex', gap: '10px', alignItems: 'center',
+                            margin: '0 20px',
+                        }}>
+                            <img src={Cal} alt="" height="35px" />
+                            <h2 style={{ margin: 0 }}>Upcoming Event</h2>
+                        </div>
+                        <div className="appitem" style={{ padding: 0, overflow: 'hidden', position: 'relative', background: 'transparent', borderRadius: '10px' }}>
+                            <div style={{ height: '100%', width: '2%', background: 'rgb(0,150,255)', position: 'absolute', left: 10, top: '0', borderRadius: '25px' }}></div>
+                            <div style={{ padding: "0 1%", paddingLeft: "7%", paddingRight: '3%', width: '100%' }}>
+                                {/* <h2 style={{ margin:"10 0",width:'100%', textAlign:'center' }}>Upcoming Event</h2> */}
+                                <div style={{ background: 'rgba(0,150,255,0.1)', borderRadius: '10px', padding: '10px', margin: '0', width: '100%', display: 'flex', gap: '20px', alignItems: 'center' }}>
+                                    {
+                                        console.log(state),
+                                        state? <> 
+                                            <img
+                                                src={state?.poster}
+                                                style={{ height: '100%', width: '25%', borderRadius: '10px' }} />
+                                            <div>
+                                                <h3 style={{ margin: 0 }}>{state?.name}</h3>
+                                                <h4 style={{ margin: 0 }}>Venue : {state?.venue}</h4>
+                                                <h4 style={{ margin: 0 }}>Time : {state?.time} hrs</h4>
+                                            </div>
+                                        </> : <h2>No Upcoming Events :(</h2>}
+                                </div>
                             </div>
                         </div>
-                        {/* <div
-                            className="appitem suggest_tabs"
-                            style={{
-                                padding: '0',
-                                overflow: 'auto',
-                                height: '40vh',
-                            }}
-                        >
-                            <h3
-                                style={{
-                                    margin: '0',
-                                    background: 'rgba(17,17,18)',
-                                    padding: '1rem 1rem',
-                                    color: 'white',
-                                    position: 'sticky',
-                                    top: '0',
-                                    zIndex: '100',
-                                }}
-                            >
-                                Suggestions
-                            </h3>
-                            <Usersuggest
-                                keys="neds"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="ICT-CS"
-                            />
-                            <Usersuggest
-                                keys="neds2"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="ICT"
-                            />
-                            <Usersuggest
-                                keys="neds3"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="MNC"
-                            />
-                            <Usersuggest
-                                keys="neds4"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="ICT"
-                            />
-                            <Usersuggest
-                                keys="neds5"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="ICT"
-                            />
-                            <Usersuggest
-                                keys="neds6"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="MscIT"
-                            />
-                            <Usersuggest
-                                keys="neds7"
-                                name="Ned Stark"
-                                img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
-                                stream="ICT"
-                            />
-                        </div> */}
                         <Suggs />
                     </div>
                 </div>

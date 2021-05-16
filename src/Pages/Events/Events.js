@@ -31,7 +31,7 @@ function Events() {
     };
 
     useEffect(() => {
-        db.collection('events').onSnapshot((snapshot) => {
+        db.collection('events').orderBy('date','desc').onSnapshot((snapshot) => {
             seteven(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -44,7 +44,7 @@ function Events() {
             snap => setudata(snap.docs.map(d => d.data()))
         )
 
-        db.collection('events').onSnapshot(
+        db.collection('events').orderBy('date','desc').onSnapshot(
             snap => {
                 let dict = {}
                 snap.docs.map(doc => {
@@ -62,7 +62,7 @@ function Events() {
         )
 
         // console.log("Hey", takenpart,partss.length)
-    }, []);
+    }, [events.length]);
 
     return (
         <div className="Evnthd" >
@@ -85,10 +85,10 @@ function Events() {
                         Upcoming Event
                     </h1>
                     <p style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                        Step up by DADC!
+                        {events[0]?.evt.name}
                     </p>
                     <p style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                        Date : 23-02-2021
+                        Date : {events[0]?.evt.date}
                     </p>
                     <p
                         style={{
@@ -97,7 +97,7 @@ function Events() {
                             fontWeight: 'bold',
                         }}
                     >
-                        Time : 15:00 onwards
+                        Time : {events[0]?.evt.time}
                     </p>
                     <p
                         style={{
@@ -106,14 +106,13 @@ function Events() {
                             fontWeight: 'bold',
                         }}
                     >
-                        Venue : OAT
+                        Venue : {events[0]?.evt.venue}
                     </p>
                 </div>
                 <img
-                    src="https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+                    src = {events[0]?.evt.poster}
                     style={{
                         maxHeight: '40vh',
-
                         maxWidth: '50%',
                         borderRadius: '5px',
                     }}
@@ -152,7 +151,7 @@ function Events() {
                 </h1>
             </div>
             {
-                cnt = -1, console.log(takenpart),
+                cnt = -1,
                 events.map(({ id, evt }) => (
                     cnt++,
                     <div
@@ -242,13 +241,14 @@ function Events() {
                                     width: '50%',
                                     display: 'flex',
                                     alignItems: 'center',
+                                    justifyContent:'center'
                                 }}
                             >
                                 <img
                                     src={evt.poster}
                                     style={{
                                         maxWidth: '100%',
-                                        height: 'auto',
+                                        maxHeight: '50vh',
                                         borderRadius: '10px',
                                     }}
                                 />
