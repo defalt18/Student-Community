@@ -38,7 +38,7 @@ function Storycreate({img}) {
             <div style={{borderRadius:'20px',display:'flex', background:'rgba(0,155,255,0.1)', backgroundSize:'cover',flexDirection:'column',alignItems:'center',justifyContent:'flex-end',padding:'10px',height:'30vh',minWidth:'10vw'}}>
                 <div style={{margin:'10px',textAlign:'center'}}>
                     <label for='storyupload'>
-                        <AddIcon style={{fontSize:'70px'}}/>
+                        <AddIcon style={{fontSize:'500%'}}/>
                     </label>
                     <p style={{ fontSize:'15px', margin:0,marginTop:'8px'}}>Create your 
                         </p>

@@ -1,10 +1,12 @@
 import { React, useState, useEffect } from 'react';
 import { db, storage } from '../../lib/firebase.prod';
+import PeopleIcon from '@material-ui/icons/People';
 import { useAuthListener } from '../../hooks';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { Avatar, Button, IconButton } from '@material-ui/core';
 import { Header, Sidebar } from '../../Components';
 import { Post } from '../../Components';
+import { Link } from 'react-router-dom';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import EditIcon from '@material-ui/icons/Edit';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -134,9 +136,11 @@ function Prof(props) {
     };
 
     const { user } = useAuthListener();
+    const [events, setevents] = useState([])
     const [np, snp] = useState(0);
     const [names, setName] = useState([]);
     const [photos, setPhotos] = useState([]);
+    const [role, setrole] = useState(0);
     const [posts, setPosts] = useState([]);
     const [head, sethd] = useState([]);
     const [usrimg, setUsrimg] = useState('');
@@ -182,17 +186,16 @@ function Prof(props) {
                 );
             });
 
-        db.collection('users')
-            .doc(uid)
-            .collection('About')
-            .onSnapshot((snapshot) => {
-                setName(
-                    snapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        name: doc.data(),
-                    }))
-                );
-            });
+        // if (user.displayName === "Club") {
+
+        db.collection('events').where("uid", "==", uid).onSnapshot(
+            snap => {
+                setevents(snap.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
+                console.log(snap)
+            }
+        )
+
+        // }
 
         db.collection('posts').where('UID', '==', uid).get().then(resp => snp(resp.kf.docChanges.length));
 
@@ -201,6 +204,7 @@ function Prof(props) {
             .onSnapshot((snapshot) => {
                 setUsrimg(snapshot.data().image);
                 setCov(snapshot.data().cover);
+                setrole(snapshot.data().club);
             });
 
         db.collection('users')
@@ -224,7 +228,10 @@ function Prof(props) {
         fol.map((fols) => (fols.id === user.uid ? setval(1) : 1));
 
         setda(ca + 1);
+
+
     }, [cover, fol.length, usrimg, uid, names.length, val, photos.length]);
+
 
     names.map(
         ({ name }) => (
@@ -353,7 +360,6 @@ function Prof(props) {
         });
 
     };
-
     return (
         <>
             <Header uimg={head} />
@@ -415,6 +421,10 @@ function Prof(props) {
                             <d style={{ fontSize: 'xx-large', fontWeight: 'bold', color: 'white' }}>{photos.length}</d>
                             <d style={{ color: 'lightgray' }}>Photos</d>
                         </div>
+                        {role === 1 && <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <d style={{ fontSize: 'xx-large', fontWeight: 'bold', color: 'white' }}>{events.length}</d>
+                            <d style={{ color: 'lightgray' }}>Events</d>
+                        </div>}
                         <Button variant="contained" style={{ marginLeft: 'auto', background: "rgba(0,150,255,0.7)", color: 'white' }}>
                             {
                                 user.uid === props.match.params.id ? (<EditProfile uid={user.uid} />) :
@@ -426,12 +436,21 @@ function Prof(props) {
                     </div>
                     <h1 style={{ margin: 'auto', color: 'white', textAlign: 'center', textTransform: 'capitalize' }}>{userabt.firstName} {userabt.lastName}</h1>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-                        <Chip
-                            avatar={<FaceIcon style={{ color: 'darkgreen' }} />}
-                            label="Student"
-                            variant="outlined"
-                            style={{ color: 'green', borderColor: 'darkgreen', marginTop: '10px', background: 'rgba(0,255,0,0.05)' }}
-                        />
+                        {
+                            role === 1 ?
+                                <Chip
+                                    avatar={<PeopleIcon style={{ color: 'rgba(0,100,255,1)' }} />}
+                                    label="Club"
+                                    variant="outlined"
+                                    style={{ color: 'rgba(0,100,255,1)', borderColor: 'rgba(0,100,255,1)', marginTop: '10px', fontSize: "15px", padding: "0 10px", background: 'rgba(0,100,255,0.2)' }}
+                                /> :
+                                <Chip
+                                    avatar={<FaceIcon style={{ color: 'darkgreen' }} />}
+                                    label="Student"
+                                    variant="outlined"
+                                    style={{ color: 'green', borderColor: 'darkgreen', marginTop: '10px', background: 'rgba(0,255,0,0.05)' }}
+                                />
+                        }
                         <div style={{ display: 'flex', alignItems: 'center', gap: "10px", color: 'gray', justifyContent: "center" }}>
                             <LocationOnIcon fontSize="medium" />
                             <h2>{initialValues.city}, {initialValues.state}</h2>
@@ -442,7 +461,10 @@ function Prof(props) {
                         </div>
                     </div>
                     <p style={{ position: 'relative', textAlign: 'center', color: 'lightgray', fontSize: 'large', padding: "10px 10vw" }}>
-                        <d>Hey I am a student at DAIICT!</d>
+                        {
+                            role !== 1 ?
+                                <d>Hey I am a student at DAIICT!</d> : <d>We are a club at DAIICT!</d>
+                        }
                     </p>
                     <div style={{ display: "flex", alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                         {
@@ -495,6 +517,7 @@ function Prof(props) {
                             <Tab label="Posts" {...a11yProps(0)} />
                             <Tab label="About" {...a11yProps(1)} />
                             <Tab label="Photos" {...a11yProps(2)} />
+                            {role === 1 && <Tab label="Events" {...a11yProps(3)} />}
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             {
@@ -559,7 +582,7 @@ function Prof(props) {
                         </TabPanel>
                         <TabPanel value={value} index={2}>
                             {/* <ProfilePhotos /> */}
-                            <div style={{ position: 'sticky', display: 'flex',top:0, alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: 'inherit', boxShadow: '0 5px 5px 0 rgba(0,0,0,0.5)' }}>
+                            <div style={{ position: 'sticky', display: 'flex', top: 0, alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: 'inherit', boxShadow: '0 5px 5px 0 rgba(0,0,0,0.5)' }}>
                                 <Avatar src={usrimg} style={{ margin: `${user.uid !== uid ? "auto" : ""}` }} />
                                 <input type="file" id='photos' accept="image/*" onChange={handlephotoupload} style={{ display: 'none' }} />
                                 {
@@ -567,23 +590,67 @@ function Prof(props) {
                                         <Button variant="contained" style={{ background: "rgba(0,150,255,0.7)", color: 'white' }}>
                                             <label htmlFor="photos">
                                                 Upload Photos
-                                    </label>
+                                            </label>
                                         </Button>
                                     ) : (<></>)
                                 }
                             </div>
                             <div style={{ maxHeight: "90vh", overflow: 'auto' }}>
-                                <Grid container spacing={2} >
-                                {
-                                    photos.map(({ id, pic }) => (
-                                        <Grid item xs>
-                                            <img src={pic.image}  style={{ objectFit: 'cover', maxHeight:'200px',margin:0,boxShadow: '0 0 3px 0 black' }} />
-                                        </Grid>
-                                    ))
-                                }
+                                <Grid container spacing={0} >
+                                    {
+                                        photos.map(({ id, pic }) => (
+                                            <Grid item xs={4}>
+                                                <img src={pic.image} style={{ objectFit: 'cover', maxHeight: '200px', margin: 0, boxShadow: '0 0 3px 0 black' }} />
+                                            </Grid>
+                                        ))
+                                    }
                                 </Grid>
                             </div>
                         </TabPanel>
+                        {
+                            role === 1 &&
+                            <TabPanel value={value} index={3}>
+                                <h2 style={{ margin: '0 5px', marginBottom: '10px' }}>Events by {initialValues.studentid} will show here</h2>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+                                    {
+                                        events.map(({ id, data }) => (
+                                            <div style={{ display: 'flex', width: '100%', padding: '20px', background: 'black', alignItems: 'center', borderRadius: '20px' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                                    <h3 style={{ margin: 0 }}>{data.name}</h3>
+                                                    {
+                                                        console.log(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())),
+                                                        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) < new Date(new Date(data.date).getFullYear(), new Date(data.date).getMonth(), new Date(data.date).getDate()) ?
+                                                            <Chip
+                                                                label="Running"
+                                                                variant="outlined"
+                                                                style={{ color: 'rgba(0,200,100,1)', width: 'fit-content', borderColor: 'rgba(0,200,100,1)', padding: "0 10px", background: 'rgba(0,200,100,0.2)' }}
+                                                            />
+                                                            :
+                                                            <Chip
+                                                                label="Completed"
+                                                                variant="outlined"
+                                                                style={{ color: 'rgba(200,100,0,1)', width: 'fit-content', borderColor: 'rgba(200,100,0,1)', padding: "0 10px", background: 'rgba(200,100,0,0.2)' }}
+                                                            />}
+                                                    <p style={{ margin: 0 }}>Date : {data.date}</p>
+                                                    <p style={{ margin: 0 }}>Deadline : {data.deadline}</p>
+                                                    {
+                                                        user.uid === uid && <Link to={`/participants/${id}`}>
+                                                            <Button style={{ width: 'fit-content', background: 'white', color: 'black' }}>
+                                                                See Participants
+                                                            </Button>
+                                                        </Link>
+                                                    }
+                                                </div>
+                                                <div style={{ borderRadius: '5px', marginLeft: 'auto' }}>
+                                                    <img src={data.poster} alt={data.name} style={{ height: '150px', borderRadius: '5px', marginLeft: 'auto' }} />
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </TabPanel>
+                        }
                     </div>
                 </div>
             </div>

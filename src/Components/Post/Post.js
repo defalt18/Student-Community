@@ -157,7 +157,7 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
     }
 
     return (
-        <div>
+        <div style={{position:'relative'}}>
             <div
                 className="appitem"
                 style={{
@@ -268,7 +268,7 @@ function Post({ pid, lclss, usernm, text, img, likes, comments }) {
                             gap: '1rem',
                             padding: '1rem',
                             alignItems: 'center',
-                            position: 'fixed',
+                            position: 'absolute',
                             bottom: '0',
                             width: '100%',
                         }}

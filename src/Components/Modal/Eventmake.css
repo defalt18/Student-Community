@@ -1,106 +1,37 @@
-.postmaker {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    height: auto;
-    width: auto;
-    border-radius: 20px;
+#name-label{
     color: white;
-    background-color: rgba(0,0,0,0.9);
 }
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-}
-
-.postmaker .model-username {
-    font-size: 22px;
-    padding-left: 5px;
-}
-
-.imageps {
-    display: none;
-    max-width: 50%;
-    max-height: 50vh;
-    text-align: center;
-    align-items: center;
-    overflow: hidden;
-}
-.imageps > input {
-    display: none;
-}
-.imageps > .hellocaption > .caption {
-    font-family: inherit;
-    font-size: large;
-    margin: auto;
-    display: flex;
-    justify-self: center;
-    width: 50%;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-}
-#output {
-    max-height: 50vh;
-    max-width: 40vw;
-    padding: 5px;
-    object-fit: fill;
-    border-radius: 20px;
-    display: none;
-    margin-right: 0;
-}
-#file:focus {
-    outline: none;
-}
-#output:focus {
-    outline: none;
-}
-.writepos {
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-}
-.writetop {
-    display: flex;
-    gap: 7px;
-    align-items: center;
-    padding: 5px;
-}
-#close {
-    margin-left: auto;
-}
-.writedesc > form > textarea {
-    margin: 0;
-    background: transparent;
-    border: none;
-    display: flex;
+#date-label{
     color: white;
-    flex-wrap: 1;
-    resize: none;
-    font-size: large;
-    min-width: 34rem;
-    font-family: inherit;
-    /* minheight: 20rem */
 }
-::placeholder {
-    color: gray;
+#team-label{
+    color: white;
 }
-.writedesc {
+.file-drop{
+    border: 2px dotted white;
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 5px;
-    padding-top: 15px;
-    height: auto;
-    font-size: large;
 }
-.writedown {
-    padding: 5px 10px;
-    margin-top: auto;
-    display: flex;
-    justify-content: space-between;
-    width: 35rem;
-    /* border: 1px solid black; */
+#desc-label{
+    color: white;
+}
+#venue-label{
+    color: white;
+}
+#name{
+    color: white;
+}
+#team{
+    color: white;
+}
+#date{
+    color: white;
+}
+#venue{
+    color: white;
+}
+#desc{
+    color: white;
 }

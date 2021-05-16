@@ -8,6 +8,7 @@ export const settings = '/settings';
 export const chats = '/chats';
 export const friends = '/friends';
 export const resources = '/resources';
+export const participants = '/participants/:id';
 export const musicclub = '/clubs/MusicClub';
 export const radioclub = '/clubs/RadioClub';
 export const progclub = '/clubs/ProgrammingClub';
@@ -26,3 +27,4 @@ export const HMcomm = '/clubs/HMCommittee';
 export const PROFILEPOSTS = '/profile/posts';
 export const PEOFILEABOUT = '/profile/about';
 export const PROFILEPHOTOS = '/profile/photos';
+

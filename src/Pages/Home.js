@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { db, auth } from '../lib/firebase.prod';
+import Suggs from '../Suggs'
 import {
     Header,
     Sidebar,
@@ -18,7 +19,7 @@ import { useAuthListener } from '../hooks';
 
 export default function Home({ imgs }) {
     const { user } = useAuthListener();
-    const [wel,setwel] = useState(0);
+    const [wel, setwel] = useState(0);
     const [posts, setPosts] = useState([]);
     const [tales, settales] = useState([]);
     const [dum, setd] = useState(0);
@@ -37,7 +38,7 @@ export default function Home({ imgs }) {
                 );
             });
 
-        db.collection('users').doc(user.uid).onSnapshot((snapshot) => {setwel(snapshot.data().firstLogin);});
+        db.collection('users').doc(user.uid).onSnapshot((snapshot) => { setwel(snapshot.data().firstLogin); });
 
         db.collection('stories')
             .orderBy('timestamp', 'desc')
@@ -66,8 +67,8 @@ export default function Home({ imgs }) {
             <Sidebar />
             {
                 wel ? (
-                    <Welcome uid={user.uid}/>
-                ):(
+                    <Welcome uid={user.uid} />
+                ) : (
                     <></>
                 )
             }
@@ -102,9 +103,9 @@ export default function Home({ imgs }) {
                     <div className="appitem welcome" style={{ boxShadow: '0 0 5px 0 rgba(0,0,0,0.75)' }}>
                         <h1>
                             {
-                                wel ? (<span> Welcome {user?.displayName}</span>):(<span> Welcome back {user?.displayName}</span>)
+                                wel ? (<span> Welcome {user?.displayName}</span>) : (<span> Welcome back {user?.displayName}</span>)
                             }
-                            </h1>
+                        </h1>
                     </div>
                     {posts.map(({ id, post }) => (
                         <div
@@ -149,7 +150,7 @@ export default function Home({ imgs }) {
                                 <h2>Time : 15:00 onwards</h2>
                             </div>
                         </div>
-                        <div
+                        {/* <div
                             className="appitem suggest_tabs"
                             style={{
                                 padding: '0',
@@ -212,7 +213,8 @@ export default function Home({ imgs }) {
                                 img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLe5PABjXc17cjIMOibECLM7ppDwMmiDg6Dw&usqp=CAU"
                                 stream="ICT"
                             />
-                        </div>
+                        </div> */}
+                        <Suggs />
                     </div>
                 </div>
             </div>

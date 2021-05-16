@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import {React, useEffect,useState} from 'react';
+import { React, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { db } from './lib/firebase.prod';
 import {
@@ -12,7 +12,9 @@ import {
     ProfileAbout,
     Settings,
 } from './Pages';
+// import Suggs from './Suggs'
 import Prof from './Pages/Profile_New/Prof'
+import Parts from './Pages/Participants/Parts'
 import * as ROUTES from './Constants/routes';
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
 import { useAuthListener } from './hooks';
@@ -25,12 +27,12 @@ import ChatApp from './Pages/Chats (IMP)/ChatApp';
 import Friends from './Pages/Friends/Friends';
 
 export default function App() {
-    
+
     const { user } = useAuthListener();
-    const [ussimg,setimtg] = useState(null);
+    const [ussimg, setimtg] = useState(null);
 
     useEffect(() => {
-        if (user) db.collection('users').doc(user.uid).onSnapshot((s)=>(setimtg(s.data().image)))
+        if (user) db.collection('users').doc(user.uid).onSnapshot((s) => (setimtg(s.data().image)))
     }, [user?.uid])
 
     return (
@@ -207,27 +209,27 @@ export default function App() {
                     />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.clubs}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <Clubs />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.resources}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <Resources />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.events}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <Events />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.chats}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <ChatApp />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.friends}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <Friends />
                 </ProtectedRoute>
@@ -236,16 +238,11 @@ export default function App() {
                     path="/profile/:id"
                     component={Prof}
                 ></ProtectedRoute>
-                {/* <ProtectedRoute
-                    user={user}
-                    path="/profile/:id/about"
-                    component={ProfileAbout}
-                ></ProtectedRoute>
-                <ProtectedRoute
-                    user={user}
-                    path="/profile/:id/photos"
-                    component={ProfilePhotos}>
-                </ProtectedRoute> */}
+                {user?.displayName === "Club" && <ProtectedRoute user={user} exact path={ROUTES.participants}>
+                    <Header uimg={ussimg} />
+                    <Sidebar />
+                    <Parts />
+                </ProtectedRoute>}
                 <ProtectedRoute
                     user={user}
                     exact
@@ -253,13 +250,16 @@ export default function App() {
                     component={Polling}
                 ></ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.settings}>
-                    <Header uimg={ussimg}/>
+                    <Header uimg={ussimg} />
                     <Sidebar />
                     <Settings />
                 </ProtectedRoute>
                 <ProtectedRoute user={user} exact path={ROUTES.HOME}>
-                    <Home imgs={ussimg}/>
+                    <Home imgs={ussimg} />
                 </ProtectedRoute>
+                {/* <ProtectedRoute user={user} exact path="/test_page">
+                    <Suggs />
+                </ProtectedRoute> */}
             </Switch>
         </Router>
     );
