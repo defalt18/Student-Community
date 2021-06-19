@@ -11,9 +11,6 @@ import {
 } from '../Components';
 import './Home.css';
 import Cal from './Calendar.svg'
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import { useHistory } from 'react-router-dom'
-import Usersuggest from './Usersuggest';
 import Story from './Story'
 import Welcome from '../Components/Modal/WelcomeModal.js'
 import Storycreate from './Storycreate'
@@ -179,11 +176,9 @@ export default function Home({ imgs }) {
                         <div className="appitem" style={{ padding: 0, overflow: 'hidden', position: 'relative', background: 'transparent', borderRadius: '10px' }}>
                             <div style={{ height: '100%', width: '2%', background: 'rgb(0,150,255)', position: 'absolute', left: 10, top: '0', borderRadius: '25px' }}></div>
                             <div style={{ padding: "0 1%", paddingLeft: "7%", paddingRight: '3%', width: '100%' }}>
-                                {/* <h2 style={{ margin:"10 0",width:'100%', textAlign:'center' }}>Upcoming Event</h2> */}
                                 <div style={{ background: 'rgba(0,150,255,0.1)', borderRadius: '10px', padding: '10px', margin: '0', width: '100%', display: 'flex', gap: '20px', alignItems: 'center' }}>
                                     {
-                                        console.log(state),
-                                        state? <> 
+                                        state.length > 0? <>
                                             <img
                                                 src={state?.poster}
                                                 style={{ height: '100%', width: '25%', borderRadius: '10px' }} />

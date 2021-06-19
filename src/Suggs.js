@@ -1,72 +1,52 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import { db } from './lib/firebase.prod'
 import { useAuthListener } from './hooks';
 import Usersuggest from './Pages/Usersuggest';
 import peep from './Pages/People.png'
+import _map from 'lodash/map'
+import _reduce from 'lodash/reduce'
+import _intersection from 'lodash/intersection'
+import _sortBy from 'lodash/sortBy'
+import _isEmpty from 'lodash/isEmpty'
+import {CircularProgress} from "@material-ui/core";
 
 function Suggs() {
 
     const { user } = useAuthListener();
-    const [skllset, setskllset] = React.useState([]);
-    const [suggests, setsuggests] = React.useState([]);
+    const [suggests, setSuggests] = React.useState([]);
 
-    const getusers = async () => {
-        let users_col = await db.collection('users').get();
-        return users_col;
-    }
+    const getSkillsById = useCallback(async(id) => {
+        const UserAbout = await db.collection('users').doc(id).collection('About').get();
+        return _map(UserAbout.docs, userDoc => userDoc.data().skills)
+    },[])
 
-    const getSkls = async () => {
-        await getusers().then(res => {
-            res.docs.map(doc => {
-                db.collection('users').doc(doc.id).collection('About')
-                    .onSnapshot(
-                        snap => {
-                            if (skllset.length < res.size)
-                                snap.docs.map(d => {
-                                    setskllset(it => [...it, { id: doc.id, skls: d.data().skills }])
-                                })
-                            else
-                                console.log(skllset.length);
+    const getAllUserIds = useCallback(async () => {
+        const AllUsers = await db.collection('users').get();
+        return _map(AllUsers.docs, user=>user.id)
+    },[])
 
-                        }
-                    )
-            })
-        })
-    }
+    const getAllUserSkills = useCallback(async() => {
+        const userIds = await getAllUserIds();
+        return await _reduce(userIds, async(skillSets,id)=>{
+            const skills = await getSkillsById(id);
+            const skillScores = await skillSets
+            return [...skillScores,{id : id, skills : skills[0]}];
+        },[])
+    },[getAllUserIds, getSkillsById])
 
-    const getuserdata = async () => {
-
-        let userdata = [];
-        await db.collection('users').doc(user.uid).collection('About').get().then(snap =>
-            snap.docs.map(doc => {
-                userdata = doc.data().skills;
-            })
-        )
-        return userdata;
-    }
-
-    const getSug = async () => {
-        await getuserdata().then(res => {
-            let tempSug = [];
-            skllset.map(({ id, skls }) => {
-                let tp = 0;
-                skls.map(sk => {
-                    if (res.includes(sk))
-                        tp += 5
-                    else
-                        tp -= 1
-                })
-                tempSug.push({ score: tp, id: id });
-            })
-            setsuggests(tempSug);
-
-        })
-    }
+    const generateMatchScore = useCallback(async () => {
+        const primarySkillSet = await getSkillsById(user.uid)
+        const AllUserSkills = await getAllUserSkills();
+        const results = _reduce(AllUserSkills,(suggestions, user)=>{
+            const score = _intersection(primarySkillSet[0],user.skills).length
+            return [...suggestions, {id : user.id, score : score}]
+        },[])
+        setSuggests(results)
+    },[setSuggests, user, getAllUserSkills, getSkillsById])
 
     React.useEffect(() => {
-        skllset.length === 0 && getSkls();
-        (skllset.length > 0) && getSug();
-    }, [skllset?.length])
+        generateMatchScore().then(()=>console.log('Fetched Suggestions'))
+    }, [generateMatchScore])
 
     return (
         <div
@@ -97,13 +77,13 @@ function Suggs() {
                 <u style={{marginLeft:'auto', cursor:'pointer'}}>See all</u>
             </h3>
             {
-                console.log(suggests?.length),
-                suggests?.sort(function (a, b) { return b.score - a.score }).map(({ id, score }) => (
-                    id !== user.uid && <Usersuggest
-                        keys={id}
-                        uid={id}
-                    />
-                ))
+                _isEmpty(suggests) ?
+                    <div style={{display:'flex', height:'50%', alignItems:'center', justifyContent:'center'}}>
+                        <CircularProgress style={{color:'white'}}/>
+                    </div> :
+                    _map(_sortBy(suggests,['score']).reverse(),({id}) => (
+                        id !== user.uid && <Usersuggest keys={id} uid={id} />
+                    ))
             }
         </div>
     )

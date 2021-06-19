@@ -20,6 +20,7 @@
         "firebase": "^7.24.0",
         "immutable": "^3.8.2",
         "jquery": "^3.3.1",
+        "lodash": "^4.17.21",
         "popper.js": "^1.14.4",
         "react": "^16.13.1",
         "react-anime": "^2.2.0",
