@@ -27,6 +27,7 @@ import { Firebase, db, storage } from '../../lib/firebase.prod';
 import { useAuthListener } from '../../hooks';
 import firebase from 'firebase';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const theme = createMuiTheme({
     palette: {
@@ -60,7 +61,7 @@ function Chat() {
                     setMessages(snapshot.docs.map((doc) => doc.data()))
                 );
         }
-    }, [friendId]);
+    }, [friendId, messages.length]);
 
     useEffect(() => {
         db.collection('users')
@@ -86,6 +87,12 @@ function Chat() {
             });
 
         db.collection('users')
+            .doc(userstring)
+            .collection('friends')
+            .doc(friendId)
+            .set({lastTime: firebase.firestore.FieldValue.serverTimestamp()})
+
+        db.collection('users')
             .doc(friendId)
             .collection('friends')
             .doc(userstring)
@@ -96,6 +103,12 @@ function Chat() {
                 imgUrl: '',
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
+
+        db.collection('users')
+            .doc(friendId)
+            .collection('friends')
+            .doc(userstring)
+            .set({lastTime: firebase.firestore.FieldValue.serverTimestamp()})
 
         setInput('');
     };
@@ -154,7 +167,17 @@ function Chat() {
         );
     }
 
+    function handleDelete() {
+        const ref = db.collection('users').doc(userstring).collection('friends').doc(friendId).collection('messages');
+        ref.onSnapshot((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                ref.doc(doc.id).delete();
+            });
+        });
+    }
+
     return (
+        <ScrollToBottom className="scrollB">
         <div className="chat">
             <CssBaseline />
             <div className="chat__header">
@@ -163,40 +186,43 @@ function Chat() {
                     <h3>{friendInfo.Name}</h3>
                     <p>
                         Last seen at{' '}
-                        {new Date(
-                            messages[messages.length - 1]?.timestamp?.toDate()
-                        ).toLocaleTimeString()}
+                        {new Date(friendInfo.lastSeen?.seconds*1000).toDateString() + ' at ' + new Date(friendInfo.lastSeen?.seconds*1000).toLocaleTimeString()}
                     </p>
                 </div>
                 <div className="chat__headerRight">
                     <Tooltip title="Delete your entire Chat" arrow>
-                        <Button variant="contained" color="secondary">
+                        <Button variant="contained" color="secondary" onClick={handleDelete}>
                             <DeleteIcon />
                         </Button>
                     </Tooltip>
                 </div>
             </div>
-            <div className="chat__body">
+            <div className="chat__body">    
+                <div>
                 {messages.map((message) => (
-                    <p
-                        className={`chat__message ${
-                            message.msgSenderId == userstring &&
-                            'chat__reciever'
-                        }`}
-                    >
-                        <img
-                            src={message.imgUrl}
-                            style={{ padding: 0, margin: 0 }}
-                            className="chat__body_uploadedPic"
-                        />
-                        {message.message}
-                        <span className="chat__timeStamp">
-                            {new Date(
-                                message?.timestamp?.toDate()
-                            ).toLocaleTimeString()}
-                        </span>
-                    </p>
+                    <Tooltip title={message?.timestamp?.toDate().toDateString()} arrow placement="right">
+                            <p
+                                className={`chat__message ${
+                                    message.msgSenderId == userstring &&
+                                    'chat__reciever'
+                                }`}
+                            >
+                                <img
+                                    src={message.imgUrl}
+                                    style={{ padding: 0, margin: 0 }}
+                                    className="chat__body_uploadedPic"
+                                />
+                                {message.message}
+                                <span className="chat__timeStamp">
+                                    {new Date(
+                                        message?.timestamp?.toDate()
+                                    ).toLocaleTimeString()}
+                                </span>
+                            </p>
+                    </Tooltip>
                 ))}
+                </div>
+                
             </div>
             <div className="chat__footer">
                 <InsertEmoticonIcon />
@@ -206,7 +232,7 @@ function Chat() {
                         placeholder="Type A Message Here..."
                         onChange={(e) => setInput(e.target.value)}
                         value={input}
-                    />
+                        />
                     <button type="submit" onClick={sendMessage}>
                         Send a msg
                     </button>
@@ -218,7 +244,7 @@ function Chat() {
                     value={pic}
                     onChange={handleUpload}
                     accept="image/*"
-                />
+                    />
                 <Tooltip title="Upload" arrow>
                     <Button
                         variant="contained"
@@ -227,8 +253,9 @@ function Chat() {
                             color: 'white',
                             borderRadius: '200px',
                             width: '30px',
+                            zIndex: '100',
                         }}
-                    >
+                        >
                         <label htmlFor="upload_input">
                             <PhotoLibraryIcon />
                         </label>
@@ -236,6 +263,7 @@ function Chat() {
                 </Tooltip>
             </div>
         </div>
+        </ScrollToBottom>
     );
 }
 

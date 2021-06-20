@@ -7,6 +7,7 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     color: rgb(255, 254, 254);
+    /* overflow-y:auto; */
 }
 
 .sidebar_chat__header {
@@ -14,12 +15,20 @@
     display: flex;
     align-items: center;
     height: 20%;
-    /* background: url('https://image.freepik.com/free-vector/nice-background-with-polygonal-shapes_1159-452.jpg'); */
-    /* background-repeat: no-repeat; */
-    /* background-position: center; */
-    /* background-size: cover; */
+    background: url('https://image.freepik.com/free-vector/nice-background-with-polygonal-shapes_1159-452.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     backdrop-filter: blur(20px);
     border-top-left-radius: 10px;
+}
+
+.headings {
+    padding: 20px;
+    padding-bottom: 35px;
+    font-size: x-large;
+    font-weight: 700;
+    height: 10%;
 }
 
 .sidebar_chat__header > h1 {
@@ -33,6 +42,8 @@
     background: transparent;
     height: 39px;
     padding: 10px;
+    padding-bottom: 0px;
+    margin-top: 10px;
     box-sizing: content-box;
     /* margin-top: 20px; */
 }

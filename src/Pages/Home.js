@@ -18,6 +18,7 @@ import Story from './Story'
 import Welcome from '../Components/Modal/WelcomeModal.js'
 import Storycreate from './Storycreate'
 import { useAuthListener } from '../hooks';
+import firebase from 'firebase';
 
 export default function Home({ imgs }) {
     const { user } = useAuthListener();
@@ -47,6 +48,9 @@ export default function Home({ imgs }) {
                 );
             });
 
+        var yesterday = firebase.firestore.Timestamp.now();
+        yesterday.seconds = yesterday.seconds - (24 * 60 * 60);
+
         db.collection('events').orderBy('date', 'desc').onSnapshot(snap => {
             if(convert(snap.docs[0].data().date) > new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate()))
             setState(snap.docs[0].data())
@@ -54,16 +58,25 @@ export default function Home({ imgs }) {
 
         db.collection('users').doc(user.uid).onSnapshot((snapshot) => { setwel(snapshot.data().firstLogin); });
 
-        db.collection('stories')
-            .orderBy('timestamp', 'desc')
-            .onSnapshot((snapshot) => {
-                settales(
-                    snapshot.docs.map((doc) => ({
-                        ids: doc.id,
-                        tale: doc.data(),
-                    }))
-                );
+        db.collection("stories").where("timestamp",">",yesterday)
+                .get().then(function(snapshot) {
+                    settales(
+                        snapshot.docs.map((doc) => ({
+                            ids: doc.id,
+                            tale: doc.data(),
+                        }))
+                    );
+                })
+            .catch(function(error) {
+                  console.log("Error getting documents: ", error);
             });
+          
+        db.collection("stories").where("timestamp","<",yesterday)
+              .get().then(function(querySnapshote) {
+                querySnapshote.forEach(element => {
+                  element.ref.delete();
+                });
+              })
 
         setd(dum + 1);
 

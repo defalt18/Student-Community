@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidebar_Chat from './Sidebar_Chat';
 import './ChatApp.css';
 import Chat from './ChatBody';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { firebase } from '../../lib/firebase.prod';
+import { useAuthListener } from '../../hooks';
+import { Firebase, db, storage } from '../../lib/firebase.prod';
 
 function ChatApp() {
     return (

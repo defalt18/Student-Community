@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './Sidebar_Chat__friends.css';
 import { db } from '../../lib/firebase.prod';
 import { useAuthListener } from '../../hooks';
+// import ScrollIntoView from 'react-scroll-into-view'
 
 function Sidebar_Chat__friends({ id }) {
     const { user } = useAuthListener();
@@ -11,6 +12,7 @@ function Sidebar_Chat__friends({ id }) {
     var userstring = user.uid.toString();
     const [messages, setMessages] = useState('');
     const [data, setda] = useState('');
+    const [friends, setFriends] = useState([]);
 
     useEffect(() => {
         if (id) {
@@ -29,7 +31,20 @@ function Sidebar_Chat__friends({ id }) {
             .onSnapshot((snapshot) => {
                 return setda(snapshot.data());
             });
-    }, [id]);
+
+        db.collection('users')
+            .doc(userstring)
+            .collection('friends')
+            .orderBy('lastTime', 'desc')
+            .onSnapshot((snapshot) => {
+                setFriends(
+                    snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        friend: doc.data(),
+                    }))
+                );
+            });
+    }, [id, friends.lastTime]);
 
     return (
         <Link to={`/chats/${id}`}>
