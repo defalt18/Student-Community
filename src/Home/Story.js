@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }))
 
-function Story({ name, img, bg }) {
+function Story({ storyData }) {
+	const { avimg, name, imgurl } = storyData
 	const classes = useStyles()
 	const [open, setOpen] = React.useState(false)
 
@@ -36,22 +37,16 @@ function Story({ name, img, bg }) {
 			<div
 				onClick={handleOpen}
 				style={{
-					borderRadius: '20px',
 					display: 'flex',
-					background: `url("${bg}")`,
-					backgroundSize: 'cover',
-					flexDirection: 'column',
 					alignItems: 'center',
-					justifyContent: 'flex-end',
-					padding: '10px',
-					height: '30vh',
-					minWidth: '10vw'
+					flexDirection: 'column'
 				}}
 			>
 				<Avatar
-					src={img}
+					src={avimg}
 					style={{ height: 50, width: 50, border: '3px solid rgba(0,155,255)' }}
 				/>
+				<p style={{ margin: 0, marginTop: 2 }}>{name}</p>
 			</div>
 			<Modal
 				aria-labelledby='transition-modal-title'
@@ -78,10 +73,10 @@ function Story({ name, img, bg }) {
 								color: 'white'
 							}}
 						>
-							<Avatar src={img} />
+							<Avatar src={avimg} />
 							<p style={{ fontWeight: 'bold' }}>{name}</p>
 						</div>
-						<img src={bg} style={{ maxWidth: '40vw', maxHeight: '70vh' }} />
+						<img src={imgurl} style={{ maxWidth: '40vw', maxHeight: '70vh' }} />
 					</div>
 				</Fade>
 			</Modal>
@@ -89,4 +84,4 @@ function Story({ name, img, bg }) {
 	)
 }
 
-export default Story
+export default React.memo(Story)
