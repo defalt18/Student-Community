@@ -1,18 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
-import { Home, SignIn, SignUp, Polling, Settings, Resources } from './pages'
-import Prof from './pages/Profile_New/Prof'
-import Parts from './pages/Participants/Parts'
+import {
+	Home,
+	SignIn,
+	SignUp,
+	Polling,
+	Settings,
+	Resources,
+	ChatApp,
+	Clubs,
+	Parts,
+	Clubdesc,
+	Events,
+	Friends,
+	Prof
+} from './pages'
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
-import Clubs from './pages/Clubs/Clubs'
-import Events from './pages/Events/Events'
 import { Header, Sidebar } from './components'
-import Clubdesc from './pages/Clubs/Clubdesc'
-import ChatApp from './pages/Chats (IMP)/ChatApp'
-import Friends from './pages/Friends/Friends'
 import { db } from './lib/firebase.prod'
 
 export default function App() {
