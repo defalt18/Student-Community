@@ -84,7 +84,7 @@ export default function TransitionsModal({ img }) {
 				<Fade in={open}>
 					<div className={classes.paper}>
 						{/* <h1>Hey there</h1> */}
-						<Postmake imgus={img} handleClose={handleClose} />
+						<Postmake handleClose={handleClose} />
 					</div>
 				</Fade>
 			</Modal>

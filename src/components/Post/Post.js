@@ -18,6 +18,8 @@ import { useAsync } from 'react-use'
 import { getMinimalUserById } from '../../services/user-utils'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
+import './Post.css'
+
 const options = ['Delete']
 
 const ITEM_HEIGHT = 48
@@ -534,9 +536,9 @@ function TestPost({ postData, userdata }) {
 						</div>
 					)}
 				</div>
-				<p style={{ margin: 0, marginBottom: 0, padding: '10px 15px' }}>
+				<pre className="caption-text" style={{ margin: 0, marginBottom: 0, padding: '10px 15px' }}>
 					{caption}
-				</p>
+				</pre>
 				{imageUrl && (
 					<img
 						src={imageUrl}
