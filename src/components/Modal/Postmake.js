@@ -8,6 +8,8 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import SendRoundedIcon from '@material-ui/icons/SendRounded'
 import DeleteIcon from '@material-ui/icons/Delete'
 import { toast } from 'react-toastify'
+// import imageCompression from 'browser-image-compression'
+import Resizer from 'react-image-file-resizer'
 
 function Postmake({ handleClose }) {
 	const [img, setImg] = useState(null);
@@ -34,7 +36,8 @@ function Postmake({ handleClose }) {
 	async function uploadTaskPromise(postImg) {
 		return new Promise((resolve, reject) => {
 			const nameit = (postImg.name + Date.now().toString()).toString();
-			const upload_task = storage.ref(`images/${nameit}`).put(postImg);
+			const upload_task = storage.ref(`images/${nameit}`).putString(postImg, 'data_url');
+			// const upload_task = storage.ref(`images/${nameit}`).put(postImg);
 
 			upload_task.on('state_changed',
 				(snapshot) => {
@@ -65,24 +68,57 @@ function Postmake({ handleClose }) {
 		setText("");
 		setImg(null);
 
-		// set the toast
-		toastID.current = toast("Uploading...", {
-			position: "top-right",
-			autoClose: false,
-			hideProgressBar: false,
-			closeOnClick: false,
-			pauseOnHover: false,
-			draggable: false,
-			progress: undefined
-		});
+		let imgURL = null;
+		if (postImg) {
+			// set the toast
+			toastID.current = toast("Compressing Image...", {
+				position: "top-right",
+				autoClose: false,
+				hideProgressBar: true,
+				closeOnClick: false,
+				pauseOnHover: false,
+				draggable: false,
+				progress: undefined
+			});
 
-		const imgURL = postImg ? (await uploadTaskPromise(postImg)) : null;
-		console.log(imgURL);
+			// const compressedImage = await imageCompression(postImg, {
+			// 	maxSizeMB: 2,
+			// 	fileType: "image",
+			// 	onProgress: (p) => {
+			// 		console.log(p);
+			// 	}
+			// });
+
+			const compressedImage = await new Promise(resolve => {
+				Resizer.imageFileResizer(
+					postImg,
+					1400,
+					650,
+					'JPEG',
+					100,
+					0,
+					uri => {
+						console.log(uri);
+						resolve(uri);
+					},
+					'base64'
+				);
+			})
+
+			toast.update(toastID.current, {
+				render: "Uploading Image...",
+				hideProgressBar: false,
+				progress: 0
+			});
+
+			imgURL = postImg ? (await uploadTaskPromise(compressedImage)) : null;
+		}
+
 
 		await db.collection('posts').add({
 			timestamp: Firebase.firestore.FieldValue.serverTimestamp(),
 			caption: text,
-			imageUrl: (typeof imgURL != Error) ? imgURL : null,
+			imageUrl: imgURL || null,
 			username: user.displayName,
 			likes: '0',
 			comments: '0',

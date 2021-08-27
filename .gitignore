@@ -68,3 +68,7 @@ node_modules/
 
 # Exclude mac alternatives
 .DS_Store
+
+# editor config files
+.vscode
+.idea
