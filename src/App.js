@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import {
 	Home,
 	SignIn,
@@ -36,6 +38,18 @@ export default function App() {
 
 	return (
 		<Router>
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme={"light"}
+			/>
 			<Switch>
 				<IsUserRedirect
 					user={user}
