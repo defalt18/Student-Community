@@ -18,7 +18,7 @@ import { useAsync } from 'react-use'
 import { getMinimalUserById } from '../../services/user-utils'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
-import './Post.css'
+// import './Post.css'
 
 const options = ['Delete']
 

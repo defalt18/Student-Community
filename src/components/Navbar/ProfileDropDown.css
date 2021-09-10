@@ -1,0 +1,31 @@
+.menu-btn-1121 {
+    background-color: transparent;
+    border: none;
+}
+
+.user-menu-1121 {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: -25px;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    border-radius: 4px;
+    text-align: center;
+    overflow: hidden;
+    visibility: hidden;
+    font-size: 14px;
+}
+
+.user-menu-1121 > * {
+    padding: 8px 20px;
+}
+
+.user-menu-1121 > *:hover {
+    background-color: dodgerblue;
+}
+
+.menu-btn-1121 + .user-menu-1121:active,
+.menu-btn-1121:focus + .user-menu-1121 {
+    visibility: visible;
+}

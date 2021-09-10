@@ -1,0 +1,16 @@
+.navbar {
+    padding: 5px 10px;
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    color: #DAFFE4;
+    background-color: #01081A;
+}
+
+.da-logo {
+    height: 40px;
+}
+
+.empty {
+    flex: 1 ;
+}

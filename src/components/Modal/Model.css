@@ -1,0 +1,12 @@
+.model {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+.btn-close-corner {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

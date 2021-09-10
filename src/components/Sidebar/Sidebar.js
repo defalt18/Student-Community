@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import React, { useContext } from 'react'
+import React from 'react'
 import './Sidebar.css'
 import { NavLink } from 'react-router-dom'
-import { FirebaseContext } from '../../context/firebase'
 import HomeIcon from '@material-ui/icons/Home'
 import EventIcon from '@material-ui/icons/Event'
 import PeopleIcon from '@material-ui/icons/People'
@@ -41,13 +39,12 @@ export default function Sidebar() {
 			listPath: `/profile/${user?.uid}`
 		}
 	]
-	// const { firebase } = useContext(FirebaseContext);
+
 	const auth = useAuth()
 
 	return (
 		<div className='sidebar'>
 			<ul className='sidebar-itemlist'>
-				{/* logo upper */}
 				<li className='sidebar-logo'>
 					<NavLink to='/' className='sidebar-itemlink'>
 						<div className='sidebar-itemname sidebar-logoname'>DA-IICT</div>

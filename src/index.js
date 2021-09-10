@@ -1,19 +1,21 @@
 import React from 'react'
 import { render } from 'react-dom'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import App from './App'
 import { config } from './lib/firebase.prod'
-import { FirebaseContext } from './context/firebase'
 import { FirebaseAppProvider } from 'reactfire'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
+
+import "./index.css"
 
 render(
 	<React.StrictMode>
-		{/*<FirebaseContext.Provider value={{ firebase }}>*/}
-		<FirebaseAppProvider firebaseConfig={config}>
-			<CssBaseline />
-			<App />
-		</FirebaseAppProvider>
-		{/*</FirebaseContext.Provider>*/}
+		<Router>
+			<Switch>
+				<FirebaseAppProvider firebaseConfig={config}>
+					<App />
+				</FirebaseAppProvider>
+			</Switch>
+		</Router>
 	</React.StrictMode>,
 	document.getElementById('root')
 )

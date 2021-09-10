@@ -1,0 +1,25 @@
+.btn {
+    padding: 10px 15px;
+    color: white;
+    background: linear-gradient(88.6deg, #00A3FF 1.46%, #0057FF 99.26%);
+    border: none;
+    border-radius: 4px;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px 3px rgba(30, 143, 255, 0.623);
+}
+
+.btn-icon {
+    padding: 5px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+
+.btn-icon:focus {
+    outline: none;
+}
