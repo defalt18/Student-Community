@@ -51,6 +51,13 @@ node_modules/
 # Optional npm cache directory
 .npm
 
+# unwanted firebaserc
+.firebaserc
+
+# npm garbage
+package-lock.json
+yarn.lock
+
 # Optional eslint cache
 .eslintcache
 
