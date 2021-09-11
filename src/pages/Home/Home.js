@@ -44,8 +44,6 @@ function Home({ imgs, user }) {
 
 	const shows = _find(stories ?? [], ({ id }) => user.uid === id)
 
-	console.count('Rendered')
-
 	return (
 		<div className='app'>
 			<Header uimg={imgs} />

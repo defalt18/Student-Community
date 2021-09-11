@@ -536,7 +536,10 @@ function TestPost({ postData, userdata }) {
 						</div>
 					)}
 				</div>
-				<pre className="caption-text" style={{ margin: 0, marginBottom: 0, padding: '10px 15px' }}>
+				<pre
+					className='caption-text'
+					style={{ margin: 0, marginBottom: 0, padding: '10px 15px' }}
+				>
 					{caption}
 				</pre>
 				{imageUrl && (
