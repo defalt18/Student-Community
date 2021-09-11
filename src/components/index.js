@@ -1,4 +1,5 @@
 export { default as Header } from './Header/Header'
+export { default as Navbar } from './Navbar/Navbar'
 export { default as Sidebar } from './Sidebar/Sidebar'
 export { default as CarouselMain } from './Carousel/CarouselMain'
 export { default as CarouselAdd } from './Carousel/CarouselAdd'
