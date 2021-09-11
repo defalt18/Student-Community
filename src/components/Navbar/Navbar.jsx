@@ -17,14 +17,14 @@ function Logo() {
   );
 }
 
-function Navbar() {
+function Navbar({ userDetails }) {
   return (
     <header className="navbar">
       <Logo />
       <div className="empty"></div>
       <SearchBar />
-      <ProfileDropDown />
-      <CreatePost />
+      <ProfileDropDown userDetails={userDetails} />
+      <CreatePost userDetails={userDetails} />
     </header>
   );
 }

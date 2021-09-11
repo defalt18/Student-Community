@@ -1,14 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import DA_logo from "./DA-logo.png"
 import "./ProfileDropDown.css"
+import DA_Logo from "./DA-logo.png";
 
-function ProfileDropDown() {
+function ProfileDropDown({ userDetails }) {
+    const { image } = userDetails;
+
     return (
         <div>
             <button className="menu-btn-1121">
-                <img className="img-user" src={DA_logo} alt="Avatar" />
+                <img className="img-user" src={image} alt="Avatar" />
             </button>
             <div className="user-menu-1121">
                 <Link to="/profile" >Profile</Link>

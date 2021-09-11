@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 
-import User from "../Profile/User";
+import { UserList } from "../Profile/User";
 import DA_Logo from "./DA-logo.png";
 import "./Search.css";
+import { getAllUsersDetails } from "../../services/user-utils";
 
 function SearchBar() {
   const [text, setText] = useState("");
@@ -31,7 +32,7 @@ function SearchBar() {
             value={text}
             ref={inpRef}
             onBlur={blur_handler}
-            onChange={(e) => { setText(e.target.value) }} />
+            onChange={(e) => { setText(e.target.value.trim()) }} />
           <SearchResult query={text} />
         </div>
         : null
@@ -45,25 +46,29 @@ function SearchBar() {
 
 function SearchResult({ query }) {
   const [result, setResult] = useState([]);
+  const [found, setFound] = useState(true);
+
+  async function fetchUsers(search_query) {
+    const users = await getAllUsersDetails(search_query);
+    users.length ? setResult(users) : setFound(false);
+  }
 
   useEffect(() => {
-    // fetch all user data in result array
+    if (query) {
+      setResult([]);
+      setFound(true);
+      fetchUsers(query);
+    }
   }, [query]);
 
   return (
     <div className="search-result">
       {
-        (!result.length && query) ?
-          <div className="not-found">
-            User not found
-          </div>
-          : null
+        (!found) && query && <div className="not-found">User Not Found</div>
       }
-      {/* changes required */}
-      <User key={1} name={"Utsav"} img={DA_Logo} />
-      <User key={2} name={"Utsav"} img={DA_Logo} />
-      <User key={3} name={"Utsav"} img={DA_Logo} />
-      <User key={4} name={"Utsav"} img={DA_Logo} />
+      {
+        query && <UserList users={result} />
+      }
     </div>
   )
 }

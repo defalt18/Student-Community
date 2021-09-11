@@ -20,6 +20,7 @@ import {
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
+import { getMinimalUserById } from "./services/user-utils";
 import { Header, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 
@@ -27,20 +28,27 @@ import Navbar from './components/Navbar/Navbar'
 import "./components/Custom/Custom.import"
 
 export default function App() {
-	const { user } = useAuthListener()
-	const [userImage, setUserImage] = useState(undefined)
+	const { user } = useAuthListener();
+	const [userDetails, setUserDetails] = useState(null);
+
+	async function fetchUserDetails() {
+		const details = await getMinimalUserById(user.uid);
+		setUserDetails(details);
+	}
 
 	useEffect(() => {
-		user &&
-			db
-				.collection('users')
-				.doc(user.uid)
-				.onSnapshot((snapshot) => setUserImage(snapshot.data().image))
-	}, [user, setUserImage])
+		if (user) {
+			fetchUserDetails();
+		}
+	}, [user])
 
 	return (
 		<Route exec path="/">
-			<Navbar />
+			{
+				userDetails ?
+					<Navbar userDetails={userDetails} />
+					: null
+			}
 		</Route>
 	)
 }
