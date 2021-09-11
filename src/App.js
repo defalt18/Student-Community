@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Route } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import {
@@ -43,12 +43,22 @@ export default function App() {
 	}, [user])
 
 	return (
-		<Route exec path="/">
-			{
-				userDetails ?
-					<Navbar userDetails={userDetails} />
-					: null
-			}
-		</Route>
+		<Fragment>
+			<Route path="/">
+				{
+					userDetails &&
+						<Fragment>
+							<Navbar userDetails={userDetails} />
+							<div className="temp">
+								<Sidebar />
+							</div>
+						</Fragment>
+				}
+			</Route>
+			<Route exect path="/signin">
+				<SignIn />
+			</Route>
+		</Fragment>
+
 	)
 }
