@@ -1,0 +1,26 @@
+.search-result {
+    position: absolute;
+    margin-top: 10px;
+    width: 300px;
+    max-height: 80vh;
+    display: block;
+    background-color: black;
+    border-radius: 4px;
+    overflow: auto;
+}
+
+.search-result > .user-link {
+    width: inherit;
+    justify-content: left;
+    padding: 5px;
+}
+
+.search-result > .user-link:hover {
+    background-color: rgb(46, 46, 46);
+}
+
+.search-result > .not-found {
+    padding: 10px 0;
+    color: gray;
+    text-align: center;
+}

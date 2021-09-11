@@ -12,6 +12,9 @@ in the project directory to install the required dependencies
 Then proceed with executing 
 #### `npm start`
 
+Figma link
+#### https://www.figma.com/file/PwzaBHStUpolbfNupJmtoM/DAIICT-student-community?node-id=0%3A1
+
 ### This project was compiled by : 
 
 Kushagra | Ridham | Ravi 

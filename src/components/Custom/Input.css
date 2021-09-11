@@ -1,0 +1,15 @@
+.inp-search {
+    padding: 8px 10px;
+    width: 300px;
+    color: white;
+    background-color: black;
+    box-shadow: 0 0 5px 0 rgba(57, 131, 204, 0.61);
+    border: none;
+    border-radius: 4px;
+}
+
+.inp-search:focus {
+    box-shadow: none;
+    outline: solid 2px;
+    outline-color: rgba(170, 213, 255, 0.438);
+}

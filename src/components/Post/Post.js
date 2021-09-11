@@ -18,6 +18,8 @@ import { useAsync } from 'react-use'
 import { getMinimalUserById } from '../../services/user-utils'
 import { useFirestore, useFirestoreCollectionData } from 'reactfire'
 
+// import './Post.css'
+
 const options = ['Delete']
 
 const ITEM_HEIGHT = 48

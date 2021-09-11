@@ -1,7 +1,25 @@
 import { db, storage } from '../lib/firebase.prod'
 import _map from 'lodash/map'
+import _filter from 'lodash/_arrayFilter'
 
 const SUCCESS = 'Successful'
+
+export const getAllUsersDetails = async (query) => {
+	const reg = new RegExp(query, "gi");
+	const users = await db.collection('users').get();
+
+	let result = [];
+	users.docs.forEach((user) => {
+		const data = user.data();
+		const found = data.Name.match(reg);
+
+		if (found) {
+			result.push(data);
+		}
+	})
+
+	return result;
+}
 
 export const getUserDetailsById = async (id) => {
 	const AboutCollection = await db

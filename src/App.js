@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
+import React, { Fragment, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {
 	Home,
@@ -21,23 +21,29 @@ import {
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
-import { Header, Sidebar } from './components'
+import { getMinimalUserById } from "./services/user-utils";
+import { Navbar, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 
+import "./components/Custom/Custom.import"
+
 export default function App() {
-	const { user } = useAuthListener()
-	const [userImage, setUserImage] = useState(undefined)
+	const { user } = useAuthListener();
+	const [userDetails, setUserDetails] = useState(null);
+
+	async function fetchUserDetails() {
+		const details = await getMinimalUserById(user.uid);
+		setUserDetails(details);
+	}
 
 	useEffect(() => {
-		user &&
-			db
-				.collection('users')
-				.doc(user.uid)
-				.onSnapshot((snapshot) => setUserImage(snapshot.data().image))
-	}, [user, setUserImage])
+		if (user) {
+			fetchUserDetails();
+		}
+	}, [user])
 
 	return (
-		<Router>
+		userDetails && <Router>
 			<ToastContainer
 				position="top-right"
 				autoClose={3000}
@@ -222,27 +228,27 @@ export default function App() {
 					/>
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.clubs}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<Clubs />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.resources}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<Resources />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.events}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<Events />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.chats}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<ChatApp />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.friends}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<Friends />
 				</ProtectedRoute>
@@ -253,7 +259,7 @@ export default function App() {
 				></ProtectedRoute>
 				{user?.displayName === 'Club' && (
 					<ProtectedRoute user={user} exact path={ROUTES.participants}>
-						<Header uimg={userImage} />
+						<Navbar userDetails={userDetails} />
 						<Sidebar />
 						<Parts />
 					</ProtectedRoute>
@@ -265,12 +271,12 @@ export default function App() {
 					component={Polling}
 				></ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.settings}>
-					<Header uimg={userImage} />
+					<Navbar userDetails={userDetails} />
 					<Sidebar />
 					<Settings />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
-					<Home imgs={userImage} user={user} />
+					<Home user={userDetails.image} user={user} />
 				</ProtectedRoute>
 			</Switch>
 		</Router>

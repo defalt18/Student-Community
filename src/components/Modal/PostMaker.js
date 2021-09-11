@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
-import './Postmake.css'
-import CloseIcon from '@material-ui/icons/Close'
-import { Firebase, storage, db } from '../../lib/firebase.prod'
-import { useAuthListener } from '../../hooks'
-import IconButton from '@material-ui/core/IconButton'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import SendRoundedIcon from '@material-ui/icons/SendRounded'
+import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
+
+import { Firebase, storage, db } from '../../lib/firebase.prod'
+import { useAuthListener } from '../../hooks'
 import { toast } from 'react-toastify'
 
-function Postmake({ handleClose }) {
+import './PostMaker.css'
+
+function PostMaker({ handleClose }) {
 	const [img, setImg] = useState(null);
 	const [text, setText] = useState("");
 	const [disabled, setDisabled] = useState(true);
@@ -104,7 +105,6 @@ function Postmake({ handleClose }) {
 		<div className="postmaker">
 			<header>
 				<span className="title">Create a Post</span>
-				<CloseIcon onClick={handleClose} />
 			</header>
 			<div className="content">
 				<textarea
@@ -131,7 +131,7 @@ function Postmake({ handleClose }) {
 					<AddPhotoAlternateIcon />
 					<input
 						type="file"
-						className="img-input"
+						className="img-input-post"
 						accept="image/png, image/jpg, image/jpeg, image/ico"
 						onChange={(e) => {
 							setImg(e.target.files[0]);
@@ -145,4 +145,4 @@ function Postmake({ handleClose }) {
 	)
 }
 
-export default Postmake
+export default PostMaker
