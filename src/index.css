@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Poppins Medium';
+    src: url('assets/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Poppins Head';
+    src: url('assets/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Poppins Subtext';
+    src: url('assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+}
+
+.text-primary {
+    font-family: 'Poppins Head';
+    font-size: 24px;
+    line-height: 28.8px;
+}
+
+.text-secondary {
+    font-family: 'Poppins Medium';
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.text-tertiary {
+    font-family: 'Poppins Subtext';
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.cap-370 {
+    min-width: 300px;
+    max-width: 350px;
+}
+
+

@@ -1,6 +1,5 @@
 import { db } from '../lib/firebase.prod'
 import _reduce from 'lodash/reduce'
-import { useFirestoreCollection } from 'reactfire'
 
 const SUCCESS = 'Successful'
 
