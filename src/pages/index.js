@@ -1,4 +1,4 @@
-export { default as Home } from './Home/Home'
+export { default as Home } from './Home/NewHome'
 export { ProfilePhotos, ProfilePosts, ProfileAbout } from './Profile/index'
 export { default as Polling } from './Polling'
 export { default as SignIn } from './Signin'

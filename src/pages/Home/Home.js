@@ -9,7 +9,7 @@ import {
 	Post
 } from '../../components'
 import './Home.css'
-import Cal from '../Calendar.svg'
+import Cal from '../../assets/images/Calendar.svg'
 import Story from './Story'
 import _isEmpty from 'lodash/isEmpty'
 import Welcome from '../../components/Modal/WelcomeModal.js'
