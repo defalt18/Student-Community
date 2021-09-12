@@ -26,10 +26,16 @@ import { Navbar, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 
 import "./components/Custom/Custom.import"
+import avatar_icon from "./components/Profile/Images/avatar.png"
 
 export default function App() {
 	const { user } = useAuthListener();
-	const [userDetails, setUserDetails] = useState(null);
+	const [userDetails, setUserDetails] = useState({
+		name: "user",
+		image: avatar_icon,
+	});
+	// here dummy details are used to avoid render condition and null object error
+	// in future, this will be replaced with dummy elements
 
 	async function fetchUserDetails() {
 		const details = await getMinimalUserById(user.uid);
@@ -43,7 +49,7 @@ export default function App() {
 	}, [user])
 
 	return (
-		userDetails && <Router>
+		<Router>
 			<ToastContainer
 				position="top-right"
 				autoClose={3000}
@@ -276,6 +282,7 @@ export default function App() {
 					<Settings />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
+					<Navbar userDetails={userDetails} />
 					<Home user={userDetails.image} user={user} />
 				</ProtectedRoute>
 			</Switch>
