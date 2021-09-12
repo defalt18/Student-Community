@@ -60,6 +60,7 @@ export default function Sidebar() {
 						key={index}
 						to={listPath}
 						onClick={on_click}
+						exact
 						className="link"
 						activeClassName="link-active" >
 						{listIcon}
