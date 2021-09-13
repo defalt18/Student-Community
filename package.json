@@ -8,6 +8,7 @@
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.58",
         "@material-ui/styles": "^4.11.4",
+        "classnames": "^2.3.1",
         "clsx": "^1.1.1",
         "date-fns": "^2.23.0",
         "draft-convert": "^2.1.11",

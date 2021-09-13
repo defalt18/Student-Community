@@ -5,11 +5,16 @@ module.exports = {
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		colors: {
-			body_blue: '#00081C',
-			header_blue: '#1B2642',
-			component_blue: 'rgba(49,55,69,0.5)',
+			light_blue: '#4a7cff',
+			darker_blue: '#1b57f3',
+			body_blue: '#000613',
+			header_blue: '#16213E',
+			component_blue: 'rgba(33, 41, 62, 0.5)',
 			text_placeholder: '#C4C4C4',
 			dark_blue: '#001439',
+			header_border_blue: '#283A68',
+			component_secondary: 'rgba(33, 46, 82, 0.5)',
+			outline_blue: '#7DACF9',
 			...colors
 		},
 		extend: {
@@ -21,7 +26,9 @@ module.exports = {
 		}
 	},
 	variants: {
-		extend: {}
+		extend: {
+			width: ['responsive', 'hover', 'focus']
+		}
 	},
 	plugins: []
 }

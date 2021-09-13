@@ -28,8 +28,8 @@ export const Posts = [
 			uid: 'dvsdsdv8932'
 		},
 		timestamp: 1631434411749,
-		caption: 'Fun day!',
-		image: picture,
+		caption:
+			"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
 		performance: {
 			likes: 23,
 			comments: 2,
@@ -102,5 +102,18 @@ export const Stories = [
 			image: Lilly,
 			uid: 'dsfs3sd566'
 		}
+	}
+]
+
+export const Suggestions = [
+	{
+		uid: 'ASDcssd233',
+		name: 'Joshua',
+		image: Joshua
+	},
+	{
+		uid: 'ASDcssd23dsf3',
+		name: 'Lilly',
+		image: Lilly
 	}
 ]
