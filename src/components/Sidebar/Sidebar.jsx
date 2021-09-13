@@ -50,24 +50,23 @@ export default function Sidebar() {
 		}
 	]
 
-	const auth = useAuth();
+	const auth = useAuth()
 
 	return (
-		<div className="sidebar">
-			{
-				sideItemList.map(({ listIcon, listPath, listText, on_click }, index) => (
-					<NavLink
-						key={index}
-						to={listPath}
-						onClick={on_click}
-						exact
-						className="link"
-						activeClassName="link-active" >
-						{listIcon}
-						{listText}
-					</NavLink>
-				))
-			}
+		<div className='sidebar'>
+			{sideItemList.map(({ listIcon, listPath, listText, on_click }, index) => (
+				<NavLink
+					key={index}
+					to={listPath}
+					onClick={on_click}
+					exact
+					className='link'
+					activeClassName='link-active'
+				>
+					{listIcon}
+					{listText}
+				</NavLink>
+			))}
 		</div>
 	)
 }

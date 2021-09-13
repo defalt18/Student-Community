@@ -1,18 +1,20 @@
 import React, { Fragment, useState } from 'react'
-import Model from './Model';
-import PostMaker from "./PostMaker"
+import Model from './Model'
+import PostMaker from './PostMaker'
 
 function CreatePost() {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false)
 
-	const handleClose = () => { setOpen(false) };
-	const handleOpen = () => { setOpen(true) };
+	const handleClose = () => {
+		setOpen(false)
+	}
+	const handleOpen = () => {
+		setOpen(true)
+	}
 
 	return (
 		<Fragment>
-			<button
-				className="btn"
-				onClick={handleOpen} >
+			<button className='btn' onClick={handleOpen}>
 				Create Post
 			</button>
 			<Model open={open} close_callback={handleClose}>

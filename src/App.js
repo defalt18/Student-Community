@@ -21,37 +21,37 @@ import {
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
-import { getMinimalUserById } from "./services/user-utils";
+import { getMinimalUserById } from './services/user-utils'
 import { Navbar, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 
-import "./components/Custom/Custom.import"
-import avatar_icon from "./components/Profile/Images/avatar.png"
+import './components/Custom/Custom.import'
+import avatar_icon from './components/Profile/Images/avatar.png'
 
 export default function App() {
-	const { user } = useAuthListener();
+	const { user } = useAuthListener()
 	const [userDetails, setUserDetails] = useState({
-		name: "user",
-		image: avatar_icon,
-	});
+		name: 'user',
+		image: avatar_icon
+	})
 	// here dummy details are used to avoid render condition and null object error
 	// in future, this will be replaced with dummy elements
 
 	async function fetchUserDetails() {
-		const details = await getMinimalUserById(user.uid);
-		setUserDetails(details);
+		const details = await getMinimalUserById(user.uid)
+		setUserDetails(details)
 	}
 
 	useEffect(() => {
 		if (user) {
-			fetchUserDetails();
+			fetchUserDetails()
 		}
 	}, [user])
 
 	return (
 		<Router>
 			<ToastContainer
-				position="top-right"
+				position='top-right'
 				autoClose={3000}
 				hideProgressBar={false}
 				newestOnTop={false}
@@ -60,7 +60,7 @@ export default function App() {
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				theme={"light"}
+				theme={'light'}
 			/>
 			<Switch>
 				<IsUserRedirect
@@ -282,7 +282,6 @@ export default function App() {
 					<Settings />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
-					<Navbar userDetails={userDetails} />
 					<Home user={userDetails.image} user={user} />
 				</ProtectedRoute>
 			</Switch>

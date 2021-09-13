@@ -1,20 +1,20 @@
 .sidebar {
     padding: 30px;
+    width: 250px;
     height: 100%;
-    width: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
     row-gap: 10px;
     color: white;
-    background-color: #313745;
+    background-color: #21293E;
     font-size: 14px;
     z-index: 10;
 }
 
 .sidebar > .link {
     padding: 5px 10px;
-    width: 150px;
+    width: 180px;
     display: flex;
     column-gap: 10px;
     justify-content: center;
@@ -23,5 +23,5 @@
 }
 
 .sidebar > .link-active {
-    background-color: #0059FF;
+    background-color: #283A68;
 }

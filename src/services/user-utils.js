@@ -5,20 +5,20 @@ import _filter from 'lodash/_arrayFilter'
 const SUCCESS = 'Successful'
 
 export const getAllUsersDetails = async (query) => {
-	const reg = new RegExp(query, "gi");
-	const users = await db.collection('users').get();
+	const reg = new RegExp(query, 'gi')
+	const users = await db.collection('users').get()
 
-	let result = [];
+	let result = []
 	users.docs.forEach((user) => {
-		const data = user.data();
-		const found = data.Name.match(reg);
+		const data = user.data()
+		const found = data.Name.match(reg)
 
 		if (found) {
-			result.push(data);
+			result.push(data)
 		}
 	})
 
-	return result;
+	return result
 }
 
 export const getUserDetailsById = async (id) => {

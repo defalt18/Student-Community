@@ -16,7 +16,7 @@
 }
 
 .search-result > .user-link:hover {
-    background-color: rgb(46, 46, 46);
+    background-color: dodgerblue;
 }
 
 .search-result > .not-found {

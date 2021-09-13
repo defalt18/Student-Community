@@ -17,7 +17,13 @@ module.exports = {
 				poppins_medium: "'Poppins Medium'",
 				poppins_head: "'Poppins Head'",
 				poppins_subtext: "'Poppins Subtext'"
-			}
+			},
+			gridTemplateRows: {
+			   'layout-1': 'auto calc(100vh - 60px)',
+			},
+			gridTemplateColumns: {
+				'layout-2': 'auto 1fr auto',
+			 }
 		}
 	},
 	variants: {

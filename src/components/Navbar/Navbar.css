@@ -1,18 +1,18 @@
 .navbar {
-    padding: 10px;
+    padding: 5px 15px;
     width: 100%;
     min-width: 800px;
-    height: 65px;
+    height: 60px;
     display: flex;
     align-items: center;
     column-gap: 10px;
     color: #DAFFE4;
-    background-color: #01081A;
-    z-index: 10;
+    background-color: #16213E;
 }
 
 .da-logo {
-    height: 40px;
+    height: 45px;
+    height: 45px;
 }
 
 .empty {

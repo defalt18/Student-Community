@@ -5,7 +5,7 @@ import './index.css'
 import { config } from './lib/firebase.prod'
 import { FirebaseAppProvider } from 'reactfire'
 
-import "./index.css"
+import './index.css'
 
 render(
 	<React.StrictMode>

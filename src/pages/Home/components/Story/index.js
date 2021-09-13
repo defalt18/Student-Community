@@ -9,7 +9,7 @@ function Stories() {
 	const { loading, value: Stories } = useAsync(() => fetchHomeStories())
 	return (
 		<div className='p-5 bg-component_blue rounded'>
-			<div className='flex flex-row gap-x-4 overflow-x-scroll text-white items-center w-full'>
+			<div className='flex flex-row gap-x-4 overflow-x-auto text-white items-center w-full'>
 				{loading ? (
 					<Loader className='mx-auto' color='inherit' />
 				) : isEmpty(Stories) ? (

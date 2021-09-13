@@ -10,7 +10,7 @@ function Feed() {
 	const { loading, value: Posts } = useAsync(() => fetchHomePosts())
 
 	return (
-		<div className='h-screen pb-10 w-full pt-20 px-7 flex flex-col overflow-y-scroll'>
+		<div className='h-full pb-10 w-auto pt-5 px-7 flex flex-col overflow-y-auto'>
 			<Story />
 			<h2 className='text-primary text-white my-10'>Welcome back</h2>
 			<div className='flex flex-col gap-y-8 text-white'>
