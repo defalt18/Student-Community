@@ -8,18 +8,19 @@ function Button(props) {
 		text = 'Click here',
 		callback = _noop,
 		size = 'small',
-		variant = 'filled',
-		className = ''
+		variant = 'standard',
+		className,
+		children
 	} = props
 
 	switch (variant) {
 		case 'filled':
 			return (
 				<button
-					style={ButtonStyles[size]}
 					onClick={callback}
 					className={c(
-						'transition-all duration-200 text-secondary button-border text-white bg-gradient-to-r from-light_blue to-darker_blue rounded hover:bg-gradient-to-r hover:from-body_blue hover:to-body_blue hover:text-light_blue',
+						ButtonStyles[size],
+						'transition-all duration-200 text-secondary button-border text-white bg-gradient-to-r from-light_blue to-darker_blue rounded hover:text-outline_blue',
 						className
 					)}
 				>
@@ -32,11 +33,24 @@ function Button(props) {
 				<button
 					onClick={callback}
 					className={c(
-						'text-tertiary-bold border border-outline_blue text-outline_blue rounded px-4 py-2',
+						'transition-all duration-200 border border-outline_blue text-outline_blue rounded px-4 py-2 hover:bg-outline_blue hover:text-white',
 						className
 					)}
 				>
 					{text}
+				</button>
+			)
+
+		case 'standard':
+			return (
+				<button
+					onClick={callback}
+					className={c(
+						'transition-all duration-200 text-white rounded p-1 hover:bg-gray-100 hover:bg-opacity-10',
+						className
+					)}
+				>
+					{children}
 				</button>
 			)
 

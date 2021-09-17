@@ -16,6 +16,7 @@ import {
 	Friends,
 	Prof
 } from './pages'
+import NewProfile from './pages/NewProfile'
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
@@ -257,6 +258,9 @@ export default function App() {
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
 					<Home imgs={userImage} user={user} />
+				</ProtectedRoute>
+				<ProtectedRoute user={user} exact path={'/:uid/new-profile'}>
+					<NewProfile />
 				</ProtectedRoute>
 			</Switch>
 		</Router>

@@ -4,7 +4,8 @@ import { fetchHomeStories } from '../../utils/home-utils'
 import { CircularProgress as Loader } from '@material-ui/core'
 import _map from 'lodash/map'
 import { isEmpty } from 'lodash'
-import Avatar from '../../../../components/Avatar'
+import Avatar from 'components/Avatar'
+import Button from 'components/Button'
 
 function Stories() {
 	const { loading, value: Stories } = useAsync(() => fetchHomeStories())
@@ -17,14 +18,14 @@ function Stories() {
 					<p className='text-secondary'>No stories to show...</p>
 				) : (
 					_map(Stories, (story) => (
-						<div className='flex flex-col gap-y-3 items-center p-1 rounded hover:bg-white hover:bg-opacity-5 cursor-pointer'>
+						<Button className='flex flex-col gap-y-3 items-center'>
 							<Avatar
 								src={story.creator.image}
 								variant='display'
 								size='medium'
 							/>
 							<p className='text-secondary text-white'>{story.creator.name}</p>
-						</div>
+						</Button>
 					))
 				)}
 			</div>
