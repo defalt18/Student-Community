@@ -1,10 +1,16 @@
 import React from 'react'
-import { Comment, FavoriteBorder as Like, Share } from '@material-ui/icons'
+import {
+	Comment,
+	FavoriteBorder as Like,
+	Share,
+	FavoriteRounded as Liked
+} from '@material-ui/icons'
 
 export const POST_OPTIONS = [
 	{
 		id: 'likes',
-		icon: <Like color='inherit' />,
+		icon: (truth) =>
+			!truth ? <Like color='inherit' /> : <Liked color='inherit' />,
 		label: 'Likes'
 	},
 	{

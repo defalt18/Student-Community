@@ -2,13 +2,17 @@ import React, { useCallback } from 'react'
 import c from 'classnames'
 
 const tabStyles = {
-	active:
-		'border-b-4 border-outline_blue bg-opacity-70 bg-component_blue_full py-3',
-	dormant: 'border-b-2 border-body_blue py-3'
+	active: 'border-outline_blue bg-opacity-70 bg-component_blue_full',
+	dormant: 'border-body_blue'
 }
 
 function Tabs(props) {
 	const { className, content, view, toggleView } = props
+	const {
+		numberOfFriends = 0,
+		numberOfPosts = 0,
+		numberOfSources = 0
+	} = content
 
 	const onClick = useCallback(
 		(view) => {
@@ -20,7 +24,10 @@ function Tabs(props) {
 	const DataTab = ({ value, label, view, active }) => (
 		<button
 			onClick={() => onClick(view)}
-			className={c('w-1/3', active ? tabStyles.active : tabStyles.dormant)}
+			className={c(
+				'w-1/3 py-3 border-b-4',
+				active ? tabStyles.active : tabStyles.dormant
+			)}
 		>
 			<p className='text-primary text-darker_blue'>{value}</p>
 			<p className='text-secondary text-white'>{label}</p>
@@ -30,19 +37,19 @@ function Tabs(props) {
 	return (
 		<div className={c('flex flex-1', className)}>
 			<DataTab
-				value={content?.numberOfPosts}
+				value={numberOfPosts}
 				active={view === 'POSTS'}
 				label='Posts'
 				view='POSTS'
 			/>
 			<DataTab
-				value={content?.numberOfSources}
+				value={numberOfSources}
 				active={view === 'ACADEMIC'}
 				label='Academic Sources'
 				view='ACADEMIC'
 			/>
 			<DataTab
-				value={content?.numberOfFriends}
+				value={numberOfFriends}
 				active={view === 'FRIENDS'}
 				label='Friends'
 				view='FRIENDS'
@@ -51,4 +58,4 @@ function Tabs(props) {
 	)
 }
 
-export default Tabs
+export default React.memo(Tabs)

@@ -9,6 +9,7 @@ function Button(props) {
 		callback = _noop,
 		size = 'small',
 		variant = 'standard',
+		type,
 		className,
 		children
 	} = props
@@ -17,6 +18,7 @@ function Button(props) {
 		case 'filled':
 			return (
 				<button
+					type={type}
 					onClick={callback}
 					className={c(
 						ButtonStyles[size],
@@ -31,6 +33,7 @@ function Button(props) {
 		case 'outline':
 			return (
 				<button
+					type={type}
 					onClick={callback}
 					className={c(
 						'transition-all duration-200 border border-outline_blue text-outline_blue rounded px-4 py-2 hover:bg-outline_blue hover:text-white',
@@ -44,6 +47,7 @@ function Button(props) {
 		case 'standard':
 			return (
 				<button
+					type={type}
 					onClick={callback}
 					className={c(
 						'transition-all duration-200 text-white rounded p-1 hover:bg-gray-100 hover:bg-opacity-10',

@@ -4,24 +4,24 @@ import Tabs from './components/Tabs'
 import { Views } from './types'
 import _map from 'lodash/map'
 import Post from '../../../Home/components/Post'
-import { useAsync } from 'react-use'
-import { fetchHomePosts } from '../../../Home/utils/home-utils'
-import { CircularProgress as Loader } from '@material-ui/core'
+// import { useAsync } from 'react-use'
+// import { fetchHomePosts } from '../../../Home/utils/home-utils'
+// import { CircularProgress as Loader } from '@material-ui/core'
 
 function PerformanceDetails(props) {
 	const { className, content } = props
 	const [view, setView] = useState(Views.Posts)
+	const posts = content.posts
+	const userdata = content.userdata
 
-	const { loading, value: Posts } = useAsync(() => fetchHomePosts())
+	// const { loading, value: Posts } = useAsync(() => fetchHomePosts())
 	const renderView = () => {
 		if (view === Views.Posts) {
 			return (
 				<div className='flex flex-col gap-y-6 mb-8 text-white'>
-					{loading ? (
-						<Loader className='mx-auto' color='inherit' />
-					) : (
-						_map(Posts, (post) => <Post key={post.id} {...post} />)
-					)}
+					{_map(posts, (post) => (
+						<Post key={post.id} {...post} />
+					))}
 				</div>
 			)
 		}
@@ -38,7 +38,7 @@ function PerformanceDetails(props) {
 			<Tabs
 				view={view}
 				toggleView={setView}
-				content={content}
+				content={userdata}
 				className={'w-full'}
 			/>
 			<div className='h-full overflow-y-scroll mt-2'>{renderView()}</div>
@@ -46,4 +46,4 @@ function PerformanceDetails(props) {
 	)
 }
 
-export default PerformanceDetails
+export default React.memo(PerformanceDetails)

@@ -1,7 +1,7 @@
 import React from 'react'
 import AvatarExternal from '@material-ui/core/Avatar'
-import dummy_creator from '../../assets/images/creator_dummy.png'
 import { makeStyles } from '@material-ui/core/styles'
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 
 const useStyles = makeStyles(() => ({
 	small: {
@@ -23,10 +23,12 @@ const useStyles = makeStyles(() => ({
 
 function Avatar(props) {
 	const classes = useStyles()
-	const { src = dummy_creator, size = 'small', variant = 'normal' } = props
+	const { src, size = 'small', variant = 'normal' } = props
 
-	if (variant === 'normal')
+	if (variant === 'normal') {
+		if (!src) return <AccountCircleOutlinedIcon />
 		return <AvatarExternal src={src} className={classes[size]} />
+	}
 
 	if (variant === 'display')
 		return (

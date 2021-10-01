@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import SearchIcon from '@material-ui/icons/Search'
 import { Close } from '@material-ui/icons'
 import Button from 'components/Button'
-import { useThrottleFn, useToggle } from 'react-use'
+import { useThrottle, useToggle } from 'react-use'
 import { default as Portal } from 'react-portalize'
 import SearchResultDetails from './components/SearchResultDetails'
 
@@ -13,9 +13,8 @@ const closeIconStyles = {
 function SearchPlayer(props) {
 	const [open, toggle] = useToggle(false)
 	const [searchString, setSearch] = useState('')
-	const [throttledValue, setThrottledValue] = useState('')
 
-	useThrottleFn(() => setThrottledValue(searchString), 500, [searchString])
+	const throttledValue = useThrottle(searchString, 1500)
 
 	const onChange = useCallback(
 		(_event) => {

@@ -1,13 +1,16 @@
 import React from 'react'
 import _map from 'lodash/map'
 import Post from '../Post'
-import { fetchHomePosts } from '../../utils/home-utils'
-import { useAsync } from 'react-use'
+// import { fetchHomePosts } from '../../utils/home-utils'
+// import { useAsync } from 'react-use'
 import { CircularProgress as Loader } from '@material-ui/core'
 import Stories from '../Story'
+import useHomeData from '../../hooks/useHomeData'
 
 function Feed() {
-	const { loading, value: Posts } = useAsync(() => fetchHomePosts())
+	// const { loading, value: Posts } = useAsync(() => fetchHomePosts())
+	const { loading, posts } = useHomeData()
+
 	const greetUser = () => (
 		<p className='text-primary text-white my-10'>Welcome back</p>
 	)
@@ -19,7 +22,7 @@ function Feed() {
 				{loading ? (
 					<Loader className='mx-auto' color='inherit' />
 				) : (
-					_map(Posts, (post) => <Post key={post.id} {...post} />)
+					_map(posts, (post) => <Post key={post.id} {...post} />)
 				)}
 			</div>
 		</div>

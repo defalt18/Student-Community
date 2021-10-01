@@ -18,7 +18,10 @@ function Stories() {
 					<p className='text-secondary'>No stories to show...</p>
 				) : (
 					_map(Stories, (story) => (
-						<Button className='flex flex-col gap-y-3 items-center'>
+						<Button
+							key={story.id}
+							className='flex flex-col gap-y-3 items-center'
+						>
 							<Avatar
 								src={story.creator.image}
 								variant='display'

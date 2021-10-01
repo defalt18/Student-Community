@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import {
 	Home,
-	SignIn,
-	SignUp,
+	// SignIn,
+	// SignUp,
 	Polling,
 	Settings,
 	Resources,
@@ -17,34 +17,33 @@ import {
 	Prof
 } from './pages'
 import NewProfile from './pages/NewProfile'
+import SignIn from 'pages/Auth/SignIn'
+import SignUp from 'pages/Auth/SignUp'
 import * as ROUTES from './constants/routes'
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes'
 import { useAuthListener } from './hooks'
 import { Header, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
+import VerificationScreen from './pages/Auth/VerificationScreen'
 
 export default function App() {
 	const { user } = useAuthListener()
-	const [userImage, setUserImage] = useState(undefined)
-
-	useEffect(() => {
-		user &&
-			db
-				.collection('users')
-				.doc(user.uid)
-				.onSnapshot((snapshot) => setUserImage(snapshot.data().image))
-	}, [user, setUserImage])
+	const userImage = ''
+	// const [userImage, setUserImage] = useState(undefined)
+	//
+	// useEffect(() => {
+	// 	user &&
+	// 		db
+	// 			.collection('users')
+	// 			.doc(user.uid)
+	// 			.onSnapshot((snapshot) => setUserImage(snapshot.data().image))
+	// }, [user, setUserImage])
 
 	return (
 		<Router>
 			<Switch>
-				<IsUserRedirect
-					user={user}
-					loggedInPath={ROUTES.HOME}
-					path={ROUTES.SIGN_IN}
-				>
-					<SignIn />
-				</IsUserRedirect>
+				<Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+				<Route exact path={ROUTES.SIGN_UP} component={SignUp} />
 				<IsUserRedirect
 					user={user}
 					loggedInPath={ROUTES.HOME}
@@ -255,6 +254,9 @@ export default function App() {
 					<Header uimg={userImage} />
 					<Sidebar />
 					<Settings />
+				</ProtectedRoute>
+				<ProtectedRoute user={user} exact path={ROUTES.VERIFY}>
+					<VerificationScreen />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
 					<Home imgs={userImage} user={user} />

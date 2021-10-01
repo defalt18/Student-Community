@@ -18,13 +18,17 @@ module.exports = {
 			component_core: '#212E52',
 			component_secondary_dark: 'rgba(33, 46, 82, 0.5)',
 			outline_blue: '#7DACF9',
+			app_white: '#E8F0FD',
 			...colors
 		},
 		extend: {
 			fontFamily: {
 				poppins_medium: "'Poppins Medium'",
 				poppins_head: "'Poppins Head'",
-				poppins_subtext: "'Poppins Subtext'"
+				poppins_subtext: "'Poppins Subtext'",
+				prompt_medium: "'Prompt Medium'",
+				prompt_head: "'Prompt Head'",
+				prompt_subtext: "'Prompt Subtext'"
 			}
 		}
 	},

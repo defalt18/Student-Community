@@ -17,15 +17,20 @@ function SearchResultDetails(props) {
 	const [content, setContent] = useState(null)
 
 	// TODO : Write a Search Function based on updated firebase
-	const searchFn = useCallback(async () => {
-		setFetching(true)
-		const data = await fetchHomeSuggestions()
-		setContent(data)
-		setFetching(false)
-	}, [setFetching, setContent])
+	const searchFn = useCallback(
+		async (string) => {
+			console.log('By func: ', string)
+			setFetching(true)
+			return await fetchHomeSuggestions()
+		},
+		[setFetching]
+	)
 
 	useEffect(() => {
-		searchFn()
+		searchFn(searchString).then((response) => {
+			setContent(response)
+			setFetching(false)
+		})
 	}, [searchString])
 
 	const onMouseDown = useCallback((_event) => _event.preventDefault(), [])
@@ -78,4 +83,4 @@ function SearchResultDetails(props) {
 	)
 }
 
-export default SearchResultDetails
+export default React.memo(SearchResultDetails)

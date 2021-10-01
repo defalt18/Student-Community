@@ -4,6 +4,9 @@ import { LogoutIcon, BackIcon } from 'components/Icons'
 import { useToggle } from 'react-use'
 import _map from 'lodash/map'
 import { VIEWS, OPTIONS, classNames } from './sidebar-data'
+import { useAuth } from 'reactfire'
+import { useHistory } from 'react-router-dom'
+import * as ROUTES from 'constants/routes'
 
 const Option = ({ id, label, icon, callback, open, activeItem }) => (
 	<button
@@ -20,10 +23,17 @@ const Option = ({ id, label, icon, callback, open, activeItem }) => (
 )
 
 function NewSidebar() {
+	const history = useHistory()
 	const [open, toggle] = useToggle(false)
+	const auth = useAuth()
 	const [activeItem, setItem] = useState(VIEWS.HOME)
 
 	const onClick = useCallback((id) => setItem(id), [setItem])
+
+	const onClickLogout = useCallback(async () => {
+		await auth.signOut()
+		history.replace(ROUTES.SIGN_IN)
+	}, [auth, history])
 
 	return (
 		<div
@@ -50,6 +60,7 @@ function NewSidebar() {
 				/>
 			))}
 			<button
+				onClick={onClickLogout}
 				className={c(
 					'flex items-center gap-x-6 mt-auto mx-4 text-secondary p-4 justify-center border border-component_core rounded'
 				)}

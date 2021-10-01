@@ -16,7 +16,7 @@ function Suggestions() {
 			) : (
 				<div className='h-60 overflow-y-scroll flex flex-col gap-y-2'>
 					{_map(suggests, (suggest) => (
-						<UserCard {...suggest} />
+						<UserCard key={suggest.id} {...suggest} />
 					))}
 				</div>
 			)}
