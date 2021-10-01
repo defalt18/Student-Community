@@ -9,7 +9,8 @@ import './index.css'
 
 render(
 	<React.StrictMode>
-		<FirebaseAppProvider firebaseConfig={config}>
+		<FirebaseAppProvider firebaseConfig={config.dev}>
+			<CssBaseline />
 			<App />
 		</FirebaseAppProvider>
 	</React.StrictMode>,

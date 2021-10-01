@@ -1,5 +1,6 @@
 export const HOME = '/'
 export const SIGN_IN = '/signin'
+export const VERIFY = '/verify-email'
 export const SIGN_UP = '/signup'
 export const POLLING = '/polling'
 export const clubs = '/clubs'

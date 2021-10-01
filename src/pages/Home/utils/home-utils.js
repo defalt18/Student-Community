@@ -1,4 +1,4 @@
-import { Posts, Stories } from '../fixtures/feed-data'
+import { Posts, Stories, Suggestions } from '../fixtures/feed-data'
 
 export const fetchHomePosts = async () => {
 	return new Promise((resolve) => {
@@ -11,6 +11,13 @@ export const fetchHomeStories = async () => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			resolve(Stories)
+		}, 1000)
+	})
+}
+export const fetchHomeSuggestions = async () => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(Suggestions)
 		}, 1000)
 	})
 }

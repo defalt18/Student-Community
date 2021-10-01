@@ -35,7 +35,27 @@ li {
 }
 @font-face {
     font-family: 'Poppins Subtext';
-    src: url('assets/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+    src: url('assets/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Prompt Medium';
+    src: url('assets/fonts/Prompt/Prompt-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Prompt Head';
+    src: url('assets/fonts/Prompt/Prompt-SemiBold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Prompt Subtext';
+    src: url('assets/fonts/Prompt/Prompt-Regular.ttf') format('truetype');
+}
+
+
+.text-prompt {
+    font-family: 'Prompt Head';
+    font-size: 54px;
+    line-height: 65px;
 }
 
 .text-primary {
@@ -44,9 +64,21 @@ li {
     line-height: 28.8px;
 }
 
+.text-primary-02 {
+    font-family: 'Poppins Medium';
+    font-size: 20px;
+    line-height: 30px;
+}
+
 .text-secondary {
     font-family: 'Poppins Medium';
     font-size: 14px;
+    line-height: 21px;
+}
+
+.text-secondary-02 {
+    font-family: 'Poppins Medium';
+    font-size: 16px;
     line-height: 21px;
 }
 
@@ -56,9 +88,73 @@ li {
     line-height: 15px;
 }
 
-.cap-370 {
-    min-width: 300px;
-    max-width: 350px;
+.text-tertiary-bold {
+    font-family: 'Poppins Medium';
+    font-size: 10px;
+    line-height: 15px;
 }
 
+.background-inherit {
+    background-color: transparent;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+select.form {
+    background-image: url("./assets/images/drop-arrow.svg");
+    background-position:
+            calc(100% - 10px) calc(1rem),
+            calc(100% - 10px) calc(1rem),
+            calc(100% - .5em) .5em;
+    background-size:
+            15px 15px,
+            15px 15px,
+            1.5rem 1.5rem;
+    background-repeat: no-repeat;
+}
 
+.button-border {
+    border: 1px solid #1b57f3;
+}
+
+.w-525 {
+    min-width: 525px;
+}
+
+.button-border:hover {
+    border: 1px solid #7DACF9;
+    background: transparent;
+}
+
+@keyframes grow {
+    0% {
+        width: 6rem;
+    }
+    100% {
+        width: 258px;
+    }
+}
+
+.new-sidebar {
+    animation: grow 150ms linear;
+    width: 258px;
+}
+
+@keyframes shrink {
+    0% {
+        width: 258px;
+    }
+    100% {
+        width: 6rem;
+    }
+}
+
+.new-sidebar-ducked {
+    animation: shrink 150ms linear;
+    width: 6rem;
+}
+
+.w-120 {
+    width: 35rem;
+}

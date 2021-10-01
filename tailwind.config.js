@@ -5,18 +5,30 @@ module.exports = {
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		colors: {
-			body_blue: '#00081C',
-			header_blue: '#1B2642',
-			component_blue: 'rgba(49,55,69,0.5)',
+			light_blue: '#4a7cff',
+			darker_blue: '#1b57f3',
+			body_blue: '#000613',
+			header_blue: '#16213E',
+			component_blue_full: '#21293E',
+			component_blue: 'rgba(33, 41, 62, 0.5)',
 			text_placeholder: '#C4C4C4',
 			dark_blue: '#001439',
+			header_border_blue: '#283A68',
+			component_secondary: 'rgba(33, 46, 82, 0.1)',
+			component_core: '#212E52',
+			component_secondary_dark: 'rgba(33, 46, 82, 0.5)',
+			outline_blue: '#7DACF9',
+			app_white: '#E8F0FD',
 			...colors
 		},
 		extend: {
 			fontFamily: {
 				poppins_medium: "'Poppins Medium'",
 				poppins_head: "'Poppins Head'",
-				poppins_subtext: "'Poppins Subtext'"
+				poppins_subtext: "'Poppins Subtext'",
+				prompt_medium: "'Prompt Medium'",
+				prompt_head: "'Prompt Head'",
+				prompt_subtext: "'Prompt Subtext'"
 			},
 			gridTemplateRows: {
 				'layout-1': 'auto calc(100vh - 60px)'
@@ -27,7 +39,9 @@ module.exports = {
 		}
 	},
 	variants: {
-		extend: {}
+		extend: {
+			width: ['responsive', 'hover', 'focus']
+		}
 	},
 	plugins: []
 }
