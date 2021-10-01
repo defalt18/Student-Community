@@ -1,10 +1,8 @@
 .search-result {
     position: absolute;
     margin-top: 10px;
-    width: 300px;
     max-height: 80vh;
-    display: block;
-    background-color: black;
+    background-color: #111136;
     border-radius: 4px;
     overflow: auto;
 }
@@ -12,7 +10,7 @@
 .search-result > .user-link {
     width: inherit;
     justify-content: left;
-    padding: 5px;
+    padding: 8px 10px;
 }
 
 .search-result > .user-link:hover {

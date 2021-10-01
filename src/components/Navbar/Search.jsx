@@ -3,7 +3,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 
 import { UserList } from '../Profile/User'
-import DA_Logo from './DA-logo.png'
 import './Search.css'
 import { getAllUsersDetails } from '../../services/user-utils'
 
@@ -14,33 +13,58 @@ function SearchBar() {
 
 	useEffect(() => {
 		if (open) {
-			inpRef.current.focus()
+			inpRef.current.focus();
 		}
 	}, [open])
+	
+	useEffect(() => {
+		if (open) {
+			window.addEventListener('click', close_handler)
+			
+			return () => {
+				window.removeEventListener('click', close_handler)
+			}
+		}
+	})
 
-	function blur_handler(e) {}
+	function close_handler() {
+		setText("");
+		setOpen(false);
+	}
+	
+	function click_handler(e) {
+		e.stopPropagation();
+	}
 
 	return (
-		<div className='flex-center'>
-			{open ? (
-				<div className='search-panel'>
-					<input
-						type='text'
-						className='inp-search'
-						placeholder='Search people here'
-						value={text}
-						ref={inpRef}
-						onBlur={blur_handler}
-						onChange={(e) => {
-							setText(e.target.value.trim())
-						}}
-					/>
-					<SearchResult query={text} />
-				</div>
-			) : null}
-			<button className='btn-icon' onClick={() => setOpen(!open)}>
-				{open ? <CloseIcon /> : <SearchIcon />}
-			</button>
+		<div onClick={click_handler}>
+			<div className={`flex place-items-center px-2 rounded ${open ? 'bg-sky-800 w-96' : ''}`}>
+				<button className='bg-transparent' onClick={() => setOpen(true)}>
+					<SearchIcon />
+				</button>
+				{
+					open &&
+					<>
+						<input
+							type='text'
+							className='inp-search flex-grow'
+							placeholder='Search people here'
+							value={text}
+							ref={inpRef}
+							onChange={(e) => {
+								setText(e.target.value)
+							}}
+						/>
+						<button className='bg-transparent' onClick={close_handler}>
+							<CloseIcon />
+						</button>
+					</>
+				}
+			</div>
+			{
+				open &&
+				<SearchResult query={text.trim()} />
+			}
 		</div>
 	)
 }
@@ -63,9 +87,10 @@ function SearchResult({ query }) {
 	}, [query])
 
 	return (
-		<div className='search-result'>
-			{!found && query && <div className='not-found'>User Not Found</div>}
+		<div className='search-result w-96'>
+			{/* {query && !found && <div className='not-found'>User Not Found</div>} */}
 			{query && <UserList users={result} />}
+			{/* loading animation */}
 		</div>
 	)
 }

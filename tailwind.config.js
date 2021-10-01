@@ -19,11 +19,11 @@ module.exports = {
 				poppins_subtext: "'Poppins Subtext'"
 			},
 			gridTemplateRows: {
-			   'layout-1': 'auto calc(100vh - 60px)',
+				'layout-1': 'auto calc(100vh - 60px)'
 			},
 			gridTemplateColumns: {
-				'layout-2': 'auto 1fr auto',
-			 }
+				'layout-2': 'auto 1fr auto'
+			}
 		}
 	},
 	variants: {
