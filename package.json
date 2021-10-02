@@ -41,7 +41,7 @@
     "scripts": {
         "start": "craco start",
         "lintfix": "eslint --fix --ext .js,.jsx .",
-        "build": "craco build",
+        "build": "GENERATE_SOURCEMAP=false craco build",
         "test": "craco test",
         "eject": "react-scripts eject"
     },
