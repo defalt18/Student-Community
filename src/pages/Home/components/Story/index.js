@@ -27,7 +27,9 @@ function Stories() {
 								variant='display'
 								size='medium'
 							/>
-							<p className='text-secondary text-white'>{story.creator.name}</p>
+							<p className='text-secondary text-white truncate'>
+								{story.creator.name}
+							</p>
 						</Button>
 					))
 				)}
