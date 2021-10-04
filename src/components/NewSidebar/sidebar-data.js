@@ -7,14 +7,6 @@ import {
 	PollsIcon
 } from '../Icons'
 
-export const VIEWS = {
-	HOME: 'home',
-	ACADEMIC: 'academic',
-	PEOPLE: 'clubs',
-	EVENTS: 'events',
-	POLL: 'polls'
-}
-
 export const OPTIONS = [
 	{
 		id: 'home',

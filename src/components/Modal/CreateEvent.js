@@ -5,7 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import EventMake from './EventMake'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		modal: {
 			display: 'flex',

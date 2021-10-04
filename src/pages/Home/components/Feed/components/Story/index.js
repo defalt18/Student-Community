@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAsync } from 'react-use'
-import { fetchHomeStories } from '../../utils/home-utils'
+import { fetchHomeStories } from '../../../../utils/home-utils'
 import { CircularProgress as Loader } from '@material-ui/core'
 import _map from 'lodash/map'
 import { isEmpty } from 'lodash'

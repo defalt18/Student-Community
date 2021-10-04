@@ -1,9 +1,9 @@
 import React from 'react'
 import { useAsync } from 'react-use'
-import { fetchHomeSuggestions } from '../../utils/home-utils'
+import { fetchHomeSuggestions } from '../../../../utils/home-utils'
 import { CircularProgress as Loader } from '@material-ui/core'
 import _map from 'lodash/map'
-import UserCard from '../../../../components/UserCards'
+import UserCard from '../../../../../../components/UserCards'
 
 function Suggestions() {
 	const { loading, value: suggests } = useAsync(() => fetchHomeSuggestions())

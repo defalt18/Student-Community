@@ -1,14 +1,12 @@
 import React from 'react'
 import _map from 'lodash/map'
-import Post from '../Post'
-// import { fetchHomePosts } from '../../utils/home-utils'
-// import { useAsync } from 'react-use'
+import Post from './components/Post'
+
 import { CircularProgress as Loader } from '@material-ui/core'
-import Stories from '../Story'
+import Stories from './components/Story'
 import useHomeData from '../../hooks/useHomeData'
 
 function Feed() {
-	// const { loading, value: Posts } = useAsync(() => fetchHomePosts())
 	const { loading, posts } = useHomeData()
 
 	const greetUser = () => (

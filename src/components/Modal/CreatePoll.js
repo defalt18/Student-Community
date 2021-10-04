@@ -7,7 +7,7 @@ import Pollmake from './Pollmake'
 // import Avatar from '@material-ui/core/Avatar';
 import './Pollmake.css'
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
 	createStyles({
 		modal: {
 			display: 'flex',

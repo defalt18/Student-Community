@@ -3,10 +3,11 @@ import c from 'classnames'
 import { LogoutIcon, BackIcon } from 'components/Icons'
 import { useToggle } from 'react-use'
 import _map from 'lodash/map'
-import { VIEWS, OPTIONS, classNames } from './sidebar-data'
+import { OPTIONS, classNames } from './sidebar-data'
 import { useAuth } from 'reactfire'
 import { useHistory } from 'react-router-dom'
 import * as ROUTES from 'constants/routes'
+import { VIEWS } from '../../pages/Home/fixtures/home-model'
 
 const Option = ({ id, label, icon, callback, open, activeItem }) => (
 	<button
@@ -22,11 +23,12 @@ const Option = ({ id, label, icon, callback, open, activeItem }) => (
 	</button>
 )
 
-function NewSidebar() {
+function NewSidebar(props) {
 	const history = useHistory()
 	const [open, toggle] = useToggle(false)
 	const auth = useAuth()
-	const [activeItem, setItem] = useState(VIEWS.HOME)
+	// const [activeItem, setItem] = useState(VIEWS.HOME)
+	const { view: activeItem, navigator: setItem } = props
 
 	const onClick = useCallback((id) => setItem(id), [setItem])
 
@@ -72,4 +74,4 @@ function NewSidebar() {
 	)
 }
 
-export default NewSidebar
+export default React.memo(NewSidebar)

@@ -1,6 +1,6 @@
 import React from 'react'
 import upcomingEvent from '../../../../assets/images/dummy_event_image.png'
-import Suggestions from '../Suggestions'
+import Suggestions from '../Feed/components/Suggestions'
 
 function EventFeed() {
 	return (

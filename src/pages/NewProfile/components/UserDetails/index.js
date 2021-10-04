@@ -18,7 +18,7 @@ import {
 import _isEmpty from 'lodash/isEmpty'
 
 function UserDetails(props) {
-	const { className, content } = props
+	const { className, content, user } = props
 	const {
 		image,
 		username,
@@ -30,8 +30,11 @@ function UserDetails(props) {
 		course,
 		batch,
 		degree,
-		skills
+		skills,
+		NO_ID_FIELD: visitorId
 	} = content.userdata
+
+	const authorisation = visitorId === user.uid
 
 	return (
 		<div className={c('flex flex-col items-center px-24', className)}>
@@ -39,11 +42,19 @@ function UserDetails(props) {
 			<p className='text-primary-02 text-white mt-4'>{username}</p>
 			<Tag className='mt-2' variant='Student' />
 			<p className='text-secondary text-white mt-3'>{bio}</p>
-			<Button
-				text='Edit Profile'
-				variant='outline'
-				className='text-secondary w-full mt-3'
-			/>
+			{authorisation ? (
+				<Button
+					text='Edit Profile'
+					variant='outline'
+					className='text-secondary w-full mt-3'
+				/>
+			) : (
+				<Button
+					text='Follow'
+					variant='outline'
+					className='text-secondary w-full mt-3'
+				/>
+			)}
 			<Divider className='mt-6' />
 			<p className='text-secondary text-outline_blue self-start my-2'>ABOUT</p>
 			<div className='flex flex-col gap-y-2 self-start mt-2'>

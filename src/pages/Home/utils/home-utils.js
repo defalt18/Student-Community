@@ -1,4 +1,4 @@
-import { Posts, Stories, Suggestions } from '../fixtures/feed-data'
+import { Posts, Stories, Suggestions } from '../fixtures/home-model'
 
 export const fetchHomePosts = async () => {
 	return new Promise((resolve) => {

@@ -35,6 +35,17 @@
     line-height: 65px;
 }
 
+.prompt-h2 {
+    font-family: 'Prompt Head';
+    font-size: 36px;
+    line-height: 44px;
+}
+.prompt-h4 {
+    font-family: 'Prompt Head';
+    font-size: 29px;
+    line-height: 120%;
+}
+
 .text-primary {
     font-family: 'Poppins Head';
     font-size: 24px;
@@ -96,7 +107,7 @@ select.form {
 }
 
 .w-525 {
-    min-width: 525px;
+    min-width: 32.813rem;
 }
 
 .button-border:hover {
@@ -109,18 +120,18 @@ select.form {
         width: 6rem;
     }
     100% {
-        width: 258px;
+        width: 16.125rem;
     }
 }
 
 .new-sidebar {
     animation: grow 150ms linear;
-    width: 258px;
+    width: 16.125rem;
 }
 
 @keyframes shrink {
     0% {
-        width: 258px;
+        width: 16.125rem;
     }
     100% {
         width: 6rem;

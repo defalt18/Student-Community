@@ -3,13 +3,21 @@ import picture from '../../../assets/images/dummy_post_image.png'
 import Joshua from '../../../assets/images/dummy_story_a.png'
 import Lilly from '../../../assets/images/dummy_story_b.png'
 
+export const VIEWS = {
+	HOME: 'home',
+	ACADEMIC: 'academic',
+	CLUBS: 'clubs',
+	EVENTS: 'events',
+	POLL: 'polls'
+}
+
 export const Posts = [
 	{
 		id: 'AxByc32541',
 		creator: {
 			name: 'Emma_123',
 			image: creator_dummy,
-			uid: 'dvsdsdv8932'
+			uid: 'dvsdsdv932'
 		},
 		timestamp: 1631434411749,
 		caption: 'Fun day!',
