@@ -32,7 +32,7 @@ function SearchPlayer(props) {
 
 	return (
 		<Portal container='#search_header'>
-			<div className='w-screen h-screen bg-black bg-opacity-50 absolute z-20 top-0 bottom-0 left-0 right-0'>
+			<div className='w-screen h-screen bg-black bg-opacity-50 absolute z-30 top-0 bottom-0 left-0 right-0'>
 				<div className='relative top-2 mx-auto flex gap-x-4 p-2 w-120 items-center bg-component_core text-white rounded'>
 					<SearchIcon color='inherit' />
 					<input

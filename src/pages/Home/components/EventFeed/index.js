@@ -1,13 +1,14 @@
 import React from 'react'
-import upcomingEvent from '../../../../assets/images/dummy_event_image.png'
+import upcomingEvent from 'assets/images/dummy_event_image.png'
 import Suggestions from '../Feed/components/Suggestions'
+import MediaContainer from 'components/Media'
 
 function EventFeed() {
 	return (
 		<div className='flex-1 bg-component_blue h-screen px-3 pt-20 overflow-y-scroll'>
 			<div className='bg-header_blue p-5 rounded'>
 				<p className='text-secondary text-outline_blue mb-4'>Upcoming Events</p>
-				<img
+				<MediaContainer
 					src={upcomingEvent}
 					alt='Upcoming Event'
 					className='max-h-64 w-full object-cover rounded'
