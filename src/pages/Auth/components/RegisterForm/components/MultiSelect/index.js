@@ -3,48 +3,75 @@ import React from 'react'
 import Chip from '@material-ui/core/Chip'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-export default function FixedTags() {
+const theme = createTheme();
+
+theme.overrides = {
+	MuiAutocomplete: {
+		root: {
+			backgroundColor: 'rgb(0, 6, 19)',
+		}
+	},
+	MuiOutlinedInput: {
+		notchedOutline: {
+			borderColor: 'white',
+		},
+	},
+	MuiFormLabel: {
+		root: {
+			color: 'white',
+			"&$focused": {
+				color: 'white',
+			}
+		},
+		focused: {}
+	},
+	MuiChip: {
+		root: {
+			backgroundColor: 'rgb(170, 176, 189)'
+		}
+	}
+};
+
+export default function FixedTags({ label, placeholder }) {
 	const fixedOptions = []
 	const [value, setValue] = React.useState([...fixedOptions])
 
 	return (
-		<Autocomplete
-			multiple
-			id='fixed-tags-demo'
-			value={value}
-			onChange={(event, newValue) => {
-				setValue([
-					...fixedOptions,
-					...newValue.filter((option) => fixedOptions.indexOf(option) === -1)
-				])
-			}}
-			options={SKILLS}
-			getOptionLabel={(option) => option}
-			renderTags={(tagValue, getTagProps) =>
-				tagValue.map((option, index) => (
-					<Chip
-						label={option}
-						{...getTagProps({ index })}
-						disabled={fixedOptions.indexOf(option) !== -1}
+		<MuiThemeProvider theme={theme} >
+			<Autocomplete
+				multiple
+				id='fixed-tags-demo'
+				value={value}
+				onChange={(event, newValue) => {
+					setValue([
+						...fixedOptions,
+						...newValue.filter((option) => fixedOptions.indexOf(option) === -1)
+					])
+				}}
+				options={SKILLS}
+				getOptionLabel={(option) => option}
+				renderTags={(tagValue, getTagProps) =>
+					tagValue.map((option, index) => (
+						<Chip
+							label={option}
+							{...getTagProps({ index })}
+							disabled={fixedOptions.indexOf(option) !== -1}
+						/>
+					))
+				}
+				fullWidth
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label={label}
+						variant='outlined'
+						placeholder={placeholder}
 					/>
-				))
-			}
-			style={{ width: '100%' }}
-			renderInput={(params) => (
-				<TextField
-					{...params}
-					label='Fixed tag'
-					variant='outlined'
-					placeholder='Favorites'
-					InputProps={{
-						className: {
-							color: 'lightgray'
-						}
-					}}
-				/>
-			)}
-		/>
+				)}
+			/>
+		</MuiThemeProvider>
 	)
 }
 

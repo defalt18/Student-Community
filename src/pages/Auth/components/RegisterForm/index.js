@@ -239,7 +239,8 @@ function RegisterForm() {
 					/>
 				</div>
 				<MultiSelect
-					placeholder='Skills'
+					label='Skills'
+					placeholder='Select Skills'
 					name='skills'
 					value={registration.values.skills}
 					error={registration.touched.skills && registration.errors.skills}
