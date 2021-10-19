@@ -65,7 +65,7 @@ function Post(props) {
 						{creator.name}
 					</Link>
 					<p className='text-tertiary text-text_placeholder'>
-						{formatDistanceToNow(timestamp.seconds, { addSuffix: true })}
+						{formatDistanceToNow(timestamp, { addSuffix: true })}
 					</p>
 				</div>
 			</div>
@@ -73,7 +73,11 @@ function Post(props) {
 				className='bg-component_secondary text-secondary text-white p-4'
 				dangerouslySetInnerHTML={{ __html: caption }}
 			/>
-			<MediaContainer src={image} />
+			<MediaContainer
+				src={image}
+				minHeight={300}
+				className='max-h-96 object-cover'
+			/>
 			<div className='p-4'>
 				{renderPerformance()}
 				<div className='flex flex-row gap-x-6 items-center px-3 py-2 bg-header_blue rounded w-full'>

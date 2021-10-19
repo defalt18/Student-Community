@@ -73,6 +73,13 @@ export const updateUserAbout = async (updatedUser) => {
 	return status || SUCCESS
 }
 
+export const uploadImageInDirectory = async (directory, id, picture) => {
+	if (!picture) return undefined
+	const nameOfPicture = picture.name + '_' + id
+	await storage.ref(`${directory}/${nameOfPicture}`).put(picture)
+	return await storage.ref(directory).child(nameOfPicture).getDownloadURL()
+}
+
 export const uploadImage = async (picture) => {
 	const nameOfPicture = (picture.name + Date.now()).toString()
 	await storage.ref(`images/${nameOfPicture}`).put(picture)
