@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Avatar from 'components/Avatar'
 import { formatDistanceToNow } from 'date-fns'
 import Button from 'components/Button'
 import { Link } from 'react-router-dom'
 import _map from 'lodash/map'
 import _size from 'lodash/size'
+import _keys from 'lodash/keys'
 import _has from 'lodash/has'
 import { POST_OPTIONS } from './post-model'
 import MediaContainer from 'components/Media'
 import { useAuthListener } from 'hooks'
-import { db } from 'lib/firebase.prod'
+import { useToggle } from 'react-use'
+import isEmpty from 'lodash/isEmpty'
+import { updatePostPerformance } from 'services/post-utils'
+import _isEmpty from 'lodash/isEmpty'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -22,21 +26,50 @@ function Post(props) {
 		creatorId,
 		NO_ID_FIELD
 	} = props
+	const [showComments, toggle] = useToggle(false)
+	const [postComment, setComment] = React.useState('')
+
+	const onChange = React.useCallback(
+		(_event) => {
+			const { target } = _event
+			setComment(target.value)
+		},
+		[setComment]
+	)
+
+	const onUploadComment = useCallback(async () => {
+		if (!isEmpty(postComment)) {
+			performance.comments = {
+				...performance.comments,
+				[user.uid]: {
+					name: creator.name,
+					content: postComment
+				}
+			}
+			await updatePostPerformance(NO_ID_FIELD, performance)
+			setComment('')
+		} else alert('Add a comment first')
+	}, [performance, NO_ID_FIELD, user.uid, postComment, creator.name])
 
 	const CALLBACKS = {
 		likes: async () => {
 			if (_has(performance.likes, user.uid)) delete performance.likes[user.uid]
 			else performance.likes = { ...performance.likes, [user.uid]: 1 }
 
-			await db.collection('posts').doc(NO_ID_FIELD).update({ performance })
+			await updatePostPerformance(NO_ID_FIELD, performance)
+		},
+		comments: () => {
+			toggle()
 		}
 	}
+
 	const renderPerformance = () => (
-		<div className='flex flex-row items-center py-3 pb-8 justify-between'>
+		<div className='flex flex-row items-center py-3 pb-6 justify-between'>
 			{_map(POST_OPTIONS, (option) => (
 				<Button
 					callback={CALLBACKS[option.id]}
 					key={option.id}
+					id={option.id}
 					className='flex flex-row items-center gap-x-2 text-white p-2'
 				>
 					{option.id === 'likes'
@@ -80,12 +113,36 @@ function Post(props) {
 			/>
 			<div className='p-4'>
 				{renderPerformance()}
+				{showComments && !_isEmpty(performance.comments) && (
+					<div className='border-t border-component_core py-4'>
+						{_map(_keys(performance.comments), (user) => (
+							<Link
+								to={`/${user}/new-profile`}
+								className='flex items-center gap-x-2'
+							>
+								<p className='text-outline_blue text-primary-03'>
+									{performance.comments[user].name}
+								</p>
+								<p className='text-white text-secondary'>
+									{performance.comments[user].content}
+								</p>
+							</Link>
+						))}
+					</div>
+				)}
 				<div className='flex flex-row gap-x-6 items-center px-3 py-2 bg-header_blue rounded w-full'>
 					<input
 						className='bg-header_blue text-text_placeholder border-none w-full text-white outline-none'
 						placeholder='Add a comment'
+						value={postComment}
+						onChange={onChange}
 					/>
-					<Button text='Post' size='small' variant='filled' />
+					<Button
+						text='Post'
+						size='small'
+						variant='filled'
+						callback={onUploadComment}
+					/>
 				</div>
 			</div>
 		</div>

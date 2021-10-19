@@ -70,6 +70,12 @@
     line-height: 30px;
 }
 
+.text-primary-03 {
+    font-family: 'Poppins Head';
+    font-size: 14px;
+    line-height: 21px;
+}
+
 .text-secondary {
     font-family: 'Poppins Subtext';
     font-size: 14px;

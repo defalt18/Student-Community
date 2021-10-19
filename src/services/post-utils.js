@@ -31,6 +31,10 @@ export const createPost = async (post, postId) => {
 	return status || SUCCESS
 }
 
+export const updatePostPerformance = async (postID, performance) => {
+	await db.collection('posts').doc(postID).update({ performance })
+}
+
 export const listenToPostCommentsForId = (id, setter) => {
 	const listener = db
 		.collection('posts')
