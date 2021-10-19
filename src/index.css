@@ -52,6 +52,12 @@
     line-height: 120%;
 }
 
+.prompt-subtext {
+    font-family: 'Prompt Subtext';
+    font-size: 14px;
+    line-height: 21px;
+}
+
 .text-primary {
     font-family: 'Poppins Head';
     font-size: 24px;
@@ -65,14 +71,20 @@
 }
 
 .text-secondary {
-    font-family: 'Poppins Medium';
+    font-family: 'Poppins Subtext';
     font-size: 14px;
     line-height: 21px;
 }
 
 .text-secondary-02 {
-    font-family: 'Poppins Medium';
+    font-family: 'Poppins Subtext';
     font-size: 16px;
+    line-height: 21px;
+}
+
+.text-secondary-03 {
+    font-family: 'Poppins Subtext';
+    font-size: 12px;
     line-height: 21px;
 }
 
@@ -130,7 +142,7 @@ select.form {
         width: 6rem;
     }
     100% {
-        width: 16.125rem;
+        width: 15.625rem;
     }
 }
 
@@ -141,7 +153,7 @@ select.form {
 
 @keyframes shrink {
     0% {
-        width: 16.125rem;
+        width: 15.625rem;
     }
     100% {
         width: 6rem;
@@ -153,6 +165,18 @@ select.form {
     width: 6rem;
 }
 
+.feed-width {
+    min-width: 360px;
+    max-width: 460px;
+}
+
+.min-w-800 {
+    min-width: 800px;
+}
+
+.border-0-5 {
+    border: 0.5px solid rgba(255,255,255,0.5);
+}
 .w-120 {
     width: 35rem;
 }

@@ -7,7 +7,6 @@ import { OPTIONS, classNames } from './sidebar-data'
 import { useAuth } from 'reactfire'
 import { useHistory } from 'react-router-dom'
 import * as ROUTES from 'constants/routes'
-import { VIEWS } from '../../pages/Home/fixtures/home-model'
 
 const Option = ({ id, label, icon, callback, open, activeItem }) => (
 	<button
@@ -27,7 +26,6 @@ function NewSidebar(props) {
 	const history = useHistory()
 	const [open, toggle] = useToggle(false)
 	const auth = useAuth()
-	// const [activeItem, setItem] = useState(VIEWS.HOME)
 	const { view: activeItem, navigator: setItem } = props
 
 	const onClick = useCallback((id) => setItem(id), [setItem])
@@ -40,7 +38,7 @@ function NewSidebar(props) {
 	return (
 		<div
 			className={c(
-				'bg-component_blue flex flex-col gap-y-3 text-white w-24 pt-20 pb-4 overflow-hidden',
+				'bg-component_blue flex flex-col gap-y-3 text-white w-24 pt-24 pb-4 overflow-hidden',
 				open ? 'new-sidebar' : 'new-sidebar-ducked'
 			)}
 		>
@@ -64,7 +62,8 @@ function NewSidebar(props) {
 			<button
 				onClick={onClickLogout}
 				className={c(
-					'flex items-center gap-x-6 mt-auto mx-4 text-secondary p-4 justify-center border border-component_core rounded'
+					'flex items-center gap-x-4 mt-auto mx-4 p-4 text-secondary border border-component_core rounded',
+					open ? 'pl-8' : 'justify-center'
 				)}
 			>
 				<LogoutIcon />

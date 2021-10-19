@@ -54,7 +54,6 @@ function SignIn() {
 			_event.preventDefault()
 			toggle()
 			const { user, error } = await signInWithCredentials(auth, credentials)
-			console.log(user)
 			if (user?.emailVerified && error === 'SUCCESS') {
 				if (!user.emailVerified) history.push(VERIFY)
 				else history.replace(HOME)
@@ -80,7 +79,7 @@ function SignIn() {
 				</div>
 			</div>
 			<div className='pl-16'>
-				<form className='bg-black border border-white border-opacity-40 p-12 rounded flex flex-col justify-center w-525 h-5/6'>
+				<form className='bg-black bg-opacity-50 border-0-5 p-12 rounded flex flex-col justify-center w-525 h-5/6'>
 					<p className='text-primary text-white mb-12'>Sign In</p>
 					<Input
 						name='email'

@@ -10,10 +10,10 @@ function Feed() {
 	const { loading, posts } = useHomeData()
 
 	const greetUser = () => (
-		<p className='text-primary text-white my-10'>Welcome back</p>
+		<p className='prompt-h2 text-white my-10'>Welcome back</p>
 	)
 	return (
-		<div className='h-screen pb-10 w-7/12 flex-none pt-20 px-7 flex flex-col overflow-y-scroll'>
+		<div className='h-screen pb-10 flex-1 pt-24 px-7 flex min-w-800 flex-col overflow-y-scroll'>
 			<Stories />
 			{greetUser()}
 			<div className='flex flex-col gap-y-8 text-white'>
