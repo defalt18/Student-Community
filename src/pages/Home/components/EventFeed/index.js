@@ -5,7 +5,7 @@ import MediaContainer from 'components/Media'
 
 function EventFeed() {
 	return (
-		<div className='flex-1 bg-component_blue h-screen px-3 pt-20 overflow-y-scroll'>
+		<div className='bg-component_blue h-screen px-3 pt-24 overflow-y-scroll feed-width flex-1'>
 			<div className='bg-header_blue p-5 rounded'>
 				<p className='text-secondary text-outline_blue mb-4'>Upcoming Events</p>
 				<MediaContainer

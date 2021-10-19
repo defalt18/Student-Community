@@ -23,14 +23,17 @@ function NewHeader() {
 
 	const redirectToProfile = useCallback(
 		() => history.push(`/${user?.uid}/new-profile`),
-		[user.uid, history]
+		[user?.uid, history]
 	)
 
 	return (
 		<div className='z-20 fixed top-0 border-b border-header_border_blue bg-component_core w-screen flex items-center h-16 px-3'>
-			<Link to={HOME} className='w-40 flex text-decoration-none gap-x-2'>
+			<Link
+				to={HOME}
+				className='w-40 flex text-decoration-none gap-x-2 items-center'
+			>
 				<MediaContainer src={da_logo} className='h-10 w-auto object-contain' />
-				<p className='text-secondary text-white'>Student Community</p>
+				<p className='prompt-subtext text-white'>Student Community</p>
 			</Link>
 			<div className='ml-auto flex gap-x-4 text-white items-center'>
 				{user ? (

@@ -9,7 +9,7 @@ function Suggestions() {
 	const { loading, value: suggests } = useAsync(() => fetchHomeSuggestions())
 
 	return (
-		<div className='mt-4 text-white flex flex-col'>
+		<div className='mt-5 text-white flex flex-col'>
 			<p className='text-secondary text-outline_blue mb-3'>Suggestions</p>
 			{loading ? (
 				<Loader className='mx-auto mt-5' color='inherit' />

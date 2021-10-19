@@ -36,6 +36,6 @@ export const OPTIONS = [
 ]
 
 export const classNames = {
-	normal: 'flex items-center gap-x-5 text-secondary p-4 rounded mx-4 ',
+	normal: 'flex items-center gap-x-4 text-secondary p-4 rounded mx-4 ',
 	active: 'bg-header_blue'
 }

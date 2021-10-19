@@ -7,6 +7,7 @@ import Button from 'components/Button'
 import TextEditor from 'components/TextEditor'
 import { Photo } from 'components/Icons'
 import { VIEWS } from '../../types'
+import _isEmpty from 'lodash/isEmpty'
 
 function Creator(props) {
 	const { userdata, toggleView, toggle } = props
@@ -49,7 +50,6 @@ function Creator(props) {
 	const onAttachmentUpload = useCallback(
 		(_event) => {
 			const image = _head(_event.target.files)
-			// console.log(image)
 			setAttachments(image)
 		},
 		[setAttachments]
@@ -57,15 +57,17 @@ function Creator(props) {
 
 	const onUploadPost = useCallback(async () => {
 		const postID = uuid()
-		const imageURL = await uploadImageInDirectory('posts', postID, postImage)
-		const postContent = {
-			...postData,
-			caption: caption,
-			image: imageURL ?? '',
-			id: postID
-		}
-		await createPost(postContent, postID)
-		toggleView(VIEWS.Success)
+		if (caption !== `<p>Type Something</p>`) {
+			const imageURL = await uploadImageInDirectory('posts', postID, postImage)
+			const postContent = {
+				...postData,
+				caption: caption,
+				image: imageURL ?? '',
+				id: postID
+			}
+			await createPost(postContent, postID)
+			toggleView(VIEWS.Success)
+		} else alert('Add a caption!')
 	}, [postData, postImage, caption, toggleView])
 
 	return (
