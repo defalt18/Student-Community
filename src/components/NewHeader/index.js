@@ -9,10 +9,14 @@ import { Link, useHistory } from 'react-router-dom'
 import { useAuthListener } from 'hooks'
 import { useFirestore, useFirestoreDocData } from 'reactfire'
 import { HOME } from 'constants/routes'
+import { useToggle } from 'react-use'
+import Dialog from 'components/Dialog'
+import CreatePostDialog from './components/CreatePostDialog'
 
 function NewHeader() {
 	const { user } = useAuthListener()
 	const history = useHistory()
+	const [postAction, toggle] = useToggle(false)
 	const { data: userdata } = useFirestoreDocData(
 		useFirestore().collection('users').doc(user?.uid)
 	)
@@ -43,6 +47,7 @@ function NewHeader() {
 							variant='filled'
 							size='medium'
 							className='w-48 h-10 flex items-center justify-center'
+							callback={toggle}
 						/>
 					</>
 				) : (
@@ -54,6 +59,11 @@ function NewHeader() {
 					/>
 				)}
 			</div>
+			{postAction && (
+				<Dialog open={postAction} toggle={toggle}>
+					<CreatePostDialog toggle={toggle} userdata={userdata} />
+				</Dialog>
+			)}
 		</div>
 	)
 }

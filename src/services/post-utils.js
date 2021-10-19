@@ -26,11 +26,8 @@ export const fetchPostsForId = async (id) => {
 	return _map(collection.docs, (post) => ({ id: post.id, post: post.data() }))
 }
 
-export const createPost = async (post) => {
-	const status = await db
-		.collection('posts')
-		.add(post)
-		.catch((error) => error)
+export const createPost = async (post, postId) => {
+	const status = await db.collection('posts').doc(postId).set(post)
 	return status || SUCCESS
 }
 

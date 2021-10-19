@@ -26,6 +26,7 @@ module.exports = {
 				component_core: '#212E52',
 				component_secondary_dark: 'rgba(33, 46, 82, 0.5)',
 				outline_blue: '#7DACF9',
+				outline_dark: '#1B57F3',
 				app_white: '#E8F0FD'
 			}
 		}

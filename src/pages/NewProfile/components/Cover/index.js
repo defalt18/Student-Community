@@ -9,7 +9,11 @@ function Cover(props) {
 	const authorised = content?.userdata?.NO_ID_FIELD === user.uid
 	return (
 		<div className='relative w-full'>
-			<MediaContainer src={cover} className='h-24 object-cover' />
+			<MediaContainer
+				src={cover}
+				className='h-24 object-cover'
+				minHeight={150}
+			/>
 			<div className='z-10 w-full h-full absolute top-0 grid place-items-center'>
 				{authorised && (
 					<button
