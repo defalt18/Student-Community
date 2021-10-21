@@ -3,7 +3,8 @@ import upcomingEvent from 'assets/images/dummy_event_image.png'
 import Suggestions from '../Feed/components/Suggestions'
 import MediaContainer from 'components/Media'
 
-function EventFeed() {
+function EventFeed(props) {
+	const { loading, events } = props
 	return (
 		<div className='bg-component_blue h-screen px-3 pt-24 overflow-y-scroll feed-width flex-1'>
 			<div className='bg-header_blue p-5 rounded'>
@@ -21,4 +22,4 @@ function EventFeed() {
 	)
 }
 
-export default EventFeed
+export default React.memo(EventFeed)

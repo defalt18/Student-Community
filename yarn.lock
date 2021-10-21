@@ -10843,6 +10843,11 @@ react-infinite-scroll-component@6.1.0:
   dependencies:
     throttle-debounce "^2.1.0"
 
+react-insta-stories@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/react-insta-stories/-/react-insta-stories-2.2.5.tgz#fc25de578c188a613453a6e99b7bc84091efd464"
+  integrity sha512-nzdzexWByIvzLj3Px/uRkmMRy2KAiVVoFJMNM2fZMlGcenm/eCoQ1EFsTshvd/1VOW5S0q5nWtPrvRtTygMRwQ==
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"

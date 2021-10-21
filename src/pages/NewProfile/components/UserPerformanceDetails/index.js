@@ -4,9 +4,6 @@ import Tabs from './components/Tabs'
 import { Views } from './types'
 import _map from 'lodash/map'
 import Post from '../../../Home/components/Feed/components/Post'
-// import { useAsync } from 'react-use'
-// import { fetchHomePosts } from '../../../Home/utils/home-utils'
-// import { CircularProgress as Loader } from '@material-ui/core'
 
 function PerformanceDetails(props) {
 	const { className, content } = props
@@ -14,13 +11,12 @@ function PerformanceDetails(props) {
 	const posts = content.posts
 	const userdata = content.userdata
 
-	// const { loading, value: Posts } = useAsync(() => fetchHomePosts())
 	const renderView = () => {
 		if (view === Views.Posts) {
 			return (
 				<div className='flex flex-col gap-y-6 mb-8 text-white'>
 					{_map(posts, (post) => (
-						<Post key={post.id} {...post} />
+						<Post key={post.id} userdata={userdata} {...post} />
 					))}
 				</div>
 			)

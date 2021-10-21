@@ -1,41 +1,110 @@
-import React from 'react'
-import { useAsync } from 'react-use'
-import { fetchHomeStories } from '../../../../utils/home-utils'
+import React, { useCallback, useRef } from 'react'
 import { CircularProgress as Loader } from '@material-ui/core'
 import _map from 'lodash/map'
-import { isEmpty } from 'lodash'
 import Avatar from 'components/Avatar'
 import Button from 'components/Button'
+import _head from 'lodash/head'
+import uuid from 'react-uuid'
+import { createStory } from 'services/story-utils'
 
-function Stories() {
-	const { loading, value: Stories } = useAsync(() => fetchHomeStories())
+function Stories(props) {
+	const { stories, loading, userdata } = props
+	const { NO_ID_FIELD: uid } = userdata
+	const inputRef = useRef()
+	const [, setImage] = React.useState(null)
+	const storyData = React.useMemo(
+		() => ({
+			id: uuid(),
+			creator: {
+				name: userdata?.username,
+				image: userdata?.image,
+				uid: uid
+			},
+			image: null,
+			timestamp: Date.now()
+		}),
+		[userdata?.username, userdata?.image, uid]
+	)
+
+	const onCreate = useCallback(
+		async (files) => {
+			if (files) {
+				const storyContent = { ...storyData, image: files }
+				await createStory(storyContent.id, storyContent)
+			} else alert('add an image')
+		},
+		[storyData]
+	)
+
+	const handleChange = useCallback(
+		(_event) => {
+			const files = _head(_event.target.files)
+			setImage(files)
+			onCreate(files)
+		},
+		[setImage, onCreate]
+	)
+
+	const isPosted = useCallback(
+		(storyList) => {
+			let truth = 0
+			for (let story in storyList) {
+				truth += storyList[story]?.creator?.uid === userdata?.uid
+			}
+			return truth
+		},
+		[userdata?.uid]
+	)
+
+	const onPrompt = useCallback(() => {
+		inputRef.current.click()
+	}, [inputRef])
+
 	return (
 		<div className='p-5 bg-component_blue rounded'>
 			<div className='flex flex-row gap-x-4 overflow-x-scroll text-white items-center w-full'>
 				{loading ? (
 					<Loader className='mx-auto' color='inherit' />
-				) : isEmpty(Stories) ? (
-					<p className='text-secondary'>No stories to show...</p>
 				) : (
-					_map(Stories, (story) => (
-						<Button
-							key={story.id}
-							className='flex flex-col gap-y-3 items-center'
-						>
-							<Avatar
-								src={story.creator.image}
-								variant='display'
-								size='medium'
-							/>
-							<p className='text-secondary-03 text-white truncate'>
-								{story.creator.name}
-							</p>
-						</Button>
-					))
+					<>
+						{!isPosted(stories) && (
+							<Button
+								callback={onPrompt}
+								className='flex flex-col gap-y-3 items-center'
+							>
+								<input
+									ref={inputRef}
+									type='file'
+									accept='image/*'
+									className='hidden'
+									onChange={handleChange}
+								/>
+								<Avatar src={userdata.image} variant='story' size='medium' />
+								<p className='text-secondary-03 text-white truncate'>
+									{userdata.username}
+								</p>
+							</Button>
+						)}
+						{_map(stories, (story) => (
+							<Button
+								key={story.id}
+								className='flex flex-col gap-y-3 items-center'
+							>
+								<Avatar
+									src={story.creator.image}
+									variant='display'
+									size='medium'
+								/>
+								<p className='text-secondary-03 text-white truncate'>
+									{story.creator.name}
+								</p>
+							</Button>
+						))}
+					</>
 				)}
 			</div>
 		</div>
 	)
 }
 
-export default Stories
+export default React.memo(Stories)
