@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import Avatar from 'components/Avatar'
-import { formatDistanceToNow } from 'date-fns'
+import { differenceInDays, format, formatDistanceToNow } from 'date-fns'
 import Button from 'components/Button'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import _map from 'lodash/map'
 import _size from 'lodash/size'
 import _keys from 'lodash/keys'
@@ -18,7 +18,6 @@ import c from 'classnames'
 
 function Post(props) {
 	const { user } = useAuthListener()
-	const history = useHistory()
 	const {
 		creator,
 		performance,
@@ -40,7 +39,7 @@ function Post(props) {
 		[setComment]
 	)
 
-	const POST_ACTIONS = user ? POST_OPTIONS : [POST_OPTIONS[2]]
+	const POST_ACTIONS = user ? POST_OPTIONS : POST_OPTIONS.slice(1)
 	const onUploadComment = useCallback(async () => {
 		if (!isEmpty(postComment)) {
 			performance.comments = {
@@ -52,8 +51,16 @@ function Post(props) {
 			}
 			await updatePostPerformance(NO_ID_FIELD, performance)
 			setComment('')
+			toggle()
 		} else alert('Add a comment first')
-	}, [performance, NO_ID_FIELD, user?.uid, userdata?.username, postComment])
+	}, [
+		performance,
+		NO_ID_FIELD,
+		user?.uid,
+		userdata?.username,
+		postComment,
+		toggle
+	])
 
 	const CALLBACKS = React.useMemo(
 		() => ({
@@ -68,10 +75,11 @@ function Post(props) {
 				toggle()
 			},
 			Share: () => {
-				history.push(`/show/posts/${NO_ID_FIELD}`)
+				const shareTab = window.open(`/show/posts/${NO_ID_FIELD}`, '_blank')
+				shareTab.focus()
 			}
 		}),
-		[history, NO_ID_FIELD, performance, user, toggle]
+		[NO_ID_FIELD, performance, user, toggle]
 	)
 
 	const renderPerformance = () => (
@@ -100,6 +108,13 @@ function Post(props) {
 		</div>
 	)
 
+	const getDate = useCallback((timestamp) => {
+		if (differenceInDays(Date.now(), timestamp) > 0)
+			return format(timestamp, 'MMMM dd, yyyy')
+
+		return formatDistanceToNow(timestamp, { addSuffix: true })
+	}, [])
+
 	return (
 		<div className='bg-component_blue rounded min-w-700'>
 			<div className='p-3 flex flex-row gap-x-2 items-center'>
@@ -114,7 +129,7 @@ function Post(props) {
 						{creator.name}
 					</Link>
 					<p className='text-tertiary text-text_placeholder'>
-						{formatDistanceToNow(timestamp, { addSuffix: true })}
+						{getDate(timestamp)}
 					</p>
 				</div>
 			</div>
@@ -130,20 +145,24 @@ function Post(props) {
 			<div className='p-4'>
 				{renderPerformance()}
 				{showComments && !_isEmpty(performance.comments) && (
-					<div className='border-t border-component_core py-4'>
+					<div
+						className={c(
+							'border-t border-component_core py-4 overflow-scroll',
+							showComments ? 'max-h-96 flex-col' : 'hidden'
+						)}
+					>
 						{_map(_keys(performance.comments), (user) => (
-							<Link
-								to={`/${user}/new-profile`}
-								exact
-								className='flex items-center gap-x-2 mt-2'
-							>
-								<p className='text-outline_blue text-primary-03'>
+							<div className='flex gap-x-2 mt-2'>
+								<Link
+									to={`/${user}/new-profile`}
+									className='text-outline_blue text-primary-03 truncate w-16'
+								>
 									{performance.comments[user].name}
-								</p>
-								<p className='text-white text-secondary'>
+								</Link>
+								<p className='text-white text-secondary flex-1'>
 									{performance.comments[user].content}
 								</p>
-							</Link>
+							</div>
 						))}
 					</div>
 				)}

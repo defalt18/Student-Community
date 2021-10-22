@@ -8,7 +8,7 @@ import uuid from 'react-uuid'
 import { createStory } from 'services/story-utils'
 
 function Stories(props) {
-	const { stories, loading, userdata } = props
+	const { stories, loading, userdata, user } = props
 	const { NO_ID_FIELD: uid } = userdata
 	const inputRef = useRef()
 	const [, setImage] = React.useState(null)
@@ -47,13 +47,12 @@ function Stories(props) {
 
 	const isPosted = useCallback(
 		(storyList) => {
-			let truth = 0
 			for (let story in storyList) {
-				truth += storyList[story]?.creator?.uid === userdata?.uid
+				if (storyList[story]?.creator?.uid === user?.uid) return 1
 			}
-			return truth
+			return 0
 		},
-		[userdata?.uid]
+		[user?.uid]
 	)
 
 	const onPrompt = useCallback(() => {

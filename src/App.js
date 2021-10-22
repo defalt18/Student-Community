@@ -261,7 +261,7 @@ export default function App() {
 					<VerificationScreen />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
-					<Home imgs={userImage} user={user} />
+					<Home user={user} />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={'/:uid/new-profile'}>
 					<NewProfile />

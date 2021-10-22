@@ -3,7 +3,10 @@ import _map from 'lodash/map'
 import UserCard from 'components/UserCards'
 import { CircularProgress as Loader } from '@material-ui/core'
 import Button from 'components/Button'
-import { fetchHomeSuggestions } from 'pages/Home/utils/home-utils'
+import {
+	fetchHomeSuggestions,
+	fetchSearchResults
+} from 'pages/Home/utils/home-utils'
 import _isEmpty from 'lodash/isEmpty'
 
 const LoaderStyles = {
@@ -19,9 +22,8 @@ function SearchResultDetails(props) {
 	// TODO : Write a Search Function based on updated firebase
 	const searchFn = useCallback(
 		async (string) => {
-			console.log('By func: ', string)
 			setFetching(true)
-			return await fetchHomeSuggestions()
+			return await fetchSearchResults(string)
 		},
 		[setFetching]
 	)

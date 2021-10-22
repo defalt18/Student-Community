@@ -12,7 +12,7 @@ const imageStyles = {
 }
 
 function ImagePopup(props) {
-	const { callback = _noop, src, className } = props
+	const { callback = _noop, src, className, authorisation } = props
 	const inputElement = useRef(null)
 
 	const onChange = useCallback(
@@ -45,20 +45,22 @@ function ImagePopup(props) {
 				className='hidden'
 				onChange={onChange}
 			/>
-			<div className='flex gap-x-3 w-full mt-6'>
-				<Button
-					text='Change photo'
-					variant='filled'
-					size='small'
-					callback={chooseFile}
-				/>
-				<Button
-					text='Remove Photo'
-					variant='outline'
-					size='small'
-					className='text-secondary'
-				/>
-			</div>
+			{authorisation && (
+				<div className='flex gap-x-3 w-full mt-6'>
+					<Button
+						text='Change photo'
+						variant='filled'
+						size='small'
+						callback={chooseFile}
+					/>
+					<Button
+						text='Remove Photo'
+						variant='outline'
+						size='small'
+						className='text-secondary'
+					/>
+				</div>
+			)}
 		</div>
 	)
 }

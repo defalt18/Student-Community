@@ -3,6 +3,7 @@ import AvatarExternal from '@material-ui/core/Avatar'
 import { makeStyles } from '@material-ui/core/styles'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import { AddIcon } from '../Icons'
+import c from 'classnames'
 import _noop from 'lodash/noop'
 
 const styles = {
@@ -33,12 +34,18 @@ function Avatar(props) {
 	const { src, size = 'small', variant = 'normal', callback = _noop } = props
 
 	if (variant === 'normal') {
-		if (!src) return <AccountCircleOutlinedIcon />
+		if (!src)
+			return (
+				<AccountCircleOutlinedIcon className={c('text-white', classes[size])} />
+			)
 		return <AvatarExternal src={src} className={classes[size]} />
 	}
 
 	if (variant === 'display') {
-		if (!src) return <AccountCircleOutlinedIcon className={classes[size]} />
+		if (!src)
+			return (
+				<AccountCircleOutlinedIcon className={c('text-white', classes[size])} />
+			)
 		return (
 			<AvatarExternal src={src} className={[classes[size], classes.outline]} />
 		)
@@ -54,7 +61,9 @@ function Avatar(props) {
 					>
 						<AddIcon fill={'#fff'} style={addStyles} />
 					</div>
-					<AccountCircleOutlinedIcon className={classes[size]} />
+					<AccountCircleOutlinedIcon
+						className={c('text-white', classes[size])}
+					/>
 				</button>
 			)
 		return (
