@@ -17,7 +17,7 @@ function Feed(props) {
 	)
 
 	return (
-		<div className='h-screen pb-10 flex-1 pt-24 px-7 flex min-w-800 flex-col overflow-y-scroll'>
+		<div className='h-screen pb-10 flex-1 pt-24 px-7 min-w-standard flex flex-col overflow-y-scroll'>
 			<Stories
 				loading={loading}
 				stories={stories}

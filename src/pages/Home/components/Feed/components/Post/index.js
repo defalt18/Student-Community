@@ -26,7 +26,8 @@ function Post(props) {
 		image,
 		userdata,
 		creatorId,
-		NO_ID_FIELD
+		NO_ID_FIELD,
+		className
 	} = props
 	const [showComments, toggle] = useToggle(false)
 	const [postComment, setComment] = React.useState('')
@@ -116,7 +117,7 @@ function Post(props) {
 	}, [])
 
 	return (
-		<div className='bg-component_blue rounded min-w-700'>
+		<div className={c('bg-component_blue rounded', className)}>
 			<div className='p-3 flex flex-row gap-x-2 items-center'>
 				<div className='grid place-items-center'>
 					<Avatar src={creator.image} size='small' />

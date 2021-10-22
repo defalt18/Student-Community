@@ -15,9 +15,9 @@ function Showcase() {
 	const renderContent = () => {
 		switch (type) {
 			case 'posts':
-				return <Post {...data} />
+				return <Post {...data} className='min-w-700' />
 
-			case 'story':
+			case 'stories':
 				return <StoryView {...data} />
 
 			default:

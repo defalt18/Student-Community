@@ -36,6 +36,11 @@ function Stories(props) {
 		[storyData]
 	)
 
+	const onClickStory = useCallback((storyId) => {
+		const shareTab = window.open(`/show/stories/${storyId}`, '_blank')
+		shareTab.focus()
+	}, [])
+
 	const handleChange = useCallback(
 		(_event) => {
 			const files = _head(_event.target.files)
@@ -88,6 +93,7 @@ function Stories(props) {
 							<Button
 								key={story.id}
 								className='flex flex-col gap-y-3 items-center'
+								callback={() => onClickStory(story.id)}
 							>
 								<Avatar
 									src={story.creator.image}
