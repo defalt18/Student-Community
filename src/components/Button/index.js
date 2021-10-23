@@ -11,7 +11,8 @@ function Button(props) {
 		variant = 'standard',
 		type,
 		className,
-		children
+		children,
+		...buttonProps
 	} = props
 
 	switch (variant) {
@@ -25,6 +26,7 @@ function Button(props) {
 						'transition-all duration-200 text-secondary button-border text-white bg-gradient-to-r from-light_blue to-darker_blue rounded hover:text-outline_blue',
 						className
 					)}
+					{...buttonProps}
 				>
 					{text}
 				</button>
@@ -39,6 +41,7 @@ function Button(props) {
 						'transition-all duration-200 border border-outline_blue text-outline_blue rounded px-4 py-2 hover:bg-outline_blue hover:text-white',
 						className
 					)}
+					{...buttonProps}
 				>
 					{text}
 				</button>
@@ -53,6 +56,7 @@ function Button(props) {
 						'transition-all duration-200 text-white rounded p-1 hover:bg-gray-100 hover:bg-opacity-10',
 						className
 					)}
+					{...buttonProps}
 				>
 					{children}
 				</button>

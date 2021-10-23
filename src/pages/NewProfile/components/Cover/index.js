@@ -14,11 +14,11 @@ function Cover(props) {
 				className='h-24 object-cover'
 				minHeight={150}
 			/>
-			<div className='z-10 w-full h-full absolute top-0 grid place-items-center'>
+			<div className='z-10 grid w-full h-full absolute top-0 place-items-center group cursor-pointer'>
 				{authorised && (
 					<button
 						onClick={callback}
-						className='text-secondary text-outline_blue bg-white py-1 px-3 rounded'
+						className='transition-all ease-in-out duration-200 text-secondary opacity-0 text-outline_blue bg-white py-1 px-3 rounded group-hover:opacity-100'
 					>
 						Change cover photo
 					</button>

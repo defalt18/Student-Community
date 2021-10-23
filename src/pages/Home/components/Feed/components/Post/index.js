@@ -178,6 +178,7 @@ function Post(props) {
 						<Button
 							text='Post'
 							size='small'
+							disabled
 							variant='filled'
 							callback={onUploadComment}
 						/>
