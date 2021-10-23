@@ -45,7 +45,7 @@ const Timer = React.memo((props) => {
 	return (
 		<div className='h-2 relative w-full'>
 			<div
-				className='absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-r from-light_blue to-darker_blue'
+				className='absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-r from-light_blue to-darker_blue h-1'
 				style={progressBarWidth}
 			/>
 		</div>
@@ -83,7 +83,11 @@ function StoryView(props) {
 					<p className='prompt-h4 text-white'>Show is over...</p>
 				</div>
 			) : (
-				<MediaContainer src={image} minHeight={500} className='h-standard' />
+				<MediaContainer
+					src={image}
+					minHeight={500}
+					className='h-standard rounded'
+				/>
 			)}
 		</div>
 	)
