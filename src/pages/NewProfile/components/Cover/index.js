@@ -11,7 +11,7 @@ function Cover(props) {
 		<div className='relative w-full'>
 			<MediaContainer
 				src={cover}
-				className='h-24 object-cover'
+				className='h-24 object-cover w-full'
 				minHeight={150}
 			/>
 			<div className='z-10 grid w-full h-full absolute top-0 place-items-center group cursor-pointer'>

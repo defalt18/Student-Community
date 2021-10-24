@@ -86,7 +86,7 @@ function StoryView(props) {
 				<MediaContainer
 					src={image}
 					minHeight={500}
-					className='h-standard rounded'
+					className='h-standard rounded w-full'
 				/>
 			)}
 		</div>

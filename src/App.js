@@ -26,6 +26,7 @@ import { Header, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 import VerificationScreen from './pages/Auth/VerificationScreen'
 import Showcase from './pages/PublicContent'
+import Admin from './pages/Admin'
 
 export default function App() {
 	const { user } = useAuthListener()
@@ -44,7 +45,8 @@ export default function App() {
 		<Router>
 			<Switch>
 				<Route exact path={ROUTES.SIGN_IN} component={SignIn} />
-				<Route exact path={'/show/:type/:id'} component={Showcase} />
+				<Route exact path={ROUTES.admin} component={Admin} />
+				<Route exact path={ROUTES.Showcase} component={Showcase} />
 				<Route exact path={ROUTES.SIGN_UP} component={SignUp} />
 				<IsUserRedirect
 					user={user}

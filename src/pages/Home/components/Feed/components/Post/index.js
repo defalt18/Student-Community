@@ -141,7 +141,7 @@ function Post(props) {
 			<MediaContainer
 				src={image}
 				minHeight={300}
-				className='max-h-96 object-cover'
+				className='max-h-96 object-cover w-full'
 			/>
 			<div className='p-4'>
 				{renderPerformance()}

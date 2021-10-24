@@ -4,21 +4,13 @@ import _reduce from 'lodash/reduce'
 
 const SUCCESS = 'Successful'
 
-export const fetchAllPosts = (setter) => {
-	const listener = db
-		.collection('posts')
-		.orderBy('timestamp', 'desc')
-		.limit(10)
-		.onSnapshot((posts) =>
-			setter(
-				_reduce(
-					posts.docs,
-					(posts, post) => [...posts, { id: post.id, post: post.data() }],
-					[]
-				)
-			)
-		)
-	return listener
+export const fetchAllCollectionData = async (collection) => {
+	const result = await db.collection(collection).get()
+	return _reduce(
+		result.docs,
+		(allPosts, post) => [...allPosts, { id: post.id, content: post.data() }],
+		[]
+	)
 }
 
 export const fetchPostsForId = async (id) => {

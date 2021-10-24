@@ -20,12 +20,7 @@ function MediaContainer(props) {
 					width='100%'
 					animation='wave'
 				/>
-				<img
-					src={src}
-					onLoad={onLoad}
-					className={c('w-full', className)}
-					alt=''
-				/>
+				<img src={src} onLoad={onLoad} className={c(className)} alt='' />
 			</div>
 		)
 	} else return null
