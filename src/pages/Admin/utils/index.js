@@ -1,4 +1,4 @@
-import { auth, db, storage } from 'lib/firebase.prod'
+import { db, storage } from 'lib/firebase.prod'
 import _isEmpty from 'lodash/isEmpty'
 
 async function deleteImageFromStorage(url) {
@@ -9,7 +9,6 @@ export const deleteUserByAdmin = async (id, userdata) => {
 	await deleteImageFromStorage(userdata.image)
 	await deleteImageFromStorage(userdata.cover)
 	await db.collection('users').doc(id).delete()
-	await auth.currentUser.delete()
 }
 
 export const deleteDocumentByAdmin = async (id, docData, collection) => {

@@ -49,11 +49,7 @@ function Admin() {
 				return (
 					<div className='grid grid-cols-3 gap-4'>
 						{_map(data?.users, (user) => (
-							<UserCard
-								uid={user.id}
-								{...user.content}
-								callback={deleteUserByAdmin}
-							/>
+							<UserCard uid={user.id} {...user.content} />
 						))}
 					</div>
 				)
