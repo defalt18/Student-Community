@@ -10,11 +10,11 @@ const closeIconStyles = {
 	color: '#7DACF9'
 }
 
-function SearchPlayer(props) {
+function SearchPlayer() {
 	const [open, toggle] = useToggle(false)
 	const [searchString, setSearch] = useState('')
 
-	const throttledValue = useThrottle(searchString, 1500)
+	const throttledValue = useThrottle(searchString, 2500)
 
 	const onChange = useCallback(
 		(_event) => {

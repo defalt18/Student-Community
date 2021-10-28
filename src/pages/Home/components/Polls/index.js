@@ -1,7 +1,8 @@
 import React from 'react'
 import MediaContainer from 'components/Media'
 
-function Polls() {
+function Polls(props) {
+	const { polls, loading } = props
 	return (
 		<div className='pt-32 text-white px-12 h-screen overflow-scroll pb-20 w-10/12 flex-1'>
 			<div className='flex w-full'>
@@ -24,4 +25,4 @@ function Polls() {
 	)
 }
 
-export default Polls
+export default React.memo(Polls)

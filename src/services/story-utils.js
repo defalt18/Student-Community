@@ -1,5 +1,7 @@
-import { db } from '../lib/firebase.prod'
+import { db, storage } from '../lib/firebase.prod'
 import _reduce from 'lodash/reduce'
+import { uploadImageInDirectory } from './user-utils'
+import { differenceInDays } from 'date-fns'
 
 const SUCCESS = 'Successful'
 
@@ -49,10 +51,26 @@ export const fetchAllStories = (setter) => {
 	return listener
 }
 
-export const createStory = async (story) => {
-	const status = await db
+export const createStory = async (storyID, storyData) => {
+	const url = await uploadImageInDirectory('stories', storyID, storyData.image)
+	await db
 		.collection('stories')
-		.add(story)
-		.catch((error) => error)
-	return status || SUCCESS
+		.doc(storyID)
+		.set({ ...storyData, image: url })
+}
+
+export const deleteOldData = async (allStories) => {
+	let data = []
+	await allStories.reduce(async (finalStories, story) => {
+		const isOld = differenceInDays(Date.now(), story.timestamp) > 0
+		if (isOld) {
+			const pictureRef = await storage.refFromURL(story.image)
+			await pictureRef.delete()
+			await db.collection('stories').doc(story.id).delete()
+			return finalStories
+		}
+		data = [...data, story]
+		return finalStories
+	}, [])
+	return data
 }

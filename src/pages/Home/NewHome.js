@@ -8,17 +8,26 @@ import Clubs from './components/Clubs'
 import Academic from './components/Academic'
 import Polls from './components/Polls'
 import Events from './components/Events'
+import useHomeData from './hooks/useHomeData'
+import { CircularProgress as Loader } from '@material-ui/core'
 
-function NewHome() {
+function NewHome(props) {
+	const { user } = props
 	const [view, navigator] = useState(VIEWS.HOME)
+	const { loading, events, polls, ...rest } = useHomeData()
 
 	const renderContent = () => {
 		switch (view) {
 			case VIEWS.HOME:
 				return (
 					<>
-						<Feed />
-						<UpcomingEvent />
+						<Feed loading={loading} {...rest} user={user} />
+						<UpcomingEvent
+							loading={loading}
+							events={events}
+							userdata={rest?.userdata}
+							user={user}
+						/>
 					</>
 				)
 
@@ -29,10 +38,10 @@ function NewHome() {
 				return <Academic />
 
 			case VIEWS.POLL:
-				return <Polls />
+				return <Polls loading={loading} polls={polls} />
 
 			case VIEWS.EVENTS:
-				return <Events />
+				return <Events loading={loading} events={events} />
 
 			default:
 				return null
@@ -42,7 +51,14 @@ function NewHome() {
 		<div className='w-screen min-h-screen bg-body_blue flex'>
 			<Header />
 			<Sidebar view={view} navigator={navigator} />
-			{renderContent()}
+			{loading ? (
+				<div className='m-auto text-white flex flex-col items-center'>
+					<Loader className='m-auto' color='inherit' />
+					<p className='text-primary-02 mt-3'>Loading content</p>
+				</div>
+			) : (
+				renderContent()
+			)}
 		</div>
 	)
 }

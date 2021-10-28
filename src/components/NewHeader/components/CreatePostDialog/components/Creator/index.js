@@ -7,7 +7,6 @@ import Button from 'components/Button'
 import TextEditor from 'components/TextEditor'
 import { Photo } from 'components/Icons'
 import { VIEWS } from '../../types'
-import _isEmpty from 'lodash/isEmpty'
 
 function Creator(props) {
 	const { userdata, toggleView, toggle } = props
@@ -23,14 +22,13 @@ function Creator(props) {
 			caption: '',
 			image: '',
 			performance: {
-				Share: '',
 				comments: {},
 				likes: {}
 			},
-			creatorId: userdata?.uid,
+			creatorId: userdata?.NO_ID_FIELD,
 			timestamp: Date.now()
 		}),
-		[userdata]
+		[userdata, userdata?.NO_ID_FIELD]
 	)
 
 	const [caption, setCaption] = useState('')

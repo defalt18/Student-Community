@@ -3,6 +3,7 @@ import {
 	useFirestoreCollectionData,
 	useFirestoreDocData
 } from 'reactfire'
+import { db } from 'lib/firebase.prod'
 
 export default function UseUserData({ userId }) {
 	const { status: userStatus, data: userdata } = useFirestoreDocData(
@@ -20,4 +21,16 @@ export default function UseUserData({ userId }) {
 		userdata,
 		posts
 	}
+}
+
+export async function useHomeSuggestions(year) {
+	const data = await db
+		.collection('users')
+		.where('batch', '==', year)
+		.limit(5)
+		.get()
+
+	return data.docs.reduce((allUsers, user) => {
+		return [...allUsers, { ...user.data(), uid: user.id }]
+	}, [])
 }
