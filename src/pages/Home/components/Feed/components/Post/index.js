@@ -15,6 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import { updatePostPerformance } from 'services/post-utils'
 import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
+import LongMenu from './LongMenu'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -122,7 +123,7 @@ function Post(props) {
 				<div className='grid place-items-center'>
 					<Avatar src={creator.image} size='small' />
 				</div>
-				<div>
+				<div className="container">
 					<Link
 						to={`/${creatorId}/new-profile`}
 						className='text-secondary text-white'
@@ -133,6 +134,10 @@ function Post(props) {
 						{getDate(timestamp)}
 					</p>
 				</div>
+				{
+					user?.uid === creatorId &&
+					<LongMenu postID={NO_ID_FIELD} />
+				}
 			</div>
 			<p
 				className='bg-component_secondary text-secondary text-white p-4'

@@ -28,3 +28,10 @@ export const fetchSearchResults = async (string) => {
 		return [...allUsers, { ...user.data(), uid: user.id }]
 	}, [])
 }
+
+export const deletePostByID = async (postID) => {
+	await db
+		.collection('posts')
+		.doc(postID)
+		.delete()
+}
