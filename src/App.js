@@ -25,6 +25,8 @@ import { useAuthListener } from './hooks'
 import { Header, Sidebar } from './components'
 import { db } from './lib/firebase.prod'
 import VerificationScreen from './pages/Auth/VerificationScreen'
+import Showcase from './pages/PublicContent'
+import Admin from './pages/Admin'
 
 export default function App() {
 	const { user } = useAuthListener()
@@ -43,6 +45,8 @@ export default function App() {
 		<Router>
 			<Switch>
 				<Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+				<Route exact path={ROUTES.admin} component={Admin} />
+				<Route exact path={ROUTES.Showcase} component={Showcase} />
 				<Route exact path={ROUTES.SIGN_UP} component={SignUp} />
 				<IsUserRedirect
 					user={user}
@@ -259,7 +263,7 @@ export default function App() {
 					<VerificationScreen />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={ROUTES.HOME}>
-					<Home imgs={userImage} user={user} />
+					<Home user={user} />
 				</ProtectedRoute>
 				<ProtectedRoute user={user} exact path={'/:uid/new-profile'}>
 					<NewProfile />

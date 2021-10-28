@@ -26,6 +26,8 @@ function NewHeader() {
 		[user?.uid, history]
 	)
 
+	const onLogin = useCallback(() => history.push(`/signin`), [history])
+
 	return (
 		<div className='z-20 fixed top-0 border-b border-header_border_blue bg-component_core w-screen flex items-center h-16 px-3'>
 			<Link
@@ -59,6 +61,7 @@ function NewHeader() {
 						variant='filled'
 						size='small'
 						className='px-12 py-2'
+						callback={onLogin}
 					/>
 				)}
 			</div>

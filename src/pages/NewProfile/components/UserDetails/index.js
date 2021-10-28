@@ -38,7 +38,7 @@ function UserDetails(props) {
 
 	return (
 		<div className={c('flex flex-col items-center px-24', className)}>
-			<UserImage src={image || creator_dummy} />
+			<UserImage src={image || creator_dummy} authorisation={authorisation} />
 			<p className='text-primary-02 text-white mt-4'>{username}</p>
 			<Tag className='mt-2' variant='Student' />
 			<p className='text-secondary text-white mt-3'>{bio}</p>

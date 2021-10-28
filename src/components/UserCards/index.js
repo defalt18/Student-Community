@@ -9,7 +9,8 @@ const closeIconStyles = {
 }
 
 function Card(props) {
-	const { image, name, type = 'normal', uid = 'xyz' } = props
+	const { image, username: name, type = 'normal', uid = 'xyz' } = props
+	console.log(props)
 	return (
 		<div className='w-full bg-component_secondary_dark flex justify-between items-center p-3 rounded'>
 			<Link

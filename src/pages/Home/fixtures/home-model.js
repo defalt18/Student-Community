@@ -13,7 +13,7 @@ export const VIEWS = {
 
 export const Posts = [
 	{
-		id: 'AxByc32541',
+		id: 'AxByxcvxcvc32541',
 		creator: {
 			name: 'Emma_123',
 			image: creator_dummy,
@@ -29,7 +29,7 @@ export const Posts = [
 		}
 	},
 	{
-		id: 'AxByc32541',
+		id: 'AxBycxcvcvcxvxc32541',
 		creator: {
 			name: 'Emma_123',
 			image: creator_dummy,
@@ -64,7 +64,7 @@ export const Posts = [
 
 export const Stories = [
 	{
-		id: 'ASDcssd233',
+		id: 'ASDcssd23saadsa3',
 		creator: {
 			name: 'Joshua19',
 			image: Joshua,
@@ -72,7 +72,7 @@ export const Stories = [
 		}
 	},
 	{
-		id: 'ASd234233',
+		id: 'ASd23sdfsd4233',
 		creator: {
 			name: 'Lilly90',
 			image: Lilly,
@@ -88,7 +88,7 @@ export const Stories = [
 		}
 	},
 	{
-		id: 'ASd234233',
+		id: 'ASd2342sdfsd33',
 		creator: {
 			name: 'Lilly90',
 			image: Lilly,
@@ -116,12 +116,12 @@ export const Stories = [
 export const Suggestions = [
 	{
 		uid: 'ASDcssd233',
-		name: 'Joshua',
+		username: 'Joshua',
 		image: Joshua
 	},
 	{
 		uid: 'ASDcssd23dsf3',
-		name: 'Lilly',
+		username: 'Lilly',
 		image: Lilly
 	}
 ]
