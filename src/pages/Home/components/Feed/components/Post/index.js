@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import { updatePostPerformance } from 'services/post-utils'
 import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
-import LongMenu from './LongMenu'
+import Menu from './Menu'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -136,7 +136,7 @@ function Post(props) {
 				</div>
 				{
 					user?.uid === creatorId &&
-					<LongMenu postID={NO_ID_FIELD} />
+					<Menu {...props} />
 				}
 			</div>
 			<p

@@ -3,11 +3,10 @@ import Button from 'components/Button'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { deletePostByID } from '../../../../utils/home-utils';
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu({ postID }) {
+export default function LongMenu({ options }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 
@@ -19,12 +18,6 @@ export default function LongMenu({ postID }) {
 		setAnchorEl(null);
 	};
 
-	const options = [
-		<DeletePost postID={postID} />,
-		'Option 2',
-		'Option 3',
-		'Option 4'
-	];
 
 	return (
 		<div>
@@ -46,28 +39,17 @@ export default function LongMenu({ postID }) {
 					style: {
 						maxHeight: ITEM_HEIGHT * 4.5,
 						width: '20ch',
+						color: 'white',
+						backgroundColor: "#001439",
 					},
 				}}
 			>
-				{options.map((option) => (
-					<MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+				{options.map((option, index) => (
+					<MenuItem key={index} onClick={handleClose} >
 						{option}
 					</MenuItem>
 				))}
 			</Menu>
 		</div>
 	);
-}
-
-function DeletePost({ postID }) {
-	const handleDelete = async () => {
-		await deletePostByID(postID);
-		console.log("done");
-	}
-
-	return (
-		<Button className="text-red-500" onClick={handleDelete} >
-			Delete
-		</Button>
-	)
 }
