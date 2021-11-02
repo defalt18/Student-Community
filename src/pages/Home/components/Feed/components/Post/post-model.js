@@ -10,7 +10,11 @@ export const POST_OPTIONS = [
 	{
 		id: 'likes',
 		icon: (truth) =>
-			!truth ? <Like color='inherit' /> : <Liked color='inherit' />,
+			!truth ? (
+				<Like className='text-favourite' />
+			) : (
+				<Liked className='text-favourite' />
+			),
 		label: 'Likes'
 	},
 	{

@@ -99,7 +99,8 @@ function SignIn() {
 					<Button
 						type='submit'
 						callback={onSignIn}
-						className='mt-12'
+						awaitResponse={false}
+						className='mt-12 grid place-items-center'
 						text='Sign In'
 						variant='filled'
 						size='large'

@@ -58,6 +58,12 @@
     line-height: 21px;
 }
 
+.prompt-subtext-02 {
+    font-family: 'Prompt Head';
+    font-size: 16px;
+    line-height: 21px;
+}
+
 .text-primary {
     font-family: 'Poppins Head';
     font-size: 24px;
@@ -178,6 +184,10 @@ select.form {
 
 .min-w-standard {
     min-width: 55vw;
+}
+
+.min-w-event-poster {
+    min-width: 300px;
 }
 
 .min-w-700 {

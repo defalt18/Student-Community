@@ -46,13 +46,13 @@ function UserDetails(props) {
 				<Button
 					text='Edit Profile'
 					variant='outline'
-					className='text-secondary w-full mt-3'
+					className='text-secondary w-full mt-3 grid place-items-center'
 				/>
 			) : (
 				<Button
 					text='Follow'
 					variant='outline'
-					className='text-secondary w-full mt-3'
+					className='text-secondary w-full mt-3 grid place-items-center'
 				/>
 			)}
 			<Divider className='mt-6' />

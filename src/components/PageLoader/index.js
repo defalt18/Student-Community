@@ -1,16 +1,28 @@
 import React from 'react'
-import logo from '../../assets/images/DA-logo.png'
-import { CircularProgress } from '@material-ui/core'
+import Lottie from 'react-lottie'
+import { default as loadingAnimation } from 'assets/lotties/loading.json'
+import { default as peopleAnimation } from 'assets/lotties/page_loader.json'
 
-function PageLoader() {
+function PageLoader(props) {
+	const { height = 100, width = 100, type = 'loading' } = props
+
+	const defaultOptions = React.useMemo(
+		() => ({
+			loop: true,
+			autoplay: true,
+			animationData: type === 'loading' ? loadingAnimation : peopleAnimation,
+			rendererSettings: {
+				preserveAspectRatio: 'xMidYMid slice'
+			}
+		}),
+		[type]
+	)
+
 	return (
-		<div className='w-screen h-screen bg-body_blue grid place-items-center text-white'>
-			<div className='flex flex-col gap-y-8 items-center'>
-				<img src={logo} alt='da-logo' className='h-50 w-60' />
-				<CircularProgress color={'inherit'} />
-			</div>
+		<div className='h-72 w-72 self-center mx-auto'>
+			<Lottie {...props} options={defaultOptions} />
 		</div>
 	)
 }
 
-export default PageLoader
+export default React.memo(PageLoader)

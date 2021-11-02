@@ -15,6 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import { updatePostPerformance } from 'services/post-utils'
 import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
+import { deleteDocumentByAdmin } from 'pages/Admin/utils'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -41,6 +42,7 @@ function Post(props) {
 	)
 
 	const POST_ACTIONS = user ? POST_OPTIONS : POST_OPTIONS.slice(1)
+
 	const onUploadComment = useCallback(async () => {
 		if (!isEmpty(postComment)) {
 			performance.comments = {
@@ -60,7 +62,8 @@ function Post(props) {
 		user?.uid,
 		userdata?.username,
 		postComment,
-		toggle
+		toggle,
+		setComment
 	])
 
 	const CALLBACKS = React.useMemo(
@@ -72,15 +75,16 @@ function Post(props) {
 
 				await updatePostPerformance(NO_ID_FIELD, performance)
 			},
-			comments: () => {
-				toggle()
-			},
+			comments: toggle,
 			Share: () => {
 				const shareTab = window.open(`/show/posts/${NO_ID_FIELD}`, '_blank')
 				shareTab.focus()
+			},
+			delete: async () => {
+				await deleteDocumentByAdmin(NO_ID_FIELD, { image }, 'posts')
 			}
 		}),
-		[NO_ID_FIELD, performance, user, toggle]
+		[NO_ID_FIELD, performance, user, toggle, image]
 	)
 
 	const renderPerformance = () => (
@@ -118,21 +122,31 @@ function Post(props) {
 
 	return (
 		<div className={c('bg-component_blue rounded', className)}>
-			<div className='p-3 flex flex-row gap-x-2 items-center'>
-				<div className='grid place-items-center'>
-					<Avatar src={creator.image} size='small' />
+			<div className='flex justify-between items-center p-3'>
+				<div className='flex flex-row gap-x-2 items-center'>
+					<div className='grid place-items-center'>
+						<Avatar src={creator.image} size='small' />
+					</div>
+					<div>
+						<Link
+							to={`/${creatorId}/new-profile`}
+							className='text-secondary text-white'
+						>
+							{creator.name}
+						</Link>
+						<p className='text-tertiary text-text_placeholder'>
+							{getDate(timestamp)}
+						</p>
+					</div>
 				</div>
-				<div>
-					<Link
-						to={`/${creatorId}/new-profile`}
-						className='text-secondary text-white'
-					>
-						{creator.name}
-					</Link>
-					<p className='text-tertiary text-text_placeholder'>
-						{getDate(timestamp)}
-					</p>
-				</div>
+				{creatorId === user.uid && (
+					<Button
+						variant='abort'
+						className='px-6 py-1'
+						text='Delete post'
+						callback={CALLBACKS.delete}
+					/>
+				)}
 			</div>
 			<p
 				className='bg-component_secondary text-secondary text-white p-4'
@@ -178,7 +192,6 @@ function Post(props) {
 						<Button
 							text='Post'
 							size='small'
-							disabled
 							variant='filled'
 							callback={onUploadComment}
 						/>

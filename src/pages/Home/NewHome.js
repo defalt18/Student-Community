@@ -9,7 +9,7 @@ import Academic from './components/Academic'
 import Polls from './components/Polls'
 import Events from './components/Events'
 import useHomeData from './hooks/useHomeData'
-import { CircularProgress as Loader } from '@material-ui/core'
+import PageLoader from 'components/PageLoader'
 
 function NewHome(props) {
 	const { user } = props
@@ -38,7 +38,9 @@ function NewHome(props) {
 				return <Academic />
 
 			case VIEWS.POLL:
-				return <Polls loading={loading} polls={polls} />
+				return (
+					<Polls loading={loading} polls={polls} userdata={rest?.userdata} />
+				)
 
 			case VIEWS.EVENTS:
 				return <Events loading={loading} events={events} />
@@ -51,14 +53,7 @@ function NewHome(props) {
 		<div className='w-screen min-h-screen bg-body_blue flex'>
 			<Header />
 			<Sidebar view={view} navigator={navigator} />
-			{loading ? (
-				<div className='m-auto text-white flex flex-col items-center'>
-					<Loader className='m-auto' color='inherit' />
-					<p className='text-primary-02 mt-3'>Loading content</p>
-				</div>
-			) : (
-				renderContent()
-			)}
+			{loading ? <PageLoader type='home' /> : renderContent()}
 		</div>
 	)
 }

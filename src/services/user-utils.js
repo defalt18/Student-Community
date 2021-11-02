@@ -94,3 +94,7 @@ export const uploadPhotoForUserId = async (id, pictureURL) => {
 		.add({ image: pictureURL })
 	return status || SUCCESS
 }
+
+export const updateUserDetails = async (userdata, userId) => {
+	await db.collection('users').doc(userId).update(userdata)
+}

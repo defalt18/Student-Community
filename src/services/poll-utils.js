@@ -15,3 +15,12 @@ export const requestPoll = async (poll) => {
 		.catch((error) => error)
 	return status || SUCCESS
 }
+
+export const updatePoll = async (id, poll) => {
+	const status = await db
+		.collection('polls')
+		.doc(id)
+		.update({ ...poll })
+		.catch((error) => error)
+	return status || SUCCESS
+}

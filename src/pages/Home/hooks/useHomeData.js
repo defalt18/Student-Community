@@ -17,7 +17,7 @@ export default function useHomeData() {
 	)
 
 	const { status: eventStatus, data: events } = useFirestoreCollectionData(
-		useFirestore().collection('events').orderBy('timestamp', 'desc')
+		useFirestore().collection('events').orderBy('startTime', 'desc')
 	)
 
 	const { status: pollStatus, data: polls } = useFirestoreCollectionData(

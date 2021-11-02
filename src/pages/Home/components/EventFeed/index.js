@@ -1,11 +1,13 @@
 import React from 'react'
-import upcomingEvent from 'assets/images/dummy_event_image.png'
 import Suggestions from '../Feed/components/Suggestions'
+import _head from 'lodash/head'
 import MediaContainer from 'components/Media'
 import _isEmpty from 'lodash/isEmpty'
+import { format } from 'date-fns'
 
 function EventFeed(props) {
 	const { events, userdata, user } = props
+	const upcomingEvent = _head(events)
 
 	const renderEventInfo = () => {
 		if (_isEmpty(events))
@@ -19,12 +21,17 @@ function EventFeed(props) {
 		return (
 			<>
 				<MediaContainer
-					src={upcomingEvent}
+					src={upcomingEvent.poster}
 					alt='Upcoming Event'
 					className='max-h-64 w-full object-cover rounded'
 				/>
-				<p className='text-secondary text-white mb-1 mt-3'>Synapse 2022</p>
-				<p className='text-tertiary text-white'>Feb 21 - Feb 24</p>
+				<p className='text-secondary text-white mb-1 mt-3'>
+					{upcomingEvent.eventName}
+				</p>
+				<p className='text-tertiary text-white'>
+					{format(upcomingEvent.startTime, 'MMM dd')} -{' '}
+					{format(upcomingEvent.endTime, 'MMM dd')}
+				</p>
 			</>
 		)
 	}

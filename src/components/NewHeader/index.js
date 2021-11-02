@@ -50,8 +50,8 @@ function NewHeader() {
 						<Button
 							text='Create post'
 							variant='filled'
-							size='medium'
-							className='w-48 h-10 flex items-center justify-center'
+							// size='medium'
+							className='px-8 py-2 flex items-center justify-center font-bold'
 							callback={toggle}
 						/>
 					</>
@@ -60,7 +60,7 @@ function NewHeader() {
 						text='Login'
 						variant='filled'
 						size='small'
-						className='px-12 py-2'
+						className='px-12 py-2 font-bold'
 						callback={onLogin}
 					/>
 				)}

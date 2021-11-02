@@ -9,8 +9,14 @@ const closeIconStyles = {
 }
 
 function Card(props) {
-	const { image, username: name, type = 'normal', uid = 'xyz' } = props
-	console.log(props)
+	const {
+		image,
+		username: name,
+		type = 'normal',
+		uid = 'xyz',
+		course,
+		degree
+	} = props
 	return (
 		<div className='w-full bg-component_secondary_dark flex justify-between items-center p-3 rounded'>
 			<Link
@@ -18,7 +24,12 @@ function Card(props) {
 				className='flex flex-row gap-x-3 items-center text-decoration-none'
 			>
 				<Avatar src={image} variant='display' />
-				<p className='text-secondary text-white'>{name}</p>
+				<div>
+					<p className='text-secondary text-white'>{name}</p>
+					<p className='text-tertiary text-text_placeholder'>
+						{degree} | {course}
+					</p>
+				</div>
 			</Link>
 			<div className='flex items-center gap-x-3'>
 				<Button
