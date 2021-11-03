@@ -8,7 +8,7 @@ import { useToggle } from 'react-use'
 import PollCreator from './components/PollCreator'
 
 function Polls(props) {
-	const { polls, loading, userdata } = props
+	const { polls, userdata } = props
 	const [pollAction, toggle] = useToggle(false)
 	return (
 		<div className='pt-32 text-white px-12 h-screen overflow-scroll pb-20 w-10/12 flex-1'>

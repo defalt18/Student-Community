@@ -53,14 +53,25 @@ function RegisterForm() {
 	const auth = useAuth()
 	const history = useHistory()
 	const db = useFirestore()
+	const [userSkills, setSkills] = useState([])
+
+	const onSubmit = useCallback(
+		async (values) => {
+			await createUserWithCredentials(auth, db, {
+				...values,
+				skills: userSkills
+			})
+			history.push(VERIFY)
+		},
+		[userSkills, history, auth, db]
+	)
+
 	const registration = useFormik({
 		initialValues: initialUser,
 		validate,
-		onSubmit: async (values) => {
-			await createUserWithCredentials(auth, db, values)
-			history.push(VERIFY)
-		}
+		onSubmit
 	})
+
 	const onClick = useCallback(
 		(_event) => {
 			const { value } = _event.currentTarget
@@ -68,12 +79,13 @@ function RegisterForm() {
 		},
 		[setView]
 	)
+
 	return (
 		<div className='flex flex-col items-center pb-8 w-full'>
 			<p className='text-primary text-white my-16'>
 				Fill in the details to register
 			</p>
-			<UserImage src={dummy_creator} className='mx-auto my-8' />
+			<UserImage src={dummy_creator} className='mx-auto my-8' authorisation />
 			<p className='text-secondary text-white'>What are you signing up as?</p>
 			<div className='flex gap-x-3 mt-3'>
 				<button
@@ -242,9 +254,7 @@ function RegisterForm() {
 					label='Skills'
 					placeholder='Select Skills'
 					name='skills'
-					value={registration.values.skills}
-					error={registration.touched.skills && registration.errors.skills}
-					onChange={registration.handleChange}
+					onChange={setSkills}
 				/>
 			</div>
 			<Button

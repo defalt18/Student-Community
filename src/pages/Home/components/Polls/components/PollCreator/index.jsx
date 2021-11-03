@@ -33,4 +33,4 @@ function PollCreator(props) {
 	)
 }
 
-export default PollCreator
+export default React.memo(PollCreator)

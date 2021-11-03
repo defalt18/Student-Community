@@ -13,7 +13,7 @@ const ButtonStyles = {
 
 function SignUp() {
 	return (
-		<div className='min-h-screen w-screen bg-black text-white'>
+		<div className='min-h-screen w-screen bg-black text-white pb-48'>
 			<div className='relative w-full h-44 bg-gradient-to-r from-light_blue to-darker_blue grid text-white place-items-center'>
 				<IconButton href={SIGN_IN} style={ButtonStyles} disableRipple>
 					<ArrowBackIos color='inherit' className='ml-1' />

@@ -93,4 +93,4 @@ function PollCard(props) {
 	)
 }
 
-export default PollCard
+export default React.memo(PollCard)

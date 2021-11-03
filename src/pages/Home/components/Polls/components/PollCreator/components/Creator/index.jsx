@@ -131,4 +131,4 @@ function Creator(props) {
 	)
 }
 
-export default Creator
+export default React.memo(Creator)
