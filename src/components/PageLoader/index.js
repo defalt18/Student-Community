@@ -2,9 +2,10 @@ import React from 'react'
 import Lottie from 'react-lottie'
 import { default as loadingAnimation } from 'assets/lotties/loading.json'
 import { default as peopleAnimation } from 'assets/lotties/page_loader.json'
+import c from 'classnames'
 
 function PageLoader(props) {
-	const { height = 100, width = 100, type = 'loading' } = props
+	const { type = 'loading', className } = props
 
 	const defaultOptions = React.useMemo(
 		() => ({
@@ -19,7 +20,7 @@ function PageLoader(props) {
 	)
 
 	return (
-		<div className='h-72 w-72 self-center mx-auto'>
+		<div className={c('h-72 w-72 self-center mx-auto', className)}>
 			<Lottie {...props} options={defaultOptions} />
 		</div>
 	)

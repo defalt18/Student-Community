@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import MediaContainer from '../Media'
 import da_logo from 'assets/images/DA-logo.png'
-import { Notifications } from '@material-ui/icons'
 import Avatar from 'components/Avatar'
 import Button from 'components/Button'
 import SearchPlayer from './components/SearchPlayer'
@@ -12,6 +11,7 @@ import { HOME } from 'constants/routes'
 import { useToggle } from 'react-use'
 import Dialog from 'components/Dialog'
 import CreatePostDialog from './components/CreatePostDialog'
+import NotificationWindow from './components/NotificationWindow'
 
 function NewHeader() {
 	const { user } = useAuthListener()
@@ -41,16 +41,13 @@ function NewHeader() {
 				{user ? (
 					<>
 						<SearchPlayer />
-						<Button className='rounded-3xl p-2'>
-							<Notifications color='inherit' />
-						</Button>
+						<NotificationWindow user={user} />
 						<Button callback={redirectToProfile} className='rounded-3xl p-2'>
 							<Avatar src={userdata?.image} size='small' variant='normal' />
 						</Button>
 						<Button
 							text='Create post'
 							variant='filled'
-							// size='medium'
 							className='px-8 py-2 flex items-center justify-center font-bold'
 							callback={toggle}
 						/>

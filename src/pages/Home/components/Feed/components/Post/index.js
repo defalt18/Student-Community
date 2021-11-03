@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Avatar from 'components/Avatar'
 import { differenceInDays, format, formatDistanceToNow } from 'date-fns'
 import Button from 'components/Button'
@@ -16,6 +16,7 @@ import { updatePostPerformance } from 'services/post-utils'
 import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
 import { deleteDocumentByAdmin } from 'pages/Admin/utils'
+import { notifyUser } from '../../../../../../services/user-utils'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -41,6 +42,19 @@ function Post(props) {
 		[setComment]
 	)
 
+	const notificationDetails = useMemo(
+		() => ({
+			creator: {
+				name: userdata?.username,
+				image: userdata?.image,
+				uid: userdata?.NO_ID_FIELD
+			},
+			variant: '',
+			timestamp: Date.now(),
+			contentId: NO_ID_FIELD
+		}),
+		[userdata, NO_ID_FIELD]
+	)
 	const POST_ACTIONS = user ? POST_OPTIONS : POST_OPTIONS.slice(1)
 
 	const onUploadComment = useCallback(async () => {
@@ -53,6 +67,12 @@ function Post(props) {
 				}
 			}
 			await updatePostPerformance(NO_ID_FIELD, performance)
+
+			if (creatorId !== user.uid)
+				await notifyUser(creatorId, {
+					...notificationDetails,
+					variant: 'comment'
+				})
 			setComment('')
 			toggle()
 		} else alert('Add a comment first')
@@ -63,6 +83,8 @@ function Post(props) {
 		userdata?.username,
 		postComment,
 		toggle,
+		creatorId,
+		notificationDetails,
 		setComment
 	])
 
@@ -73,6 +95,11 @@ function Post(props) {
 					delete performance.likes[user.uid]
 				else performance.likes = { ...performance.likes, [user.uid]: 1 }
 
+				if (creatorId !== user.uid)
+					await notifyUser(creatorId, {
+						...notificationDetails,
+						variant: 'like'
+					})
 				await updatePostPerformance(NO_ID_FIELD, performance)
 			},
 			comments: toggle,
@@ -84,7 +111,15 @@ function Post(props) {
 				await deleteDocumentByAdmin(NO_ID_FIELD, { image }, 'posts')
 			}
 		}),
-		[NO_ID_FIELD, performance, user, toggle, image]
+		[
+			NO_ID_FIELD,
+			performance,
+			user,
+			toggle,
+			image,
+			creatorId,
+			notificationDetails
+		]
 	)
 
 	const renderPerformance = () => (

@@ -1,5 +1,7 @@
 import { db, storage } from '../lib/firebase.prod'
 import _map from 'lodash/map'
+import _forEach from 'lodash/forEach'
+import _reduce from 'lodash/reduce'
 
 const SUCCESS = 'Successful'
 
@@ -97,4 +99,41 @@ export const uploadPhotoForUserId = async (id, pictureURL) => {
 
 export const updateUserDetails = async (userdata, userId) => {
 	await db.collection('users').doc(userId).update(userdata)
+}
+
+export const clearNotificationById = async (userId, id) => {
+	if (id === '*') {
+		const collection = db
+			.collection('users')
+			.doc(userId)
+			.collection('notifications')
+		const data = await collection.get()
+		await _forEach(
+			data.docs,
+			async (doc) => await collection.doc(doc.id).delete()
+		)
+	} else
+		await db
+			.collection('users')
+			.doc(userId)
+			.collection('notifications')
+			.doc(id)
+			.delete()
+}
+
+export const fetchNotifications = async (userId) => {
+	const data = await db
+		.collection('users')
+		.doc(userId)
+		.collection('notifications')
+		.get()
+	return _reduce(
+		data.docs,
+		(allDoc, doc) => [...allDoc, { NO_ID_FIELD: doc.id, ...doc.data() }],
+		[]
+	)
+}
+
+export const notifyUser = async (id, data) => {
+	await db.collection('users').doc(id).collection('notifications').add(data)
 }
