@@ -95,7 +95,7 @@ function Post(props) {
 					delete performance.likes[user.uid]
 				else performance.likes = { ...performance.likes, [user.uid]: 1 }
 
-				if (creatorId !== user.uid)
+				if (creatorId !== user.uid && _has(performance.likes, user.uid))
 					await notifyUser(creatorId, {
 						...notificationDetails,
 						variant: 'like'
