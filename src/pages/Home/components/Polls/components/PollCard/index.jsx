@@ -3,16 +3,17 @@ import _map from 'lodash/map'
 import { useToggle } from 'react-use'
 import Avatar from 'components/Avatar'
 import { updatePoll } from 'services/poll-utils'
-import { updateUserDetails } from 'services/user-utils'
 import _has from 'lodash/has'
 import { useAuthListener } from 'hooks'
+import { Link } from 'react-router-dom'
 
 function PollCard(props) {
 	const { user } = useAuthListener()
 	const { NO_ID_FIELD, userdata, ...pollContent } = props
-	const { name, options, totalVotes, creator, performance } = pollContent
+	const { name, options, totalVotes, creator, performance, responses } =
+		pollContent
 
-	const [showResults, toggle] = useToggle(_has(userdata.polls, NO_ID_FIELD))
+	const [showResults, toggle] = useToggle(_has(responses, user.uid))
 	const styles = useCallback(
 		(option) => ({
 			zIndex: -1,
@@ -29,21 +30,15 @@ function PollCard(props) {
 			const updatedPoll = {
 				...pollContent,
 				performance: perf,
-				totalVotes: totalVotes + 1
-			}
-			const updatedDetails = {
-				...userdata,
-				polls: {
-					[NO_ID_FIELD]: id
-				}
+				totalVotes: totalVotes + 1,
+				responses: { ...responses, [user.uid]: id }
 			}
 			await updatePoll(NO_ID_FIELD, updatedPoll)
-			await updateUserDetails(updatedDetails, user.uid)
 			toggle()
 		},
 		[
 			user.uid,
-			userdata,
+			responses,
 			performance,
 			totalVotes,
 			toggle,
@@ -86,10 +81,13 @@ function PollCard(props) {
 				<div className='bg-header_blue py-2 px-5 rounded text-center'>
 					{totalVotes} votes
 				</div>
-				<div className='mt-auto text-outline_blue flex gap-x-4 items-center'>
-					<span>Uploaded by {creator.name}</span>
+				<Link
+					to={`/${creator.uid}/new-profile`}
+					className='mt-auto text-outline_blue flex gap-x-4 items-center'
+				>
+					<span className='text-secondary-03'>Uploaded by {creator.name}</span>
 					<Avatar src={creator.image} variant='normal' size='small' />
-				</div>
+				</Link>
 			</div>
 		</div>
 	)

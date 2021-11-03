@@ -4,9 +4,8 @@ import PageLoader from 'components/PageLoader'
 import Button from 'components/Button'
 import _map from 'lodash/map'
 import _values from 'lodash/values'
-import _keys from 'lodash/keys'
 import _reduce from 'lodash/reduce'
-import { requestPoll } from '../../../../../../../../services/poll-utils'
+import { requestPoll } from 'services/poll-utils'
 import { VIEWS } from '../../../../types'
 
 const MAX_INPUTS = 5
