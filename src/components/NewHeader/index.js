@@ -34,7 +34,11 @@ function NewHeader() {
 				to={HOME}
 				className='w-40 flex text-decoration-none gap-x-2 items-center'
 			>
-				<MediaContainer src={da_logo} className='h-10 w-auto object-contain' />
+				<MediaContainer
+					src={da_logo}
+					className='h-10 w-auto object-contain'
+					showPlaceholder={false}
+				/>
 				<p className='prompt-subtext text-white'>Student Community</p>
 			</Link>
 			<div className='ml-auto flex gap-x-4 text-white items-center'>
