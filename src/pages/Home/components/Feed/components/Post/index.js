@@ -91,11 +91,11 @@ function Post(props) {
 	const CALLBACKS = React.useMemo(
 		() => ({
 			likes: async () => {
-				if (_has(performance.likes, user.uid))
-					delete performance.likes[user.uid]
-				else performance.likes = { ...performance.likes, [user.uid]: 1 }
+				if (_has(performance.likes, user?.uid))
+					delete performance.likes[user?.uid]
+				else performance.likes = { ...performance.likes, [user?.uid]: 1 }
 
-				if (creatorId !== user.uid && _has(performance.likes, user.uid))
+				if (creatorId !== user?.uid && _has(performance.likes, user?.uid))
 					await notifyUser(creatorId, {
 						...notificationDetails,
 						variant: 'like'
@@ -174,7 +174,7 @@ function Post(props) {
 						</p>
 					</div>
 				</div>
-				{creatorId === user.uid && (
+				{creatorId === user?.uid && (
 					<Button
 						variant='abort'
 						className='px-6 py-1'
