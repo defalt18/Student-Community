@@ -13,7 +13,7 @@ import FriendCard from './components/FriendCard'
 import _keys from 'lodash/keys'
 
 function PerformanceDetails(props) {
-	const { className, content } = props
+	const { className, content, user } = props
 	const [view, setView] = useState(Views.Posts)
 	const posts = content.posts
 	const events = content.events
@@ -41,19 +41,21 @@ function PerformanceDetails(props) {
 			const friends = _filter(userdata.friends, { status: 1 })
 			return (
 				<div>
-					<div className='max-h-96 flex flex-col gap-y-6 overflow-scroll mb-8'>
-						<p className='text-outline_blue text-secondary font-bold'>
-							Friend requests({_size(requests)})
-						</p>
-						{_map(_keys(requests), (request) => (
-							<FriendCard {...requests[request]} userdata={userdata} />
-						))}
-						{_isEmpty(_keys(requests)) && (
-							<p className='text-secondary text-white w-full text-center'>
-								No requests yet
+					{user.uid === userdata.NO_ID_FIELD && (
+						<div className='max-h-96 flex flex-col gap-y-6 overflow-scroll mb-8'>
+							<p className='text-outline_blue text-secondary font-bold'>
+								Friend requests({_size(requests)})
 							</p>
-						)}
-					</div>
+							{_map(_keys(requests), (request) => (
+								<FriendCard {...requests[request]} userdata={userdata} />
+							))}
+							{_isEmpty(_keys(requests)) && (
+								<p className='text-secondary text-white w-full text-center'>
+									No requests yet
+								</p>
+							)}
+						</div>
+					)}
 					<div className='flex flex-col gap-y-6'>
 						<p className='text-outline_blue text-secondary font-bold'>
 							Current friends ({_size(friends)})
