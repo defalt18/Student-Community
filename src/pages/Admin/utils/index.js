@@ -1,7 +1,7 @@
 import { db, storage } from 'lib/firebase.prod'
 import _isEmpty from 'lodash/isEmpty'
 
-async function deleteImageFromStorage(url) {
+export async function deleteImageFromStorage(url) {
 	if (!_isEmpty(url)) await storage.refFromURL(url).delete()
 }
 

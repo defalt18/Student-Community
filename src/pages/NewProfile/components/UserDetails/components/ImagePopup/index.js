@@ -5,6 +5,8 @@ import c from 'classnames'
 import Avatar from '@material-ui/core/Avatar'
 import Button from 'components/Button'
 import creator_dummy from 'assets/images/creator_dummy.png'
+import dummy_cover from 'assets/images/dummy_cover.png'
+import MediaContainer from 'components/Media'
 
 const imageStyles = {
 	height: 180,
@@ -12,13 +14,20 @@ const imageStyles = {
 }
 
 function ImagePopup(props) {
-	const { callback = _noop, src, className, authorisation } = props
+	const {
+		callback = _noop,
+		removeCallback = _noop,
+		src,
+		className,
+		authorisation,
+		variant = 'dp'
+	} = props
 	const inputElement = useRef(null)
 
 	const onChange = useCallback(
 		async (_event) => {
 			const { files } = _event.target
-			callback(_head(files))
+			await callback(_head(files))
 		},
 		[callback]
 	)
@@ -27,6 +36,23 @@ function ImagePopup(props) {
 		inputElement.current.click()
 	}, [])
 
+	const renderContent = () => {
+		if (variant === 'cover') {
+			return (
+				<MediaContainer
+					src={src || dummy_cover}
+					className='h-48 w-120 object-cover'
+				/>
+			)
+		}
+
+		return (
+			<div>
+				<Avatar src={src || creator_dummy} style={imageStyles} />
+			</div>
+		)
+	}
+
 	return (
 		<div
 			className={c(
@@ -34,9 +60,7 @@ function ImagePopup(props) {
 				className
 			)}
 		>
-			<div>
-				<Avatar src={src || creator_dummy} style={imageStyles} />
-			</div>
+			{renderContent()}
 			<input
 				type='file'
 				name='image'
@@ -46,7 +70,7 @@ function ImagePopup(props) {
 				onChange={onChange}
 			/>
 			{authorisation && (
-				<div className='flex gap-x-3 w-full mt-6'>
+				<div className='flex gap-x-3 w-full mt-6 justify-center'>
 					<Button
 						text='Change photo'
 						variant='filled'
@@ -58,6 +82,7 @@ function ImagePopup(props) {
 						variant='outline'
 						size='small'
 						className='text-secondary'
+						callback={removeCallback}
 					/>
 				</div>
 			)}
