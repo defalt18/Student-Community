@@ -41,7 +41,9 @@ function EventFeed(props) {
 				<p className='text-secondary text-outline_blue mb-4'>Upcoming Events</p>
 				{renderEventInfo()}
 			</div>
-			<Suggestions userdata={userdata} user={user} />
+			{userdata.role === 'Individual' && (
+				<Suggestions userdata={userdata} user={user} />
+			)}
 		</div>
 	)
 }

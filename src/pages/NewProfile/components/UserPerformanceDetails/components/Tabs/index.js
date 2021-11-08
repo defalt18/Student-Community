@@ -11,7 +11,9 @@ function Tabs(props) {
 	const {
 		numberOfFriends = 0,
 		numberOfPosts = 0,
-		numberOfSources = 0
+		numberOfSources = 0,
+		numberOfEvents = 0,
+		userdata
 	} = content
 
 	const onClick = useCallback(
@@ -25,7 +27,7 @@ function Tabs(props) {
 		<button
 			onClick={() => onClick(view)}
 			className={c(
-				'w-1/3 py-3 border-b-4',
+				'w-1/3 py-3 border-b-4 flex-1',
 				active ? tabStyles.active : tabStyles.dormant
 			)}
 		>
@@ -42,18 +44,29 @@ function Tabs(props) {
 				label='Posts'
 				view='POSTS'
 			/>
-			<DataTab
-				value={numberOfSources}
-				active={view === 'ACADEMIC'}
-				label='Academic Sources'
-				view='ACADEMIC'
-			/>
-			<DataTab
-				value={numberOfFriends}
-				active={view === 'FRIENDS'}
-				label='Friends'
-				view='FRIENDS'
-			/>
+			{userdata.role === 'Club' ? (
+				<DataTab
+					value={numberOfEvents}
+					active={view === 'EVENTS'}
+					label='Events'
+					view='EVENTS'
+				/>
+			) : (
+				<>
+					<DataTab
+						value={numberOfSources}
+						active={view === 'ACADEMIC'}
+						label='Academic Sources'
+						view='ACADEMIC'
+					/>
+					<DataTab
+						value={numberOfFriends}
+						active={view === 'FRIENDS'}
+						label='Friends'
+						view='FRIENDS'
+					/>
+				</>
+			)}
 		</div>
 	)
 }

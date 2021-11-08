@@ -73,3 +73,7 @@ export const fetchParticipantsForEventId = async (id) => {
 		.get()
 	return _map(participantCollection.docs, (participant) => participant.id)
 }
+
+export const updateEventDetails = async (id, data) => {
+	await db.collection('events').doc(id).update(data)
+}

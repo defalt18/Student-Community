@@ -14,12 +14,20 @@ export default function UseUserData({ userId }) {
 		useFirestore().collection('posts').where('creatorId', '==', userId)
 	)
 
-	const loading = userStatus === 'loading' || postStatus === 'loading'
+	const { status: eventStatus, data: events } = useFirestoreCollectionData(
+		useFirestore().collection('events').where('creatorId', '==', userId)
+	)
+
+	const loading =
+		userStatus === 'loading' ||
+		postStatus === 'loading' ||
+		eventStatus === 'loading'
 
 	return {
 		loading,
 		userdata,
-		posts
+		posts,
+		events
 	}
 }
 

@@ -1,5 +1,6 @@
 export const Views = {
 	Posts: 'POSTS',
 	Academic: 'ACADEMIC',
-	Friends: 'FRIENDS'
+	Friends: 'FRIENDS',
+	Events: 'EVENTS'
 }

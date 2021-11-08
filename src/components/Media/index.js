@@ -14,7 +14,12 @@ function MediaContainer(props) {
 		return (
 			<div>
 				{show && showPlaceholder && <Placeholder type='photo' style={styles} />}
-				<img src={src} onLoad={toggle} className={c(className)} alt='' />
+				<img
+					src={src}
+					onLoad={toggle}
+					className={c(show ? 'hidden' : '', className)}
+					alt=''
+				/>
 			</div>
 		)
 	} else return null

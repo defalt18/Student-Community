@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import MediaContainer from 'components/Media'
 import _map from 'lodash/map'
-import { clubsData } from './fixtures/club-model'
+import Button from 'components/Button'
+import { useHistory } from 'react-router-dom'
 
-function Clubs() {
+function Clubs(props) {
+	const { content } = props
+	const history = useHistory()
+
+	const headToPage = useCallback(
+		(id) => {
+			history.push(`/${id}/new-profile`)
+		},
+		[history]
+	)
 	return (
 		<div className='pt-32 text-white px-12 h-screen overflow-scroll pb-20 w-10/12 flex-1'>
 			<div className='flex w-full'>
@@ -24,22 +34,24 @@ function Clubs() {
 			</div>
 			<div className='mt-24 w-full'>
 				<div className='grid grid-cols-3 gap-6'>
-					{_map(clubsData, (club) => (
+					{_map(content, (club) => (
 						<div
-							id={club.id}
+							id={club.NO_ID_FIELD}
 							className='bg-header_blue rounded p-3 flex flex-col items-center justify-center'
 						>
-							<MediaContainer src={club.image} className='h-72 object-cover' />
-							<p className='text-primary text-white mb-6 mt-4'>{club.name}</p>
-							<p className='text-secondary text-white self-center text-center w-8/12'>
-								{club.description}
+							<MediaContainer src={club.image} className='h-60 object-cover' />
+							<p className='text-primary text-white mb-6 mt-4'>
+								{club.username}
 							</p>
-							<a
-								href={`/${club.id}/info`}
-								className='text-secondary mt-8 underline text-outline_blue'
-							>
-								Know more
-							</a>
+							<p className='text-secondary text-white self-center text-center w-8/12'>
+								{club.bio}
+							</p>
+							<Button
+								variant='outline'
+								text='View club page'
+								callback={() => headToPage(club.NO_ID_FIELD)}
+								className='px-4 py-1 mt-8'
+							/>
 						</div>
 					))}
 				</div>
@@ -48,4 +60,4 @@ function Clubs() {
 	)
 }
 
-export default Clubs
+export default React.memo(Clubs)

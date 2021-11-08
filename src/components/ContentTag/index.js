@@ -2,7 +2,7 @@ import React from 'react'
 import c from 'classnames'
 
 const VARIANTS = {
-	Student: 'Student',
+	Student: 'Individual',
 	Club: 'Club'
 }
 

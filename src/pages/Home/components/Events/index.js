@@ -3,9 +3,14 @@ import MediaContainer from 'components/Media'
 import _map from 'lodash/map'
 import EventCard from './components/EventCard'
 import _head from 'lodash/head'
+import { useToggle } from 'react-use'
+import Dialog from 'components/Dialog'
+import AddEventDialog from './components/AddEventDialog'
+import Button from '../../../../components/Button'
 
 function Events(props) {
-	const { events } = props
+	const { events, userdata } = props
+	const [eventAction, toggle] = useToggle(false)
 	const upcomingEvent = _head(events)
 
 	return (
@@ -20,6 +25,14 @@ function Events(props) {
 						little clubs make the college an organism as with its own city to
 						breed into!
 					</p>
+					{userdata.role === 'Club' && (
+						<Button
+							variant='filled'
+							className='px-16 py-3 font-bold mb-16'
+							text='Add Event'
+							callback={toggle}
+						/>
+					)}
 				</div>
 				<div className='w-1/2'>
 					{/*Vector Image*/}
@@ -33,6 +46,7 @@ function Events(props) {
 				<EventCard
 					key={upcomingEvent?.NO_ID_FIELD}
 					content={upcomingEvent}
+					userdata={userdata}
 					isUpcoming
 				/>
 			</div>
@@ -50,9 +64,16 @@ function Events(props) {
 			</div>
 			<div className='flex flex-col gap-y-6'>
 				{_map(events, (event) => (
-					<EventCard key={event.NO_ID_FIELD} content={event} />
+					<EventCard
+						key={event.NO_ID_FIELD}
+						content={event}
+						userdata={userdata}
+					/>
 				))}
 			</div>
+			<Dialog open={eventAction && userdata.role === 'Club'} toggle={toggle}>
+				<AddEventDialog userdata={userdata} toggle={toggle} />
+			</Dialog>
 		</div>
 	)
 }

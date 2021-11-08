@@ -10,9 +10,16 @@ import Polls from './components/Polls'
 import Events from './components/Events'
 import useHomeData from './hooks/useHomeData'
 import PageLoader from 'components/PageLoader'
+import { useToggle } from 'react-use'
+import Dialog from 'components/Dialog'
+import _isEmpty from 'lodash/isEmpty'
+import { useLocation } from 'react-router-dom'
+import Greetings from './components/Greetings'
 
 function NewHome(props) {
 	const { user } = props
+	const location = useLocation()
+	const [greet, toggle] = useToggle(!_isEmpty(location.state))
 	const [view, navigator] = useState(VIEWS.HOME)
 	const { loading, events, polls, ...rest } = useHomeData()
 
@@ -32,7 +39,7 @@ function NewHome(props) {
 				)
 
 			case VIEWS.CLUBS:
-				return <Clubs />
+				return <Clubs content={rest?.clubs} />
 
 			case VIEWS.ACADEMIC:
 				return <Academic />
@@ -43,19 +50,26 @@ function NewHome(props) {
 				)
 
 			case VIEWS.EVENTS:
-				return <Events loading={loading} events={events} />
+				return (
+					<Events loading={loading} events={events} userdata={rest?.userdata} />
+				)
 
 			default:
 				return null
 		}
 	}
 	return (
-		<div className='w-screen min-h-screen bg-body_blue flex'>
-			<Header />
-			<Sidebar view={view} navigator={navigator} />
-			{loading ? <PageLoader type='home' /> : renderContent()}
-		</div>
+		<>
+			<div className='w-screen min-h-screen bg-body_blue flex'>
+				<Header />
+				<Sidebar view={view} navigator={navigator} />
+				{loading ? <PageLoader type='home' /> : renderContent()}
+			</div>
+			<Dialog open={greet} toggle={toggle}>
+				<Greetings toggle={toggle} />
+			</Dialog>
+		</>
 	)
 }
 
-export default NewHome
+export default React.memo(NewHome)

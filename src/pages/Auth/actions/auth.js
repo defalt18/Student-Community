@@ -1,5 +1,4 @@
 import _isEmpty from 'lodash/isEmpty'
-import { useFirestore } from 'reactfire'
 
 const checkValidEmail = (email) => {
 	const regexEmail = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
@@ -23,11 +22,17 @@ export async function signInWithCredentials(auth, credentials) {
 	return { user: userToken.user, error: status }
 }
 
-export async function createUserWithCredentials(auth, db, credentials) {
+export async function createUserWithCredentials(
+	displayName,
+	auth,
+	db,
+	credentials
+) {
 	const userToken = await auth.createUserWithEmailAndPassword(
 		credentials.email,
 		credentials.password
 	)
 	await userToken.user.sendEmailVerification()
+	await userToken.user.updateProfile({ displayName })
 	await db.collection('users').doc(userToken.user.uid).set(credentials)
 }

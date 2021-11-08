@@ -17,6 +17,7 @@ import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
 import { deleteDocumentByAdmin } from 'pages/Admin/utils'
 import { notifyUser } from '../../../../../../services/user-utils'
+import Dialog from '../../../../../../components/Dialog'
 
 function Post(props) {
 	const { user } = useAuthListener()
@@ -33,6 +34,7 @@ function Post(props) {
 	} = props
 	const [showComments, toggle] = useToggle(false)
 	const [postComment, setComment] = React.useState('')
+	const [showDelete, toggleDelete] = useToggle(false)
 
 	const onChange = React.useCallback(
 		(_event) => {
@@ -179,7 +181,7 @@ function Post(props) {
 						variant='abort'
 						className='px-6 py-1'
 						text='Delete post'
-						callback={CALLBACKS.delete}
+						callback={toggleDelete}
 					/>
 				)}
 			</div>
@@ -233,6 +235,28 @@ function Post(props) {
 					</div>
 				)}
 			</div>
+			<Dialog open={showDelete} toggle={toggleDelete}>
+				<div className='p-8 bg-body_blue text-white flex flex-col'>
+					<p className='text-primary'>Delete post?</p>
+					<p className='text-text_placeholder text-secondary mt-2'>
+						Are you sure you want to permanently delete this post?
+					</p>
+					<div className='flex self-end gap-x-4 items-center mt-16'>
+						<Button
+							variant='outline'
+							callback={toggleDelete}
+							text='Cancel'
+							className='h-7 w-36 flex items-center justify-center'
+						/>
+						<Button
+							variant='abort'
+							callback={CALLBACKS.delete}
+							text='Delete post'
+							className='h-7 w-36 flex items-center justify-center'
+						/>
+					</div>
+				</div>
+			</Dialog>
 		</div>
 	)
 }

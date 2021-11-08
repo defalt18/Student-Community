@@ -9,7 +9,7 @@ function VerificationScreen() {
 	const { data: user } = useUser()
 
 	if (user) {
-		if (user.emailVerified) history.replace(HOME)
+		if (user.emailVerified) history.push(HOME, { details: 'new user' })
 	}
 
 	return (
@@ -23,7 +23,8 @@ function VerificationScreen() {
 							Please head over to your email to verify your email with us...
 						</p>
 						<p className='text-secondary'>
-							As soon as you verify your credentials, you will be redirected
+							As soon as you verify your credentials, you will be redirected. If
+							not redirected after a few seconds hit refresh
 						</p>
 					</div>
 				</div>

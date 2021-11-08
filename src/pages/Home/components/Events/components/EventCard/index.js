@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import MediaContainer from 'components/Media'
 import { format } from 'date-fns'
 import Button from 'components/Button'
 import _isEmpty from 'lodash/isEmpty'
 import c from 'classnames'
+import { updateEventDetails } from 'services/event-utils'
+import _has from 'lodash/has'
 
 function EventCard(props) {
-	const { content, isUpcoming = false } = props
+	const { content, isUpcoming = false, userdata } = props
+
+	const onAttend = useCallback(async () => {
+		await updateEventDetails(content.NO_ID_FIELD, {
+			attendees: content.attendees + 1,
+			performance: { ...content.performance, [userdata.NO_ID_FIELD]: 1 }
+		})
+	}, [content, userdata])
 
 	if (_isEmpty(content)) return null
 
@@ -48,12 +57,19 @@ function EventCard(props) {
 					<span className='text-outline_blue'>Attendees : </span>
 					{content.attendees}
 				</p>
-				<Button
-					text='Attend'
-					variant='outline'
-					size='medium'
-					className='mt-9 w-max'
-				/>
+				{_has(content.performance, userdata?.NO_ID_FIELD) ? (
+					<div className='border border-outline_blue px-6 py-1 text-secondary text-outline_blue rounded w-max mt-9'>
+						Attending ✓
+					</div>
+				) : (
+					<Button
+						text='Attend'
+						variant='outline'
+						size='medium'
+						className='mt-9 w-max'
+						callback={onAttend}
+					/>
+				)}
 			</div>
 			<div className='flex-1'>
 				<MediaContainer

@@ -23,6 +23,10 @@ export default function useHomeData() {
 		useFirestore().collection('polls').orderBy('timestamp', 'desc')
 	)
 
+	const { status: clubStatus, data: clubs } = useFirestoreCollectionData(
+		useFirestore().collection('users').where('role', '==', 'Club')
+	)
+
 	const { status: userStatus, data: userdata } = useFirestoreDocData(
 		useFirestore().collection('users').doc(user?.uid)
 	)
@@ -32,11 +36,13 @@ export default function useHomeData() {
 		userStatus === 'loading' ||
 		eventStatus === 'loading' ||
 		pollStatus === 'loading' ||
-		storyStatus === 'loading'
+		storyStatus === 'loading' ||
+		clubStatus === 'loading'
 
 	return {
 		loading,
 		posts,
+		clubs,
 		userdata,
 		stories,
 		events,
