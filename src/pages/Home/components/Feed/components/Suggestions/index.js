@@ -20,7 +20,7 @@ function Suggestions(props) {
 					{_map(
 						_filter(suggests, (suggest) => suggest.uid !== user.uid),
 						(suggest) => (
-							<UserCard key={suggest.uid} {...suggest} />
+							<UserCard key={suggest.uid} {...suggest} userdata={userdata} />
 						)
 					)}
 				</div>

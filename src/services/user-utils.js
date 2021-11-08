@@ -134,6 +134,11 @@ export const fetchNotifications = async (userId) => {
 	)
 }
 
+export const fetchUserDetailsById = async (userId) => {
+	const doc = await db.collection('users').doc(userId).get()
+	return { NO_ID_FIELD: doc.id, ...doc.data() }
+}
+
 export const notifyUser = async (id, data) => {
 	await db.collection('users').doc(id).collection('notifications').add(data)
 }

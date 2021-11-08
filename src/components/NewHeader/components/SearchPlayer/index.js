@@ -10,7 +10,8 @@ const closeIconStyles = {
 	color: '#7DACF9'
 }
 
-function SearchPlayer() {
+function SearchPlayer(props) {
+	const { userdata } = props
 	const [open, toggle] = useToggle(false)
 	const [searchString, setSearch] = useState('')
 
@@ -47,10 +48,13 @@ function SearchPlayer() {
 						<Close style={closeIconStyles} />
 					</Button>
 				</div>
-				<SearchResultDetails searchString={throttledValue} />
+				<SearchResultDetails
+					searchString={throttledValue}
+					userdata={userdata}
+				/>
 			</div>
 		</Portal>
 	)
 }
 
-export default SearchPlayer
+export default React.memo(SearchPlayer)

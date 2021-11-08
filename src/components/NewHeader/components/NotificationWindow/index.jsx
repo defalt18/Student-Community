@@ -12,7 +12,7 @@ import { clearNotificationById } from 'services/user-utils'
 import _isEmpty from 'lodash/isEmpty'
 
 function NotificationWindow(props) {
-	const { user } = props
+	const { user, userdata } = props
 	const [open, toggle] = useToggle(false)
 
 	const { loading, notifications } = useNotifications(user.uid)
@@ -59,7 +59,7 @@ function NotificationWindow(props) {
 									<PageLoader type='loading' className='w-full h-full' />
 								) : (
 									_map(notifications, (thread) => (
-										<Notification {...thread} user={user} />
+										<Notification {...thread} user={user} userdata={userdata} />
 									))
 								)}
 								{_isEmpty(notifications) && !loading && (

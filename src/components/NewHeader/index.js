@@ -44,8 +44,8 @@ function NewHeader() {
 			<div className='ml-auto flex gap-x-4 text-white items-center'>
 				{user ? (
 					<>
-						<SearchPlayer />
-						<NotificationWindow user={user} />
+						<SearchPlayer userdata={userdata} />
+						<NotificationWindow user={user} userdata={userdata} />
 						<Button callback={redirectToProfile} className='rounded-3xl p-2'>
 							<Avatar src={userdata?.image} size='small' variant='normal' />
 						</Button>

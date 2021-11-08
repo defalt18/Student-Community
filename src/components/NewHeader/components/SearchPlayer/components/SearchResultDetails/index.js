@@ -3,10 +3,7 @@ import _map from 'lodash/map'
 import UserCard from 'components/UserCards'
 import { CircularProgress as Loader } from '@material-ui/core'
 import Button from 'components/Button'
-import {
-	fetchHomeSuggestions,
-	fetchSearchResults
-} from 'pages/Home/utils/home-utils'
+import { fetchSearchResults } from 'pages/Home/utils/home-utils'
 import _isEmpty from 'lodash/isEmpty'
 
 const LoaderStyles = {
@@ -15,7 +12,7 @@ const LoaderStyles = {
 }
 
 function SearchResultDetails(props) {
-	const { searchString } = props
+	const { searchString, userdata } = props
 	const [fetching, setFetching] = useState(false)
 	const [content, setContent] = useState(null)
 
@@ -45,7 +42,7 @@ function SearchResultDetails(props) {
 				</p>
 			)
 		if (fetching) return <Loader style={LoaderStyles} />
-		return <UserCard {...content[0]} type='recent' />
+		return <UserCard {...content[0]} type='recent' userdata={userdata} />
 	}
 
 	const renderResults = () => {
@@ -59,7 +56,7 @@ function SearchResultDetails(props) {
 		return (
 			<div className='flex flex-col gap-y-2'>
 				{_map(content, (user) => (
-					<UserCard {...user} />
+					<UserCard {...user} userdata={userdata} />
 				))}
 			</div>
 		)

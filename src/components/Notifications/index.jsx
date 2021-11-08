@@ -5,7 +5,7 @@ import Button from '../Button'
 import Avatar from '../Avatar'
 import c from 'classnames'
 import { formatDistanceToNow } from 'date-fns'
-import { clearNotificationById } from 'services/user-utils'
+import { clearNotificationById, updateUserDetails } from 'services/user-utils'
 
 const VARIANTS = {
 	Request: 'request',
@@ -17,11 +17,13 @@ function Notification(props) {
 	const {
 		className,
 		variant,
+		friends: creatorFriends,
 		timestamp,
 		contentId,
 		creator,
 		NO_ID_FIELD,
-		user
+		user,
+		userdata
 	} = props
 	const history = useHistory()
 
@@ -34,10 +36,62 @@ function Notification(props) {
 		[user.uid, NO_ID_FIELD]
 	)
 
+	const onAccept = useCallback(async () => {
+		const friends = userdata?.friends
+		await updateUserDetails(
+			{ friends: { ...friends, [creator.uid]: { status: 1, creator } } },
+			user.uid
+		)
+		await updateUserDetails(
+			{
+				friends: {
+					...creatorFriends,
+					[user.uid]: {
+						status: 1,
+						creator: {
+							image: userdata?.image,
+							name: userdata?.username,
+							uid: user.uid,
+							degree: userdata?.degree,
+							course: userdata?.course
+						}
+					}
+				}
+			},
+			creator.uid
+		)
+		await clearNotificationById(user.uid, NO_ID_FIELD)
+	}, [userdata, user.uid, creator, NO_ID_FIELD, creatorFriends])
+
+	const onDecline = useCallback(async () => {
+		const friends = userdata?.friends
+		delete friends[creator.uid]
+		delete creatorFriends[user.uid]
+		await updateUserDetails({ friends: friends ?? {} }, user.uid)
+		await updateUserDetails({ friends: creatorFriends ?? {} }, creator.uid)
+		await clearNotificationById(user.uid, NO_ID_FIELD)
+	}, [userdata?.friends, user.uid, creator.uid, NO_ID_FIELD, creatorFriends])
+
 	const renderContent = () => {
 		switch (variant) {
 			case VARIANTS.Request:
-				return null
+				return (
+					<div className='flex gap-x-2 items-center'>
+						<Avatar src={creator.image} size='small' />
+						<div>
+							<Link
+								to={`/${creator.uid}/new-profile`}
+								className='text-secondary font-bold'
+							>
+								<span className='text-outline_blue'>{creator.name} </span>
+								sent you a friend request.
+							</Link>
+							<p className='text-tertiary text-text_placeholder'>
+								{formatDistanceToNow(timestamp, { addSuffix: true })}
+							</p>
+						</div>
+					</div>
+				)
 
 			case VARIANTS.Comment:
 				return (
@@ -85,7 +139,22 @@ function Notification(props) {
 	const renderActions = () => {
 		switch (variant) {
 			case VARIANTS.Request:
-				return null
+				return (
+					<div className='flex gap-x-2 items-center'>
+						<Button
+							variant='filled'
+							className='h-8 w-max flex items-center justify-center px-2'
+							text='Accept'
+							callback={onAccept}
+						/>
+						<Button
+							variant='outline'
+							className='h-8 w-max flex items-center justify-center'
+							text='Decline'
+							callback={onDecline}
+						/>
+					</div>
+				)
 
 			case VARIANTS.Comment:
 				return (

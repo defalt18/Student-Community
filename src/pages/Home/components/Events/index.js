@@ -20,10 +20,8 @@ function Events(props) {
 					<p className='prompt-h2 text-darker_blue'>DAIICT</p>
 					<p className='prompt-h2 text-darker_blue'>Events</p>
 					<p className='text-secondary my-6'>
-						Students take and learn the best available from the community itself
-						making the campus a vibrant place to nurture and grow into. These
-						little clubs make the college an organism as with its own city to
-						breed into!
+						Find all the fun and exciting activities happening among the DAIICT
+						community here.
 					</p>
 					{userdata.role === 'Club' && (
 						<Button

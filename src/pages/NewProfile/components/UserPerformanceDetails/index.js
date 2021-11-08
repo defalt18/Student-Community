@@ -4,10 +4,13 @@ import Tabs from './components/Tabs'
 import { Views } from './types'
 import _map from 'lodash/map'
 import Post from '../../../Home/components/Feed/components/Post'
-import _size from 'lodash/size'
 import MediaContainer from 'components/Media'
 import { format } from 'date-fns'
 import _isEmpty from 'lodash/isEmpty'
+import _filter from 'lodash/pickBy'
+import _size from 'lodash/size'
+import FriendCard from './components/FriendCard'
+import _keys from 'lodash/keys'
 
 function PerformanceDetails(props) {
 	const { className, content } = props
@@ -34,7 +37,38 @@ function PerformanceDetails(props) {
 			return <p className='text-secondary text-white'>Coming Soon...</p>
 		}
 		if (view === Views.Friends) {
-			return <p className='text-secondary text-white'>Coming Soon...</p>
+			const requests = _filter(userdata.friends, { status: 0 })
+			const friends = _filter(userdata.friends, { status: 1 })
+			return (
+				<div>
+					<div className='max-h-96 flex flex-col gap-y-6 overflow-scroll mb-8'>
+						<p className='text-outline_blue text-secondary font-bold'>
+							Friend requests({_size(requests)})
+						</p>
+						{_map(_keys(requests), (request) => (
+							<FriendCard {...requests[request]} userdata={userdata} />
+						))}
+						{_isEmpty(_keys(requests)) && (
+							<p className='text-secondary text-white w-full text-center'>
+								No requests yet
+							</p>
+						)}
+					</div>
+					<div className='flex flex-col gap-y-6'>
+						<p className='text-outline_blue text-secondary font-bold'>
+							Current friends ({_size(friends)})
+						</p>
+						{_map(_keys(friends), (friend) => (
+							<FriendCard {...friends[friend]} userdata={userdata} />
+						))}
+						{_isEmpty(_keys(friends)) && (
+							<p className='text-secondary text-white w-full text-center'>
+								No friends yet
+							</p>
+						)}
+					</div>
+				</div>
+			)
 		}
 		if (view === Views.Events) {
 			return (
@@ -68,6 +102,7 @@ function PerformanceDetails(props) {
 				content={{
 					userdata,
 					numberOfPosts: _size(posts),
+					numberOfFriends: _size(_filter(userdata?.friends, { status: 1 })),
 					numberOfEvents: _size(events)
 				}}
 				className={'w-full'}
