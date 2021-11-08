@@ -54,19 +54,20 @@ function UserDetails(props) {
 			<p className='text-primary-02 text-white mt-4'>{username}</p>
 			<Tag className='mt-2' variant={role} />
 			<p className='text-secondary text-white mt-3'>{bio}</p>
-			{authorisation ? (
-				<Button
-					text='Edit Profile'
-					variant='outline'
-					className='text-secondary w-full mt-3 grid place-items-center'
-				/>
-			) : (
-				<Button
-					text='Follow'
-					variant='outline'
-					className='text-secondary w-full mt-3 grid place-items-center'
-				/>
-			)}
+			{role === 'Individual' &&
+				(authorisation ? (
+					<Button
+						text='Edit Profile'
+						variant='outline'
+						className='text-secondary w-full mt-3 grid place-items-center'
+					/>
+				) : (
+					<Button
+						text='Follow'
+						variant='outline'
+						className='text-secondary w-full mt-3 grid place-items-center'
+					/>
+				))}
 			<Divider className='mt-6' />
 			{getUserDetails(role, content.userdata)}
 			<Divider className='mt-6' />
