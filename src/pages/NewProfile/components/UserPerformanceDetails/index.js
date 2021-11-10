@@ -42,7 +42,7 @@ function PerformanceDetails(props) {
 			return (
 				<div>
 					{user.uid === userdata.NO_ID_FIELD && (
-						<div className='max-h-96 flex flex-col gap-y-6 overflow-scroll mb-8'>
+						<div className='max-h-96 flex flex-col gap-y-3 overflow-scroll mb-8'>
 							<p className='text-outline_blue text-secondary font-bold'>
 								Friend requests({_size(requests)})
 							</p>
@@ -56,7 +56,7 @@ function PerformanceDetails(props) {
 							)}
 						</div>
 					)}
-					<div className='flex flex-col gap-y-6'>
+					<div className='flex flex-col gap-y-3'>
 						<p className='text-outline_blue text-secondary font-bold'>
 							Current friends ({_size(friends)})
 						</p>
