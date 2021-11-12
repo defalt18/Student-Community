@@ -119,6 +119,7 @@ function Creator(props) {
 						<p className='text-secondary text-outline_blue'>Photo</p>
 					</div>
 				</button>
+				
 			</div>
 			<Button
 				variant='filled'
@@ -129,6 +130,7 @@ function Creator(props) {
 			/>
 		</>
 	)
-}
 
+	}
 export default React.memo(Creator)
+	
