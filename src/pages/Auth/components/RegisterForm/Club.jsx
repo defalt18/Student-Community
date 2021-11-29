@@ -13,6 +13,9 @@ import _has from 'lodash/has'
 import _size from 'lodash/size'
 import TextArea from './components/TextArea'
 import _map from 'lodash/map'
+import PageLoader from '../../../../components/PageLoader'
+import Dialog from '../../../../components/Dialog'
+import { useToggle } from 'react-use'
 
 const MAX_CORE_MEMBERS = 9
 
@@ -45,6 +48,7 @@ const validate = (values) => {
 
 function Club(props) {
 	const { auth, history, db } = props
+	const [loading, toggle] = useToggle(false)
 	const [members, setMembers] = useState(initialClub.coreDetails)
 
 	const incrementInput = useCallback(() => {
@@ -176,6 +180,12 @@ function Club(props) {
 				awaitResponse={false}
 				className='mx-auto mt-12'
 			/>
+			<Dialog open={loading} toggle={toggle} className='outline-none'>
+				<div className='bg-component_core grid place-items-center p-2 outline-none'>
+					<PageLoader type='loading' />
+					<p className='text-secondary text-white'>Registering...</p>
+				</div>
+			</Dialog>
 		</>
 	)
 }

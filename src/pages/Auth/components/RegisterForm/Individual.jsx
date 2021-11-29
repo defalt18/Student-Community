@@ -10,6 +10,9 @@ import MultiSelect from './components/MultiSelect'
 import { initialUser } from '../../actions/auth-modal'
 import { createUserWithCredentials } from '../../actions/auth'
 import { VERIFY } from 'constants/routes'
+import PageLoader from 'components/PageLoader'
+import Dialog from 'components/Dialog'
+import { useToggle } from 'react-use'
 
 const classes = {
 	container: 'bg-body_blue',
@@ -45,17 +48,19 @@ const validate = (values) => {
 
 function Individual(props) {
 	const { auth, history, db } = props
+	const [loading, toggle] = useToggle(false)
 	const [userSkills, setSkills] = useState([])
 
 	const onSubmit = useCallback(
 		async ({ confirmPassword, ...values }) => {
+			toggle()
 			await createUserWithCredentials('Individual', auth, db, {
 				...values,
 				skills: userSkills
 			})
 			history.push(VERIFY, { details: 'new user' })
 		},
-		[userSkills, history, auth, db]
+		[userSkills, history, auth, db, toggle]
 	)
 
 	const registration = useFormik({
@@ -234,6 +239,12 @@ function Individual(props) {
 				type='submit'
 				className='mx-auto mt-12'
 			/>
+			<Dialog open={loading} toggle={toggle} className='outline-none'>
+				<div className='bg-component_core grid place-items-center p-2 outline-none'>
+					<PageLoader type='loading' />
+					<p className='text-secondary text-white'>Registering...</p>
+				</div>
+			</Dialog>
 		</>
 	)
 }

@@ -14,7 +14,7 @@ const useStyles = makeStyles(() =>
 )
 
 function Dialog(props) {
-	const { open, toggle, children } = props
+	const { open, toggle, children, className } = props
 	const classes = useStyles()
 	return (
 		<Modal
@@ -24,7 +24,7 @@ function Dialog(props) {
 			closeAfterTransition
 		>
 			<Fade in={open}>
-				<div>{children}</div>
+				<div className={className}>{children}</div>
 			</Fade>
 		</Modal>
 	)

@@ -5,31 +5,14 @@ import { SIGN_UP, HOME, VERIFY } from 'constants/routes'
 import { useAuth } from 'reactfire'
 import { signInWithCredentials } from '../actions/auth'
 import { useHistory } from 'react-router-dom'
-import { CircularProgress } from '@material-ui/core'
 import { useToggle } from 'react-use'
 import Input from '../components/RegisterForm/components/Input'
+import Dialog from 'components/Dialog'
+import PageLoader from 'components/PageLoader'
 
 const classes = {
 	container: 'mt-8',
 	input: 'p-3'
-}
-const Loader = ({ loading }) => {
-	return (
-		<div className='absolute h-screen w-full pointer-events-none'>
-			{loading ? (
-				<div className='text-black bg-gray-300 mx-auto mt-16 max-w-max rounded p-3 flex gap-x-3 items-center justify-center'>
-					<CircularProgress
-						color='inherit'
-						style={{
-							height: 20,
-							width: 20
-						}}
-					/>
-					<p className='text-secondary'>Signing you in...</p>
-				</div>
-			) : null}
-		</div>
-	)
 }
 
 function SignIn() {
@@ -65,7 +48,6 @@ function SignIn() {
 
 	return (
 		<div className='h-screen w-screen bg-body_blue flex text-white'>
-			<Loader loading={loading} />
 			<div className='w-1/2 pl-24 flex items-center'>
 				<div>
 					<img src={daLogo} className='h-44 w-44 mb-16' />
@@ -113,6 +95,12 @@ function SignIn() {
 					</p>
 				</form>
 			</div>
+			<Dialog open={loading} toggle={toggle} className='outline-none'>
+				<div className='bg-component_core grid place-items-center p-2'>
+					<PageLoader type='loading' />
+					<p className='text-secondary text-white'>Signing you in...</p>
+				</div>
+			</Dialog>
 		</div>
 	)
 }
