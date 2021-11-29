@@ -1,8 +1,8 @@
 import React from 'react'
 import Lottie from 'react-lottie'
-import { default as loadingAnimation } from 'assets/lotties/loading.json'
-import { default as peopleAnimation } from 'assets/lotties/page_loader.json'
-import { default as picLoader } from 'assets/lotties/photo.json'
+import { default as loadingAnimation } from 'assets/lotties/hourglass.json'
+import { default as peopleAnimation } from 'assets/lotties/cube.json'
+import { default as picLoader } from 'assets/lotties/imageloader.json'
 import c from 'classnames'
 
 function PageLoader(props) {
