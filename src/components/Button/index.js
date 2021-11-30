@@ -11,7 +11,6 @@ function Button(props) {
 		callback = _noop,
 		size,
 		awaitResponse = true,
-		// loading = false,
 		variant = 'standard',
 		type,
 		className,

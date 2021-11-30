@@ -5,12 +5,12 @@ import creator_dummy from 'assets/images/creator_dummy.png'
 import _has from 'lodash/has'
 import Divider from 'components/Divider'
 import Tag from 'components/ContentTag'
-import Button from 'components/Button'
 import { Instagram, Facebook } from 'components/Icons'
 import { getUserDetails } from '../../utils/getUserDetails'
 import { updateUserDetails, uploadImageInDirectory } from 'services/user-utils'
 import _isEmpty from 'lodash/isEmpty'
 import { deleteImageFromStorage } from '../../../Admin/utils'
+import { useUserActions } from '../../hooks/useUserActions'
 
 function UserDetails(props) {
 	const { className, content, user } = props
@@ -23,6 +23,10 @@ function UserDetails(props) {
 	} = content.userdata
 
 	const authorisation = visitorId === user.uid
+	const { actions } = useUserActions({
+		friendDoc: content.userdata,
+		userId: user.uid
+	})
 
 	const updateDisplayPicture = useCallback(
 		async (file) => {
@@ -54,20 +58,7 @@ function UserDetails(props) {
 			<p className='text-primary-02 text-white mt-4'>{username}</p>
 			<Tag className='mt-2' variant={role} />
 			<p className='text-secondary text-white mt-3'>{bio}</p>
-			{role === 'Individual' &&
-				(authorisation ? (
-					<Button
-						text='Edit Profile'
-						variant='outline'
-						className='text-secondary w-full mt-3 grid place-items-center'
-					/>
-				) : (
-					<Button
-						text='Follow'
-						variant='outline'
-						className='text-secondary w-full mt-3 grid place-items-center'
-					/>
-				))}
+			<div className='text-secondary w-full mt-3'>{actions()}</div>
 			<Divider className='mt-6' />
 			{getUserDetails(role, content.userdata)}
 			<Divider className='mt-6' />

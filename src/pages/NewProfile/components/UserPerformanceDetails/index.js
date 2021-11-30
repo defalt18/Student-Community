@@ -4,6 +4,7 @@ import Tabs from './components/Tabs'
 import { Views } from './types'
 import _map from 'lodash/map'
 import Post from '../../../Home/components/Feed/components/Post'
+import { default as LockIcon } from '@material-ui/icons/HttpsOutlined'
 import MediaContainer from 'components/Media'
 import { format } from 'date-fns'
 import _isEmpty from 'lodash/isEmpty'
@@ -11,6 +12,12 @@ import _filter from 'lodash/pickBy'
 import _size from 'lodash/size'
 import FriendCard from './components/FriendCard'
 import _keys from 'lodash/keys'
+import _has from 'lodash/has'
+
+const lockStyles = {
+	height: 70,
+	width: 70
+}
 
 function PerformanceDetails(props) {
 	const { className, content, user } = props
@@ -18,6 +25,7 @@ function PerformanceDetails(props) {
 	const posts = content.posts
 	const events = content.events
 	const userdata = content.userdata
+	const contentPermissions = userdata.NO_ID_FIELD === user.uid
 
 	const renderView = () => {
 		if (view === Views.Posts) {
@@ -39,9 +47,22 @@ function PerformanceDetails(props) {
 		if (view === Views.Friends) {
 			const requests = _filter(userdata.friends, { status: 0 })
 			const friends = _filter(userdata.friends, { status: 1 })
+			if (!contentPermissions) {
+				if (
+					!_has(userdata?.friends, user.uid) &&
+					userdata?.friends[user.uid]?.status !== 1
+				)
+					return (
+						<div className='pt-8 grid place-items-center text-secondary text-white'>
+							<LockIcon style={lockStyles} />
+							<p className='mt-3'>Follow them to see their friends! 😁</p>
+						</div>
+					)
+			}
+
 			return (
 				<div>
-					{user.uid === userdata.NO_ID_FIELD && (
+					{contentPermissions && (
 						<div className='max-h-96 flex flex-col gap-y-3 overflow-scroll mb-8'>
 							<p className='text-outline_blue text-secondary font-bold'>
 								Friend requests({_size(requests)})
