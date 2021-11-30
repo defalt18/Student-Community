@@ -7,6 +7,7 @@ import {
 import { useAsync } from 'react-use'
 import Button from 'components/Button'
 import _has from 'lodash/has'
+import _noop from 'lodash/noop'
 
 export function useUserActions({ friendDoc, userId }) {
 	const { NO_ID_FIELD: friendUserId } = friendDoc
@@ -112,7 +113,7 @@ export function useUserActions({ friendDoc, userId }) {
 	])
 
 	const actions = useCallback(() => {
-		if (friendDoc.role === 'Individual' && userDoc.role !== 'Club') {
+		if (friendDoc.role === 'Individual' && userDoc.role === 'Individual') {
 			if (friendUserId === userId)
 				return (
 					<Button
@@ -189,8 +190,8 @@ export function useUserActions({ friendDoc, userId }) {
 		userId,
 		friendUserId,
 		eraseRequest,
-		userDoc.role
+		userDoc
 	])
 
-	return { actions }
+	return { actions: disabled ? _noop : actions }
 }
