@@ -112,7 +112,7 @@ export function useUserActions({ friendDoc, userId }) {
 	])
 
 	const actions = useCallback(() => {
-		if (friendDoc.role === 'Individual') {
+		if (friendDoc.role === 'Individual' && userDoc.role !== 'Club') {
 			if (friendUserId === userId)
 				return (
 					<Button
@@ -188,7 +188,8 @@ export function useUserActions({ friendDoc, userId }) {
 		friendDoc,
 		userId,
 		friendUserId,
-		eraseRequest
+		eraseRequest,
+		userDoc.role
 	])
 
 	return { actions }
