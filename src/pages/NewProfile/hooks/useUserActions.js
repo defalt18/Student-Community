@@ -38,7 +38,7 @@ export function useUserActions({ friendDoc, userId }) {
 			course: userdata.course,
 			degree: userdata.degree,
 			name: userdata.username,
-			image: userdata.image
+			image: userdata?.image ?? ''
 		}),
 		[]
 	)
