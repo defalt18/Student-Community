@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'components/Button'
 import MediaContainer from 'components/Media'
 import _map from 'lodash/map'
+import image from 'assets/images/resources_vector.svg'
 
 const Resources = [
 	{
@@ -45,8 +46,7 @@ function Academic() {
 					<Button variant='filled' text='Contribute' size='large' />
 				</div>
 				<div className='w-1/2'>
-					{/*Vector Image*/}
-					<MediaContainer />
+					<MediaContainer src={image} />
 				</div>
 			</div>
 			<div className='mt-24 w-full'>
