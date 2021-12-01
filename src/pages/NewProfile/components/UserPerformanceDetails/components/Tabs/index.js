@@ -11,7 +11,7 @@ function Tabs(props) {
 	const {
 		numberOfFriends = 0,
 		numberOfPosts = 0,
-		numberOfSources = 0,
+		// numberOfSources = 0,
 		numberOfEvents = 0,
 		userdata
 	} = content
@@ -53,12 +53,12 @@ function Tabs(props) {
 				/>
 			) : (
 				<>
-					<DataTab
-						value={numberOfSources}
-						active={view === 'ACADEMIC'}
-						label='Academic Sources'
-						view='ACADEMIC'
-					/>
+					{/*<DataTab*/}
+					{/*	value={numberOfSources}*/}
+					{/*	active={view === 'ACADEMIC'}*/}
+					{/*	label='Academic Sources'*/}
+					{/*	view='ACADEMIC'*/}
+					{/*/>*/}
 					<DataTab
 						value={numberOfFriends}
 						active={view === 'FRIENDS'}

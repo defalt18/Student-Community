@@ -45,7 +45,7 @@ function Academic() {
 					</p>
 					<Button variant='filled' text='Contribute' size='large' />
 				</div>
-				<div className='w-1/2'>
+				<div className='w-1/2 grid place-items-center'>
 					<MediaContainer src={image} />
 				</div>
 			</div>
