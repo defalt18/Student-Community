@@ -2,6 +2,7 @@ import { db, storage } from '../lib/firebase.prod'
 import _map from 'lodash/map'
 import _forEach from 'lodash/forEach'
 import _reduce from 'lodash/reduce'
+import _size from 'lodash/size'
 
 const SUCCESS = 'Successful'
 
@@ -141,4 +142,9 @@ export const fetchUserDetailsById = async (userId) => {
 
 export const notifyUser = async (id, data) => {
 	await db.collection('users').doc(id).collection('notifications').add(data)
+}
+
+export const checkUserEmailInDatabase = async (email) => {
+	const docRef = await db.collection('users').where('email', '==', email).get()
+	return _size(docRef.docs) > 0
 }

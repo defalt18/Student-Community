@@ -1,73 +1,20 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import Input from './components/Input'
-import _keys from 'lodash/keys'
-import _forEach from 'lodash/forEach'
 import Button from 'components/Button'
-import { useFormik } from 'formik'
-import _isEmpty from 'lodash/isEmpty'
 import Select from './components/Select'
 import MultiSelect from './components/MultiSelect'
-import { initialUser } from '../../actions/auth-modal'
-import { createUserWithCredentials } from '../../actions/auth'
-import { VERIFY } from 'constants/routes'
 import PageLoader from 'components/PageLoader'
 import Dialog from 'components/Dialog'
-import { useToggle } from 'react-use'
+import { useRegisterActions } from '../../hooks/useRegisterActions'
 
 const classes = {
 	container: 'bg-body_blue',
 	input: 'p-3'
 }
 
-const validate = (values) => {
-	const errors = {}
-
-	_forEach(_keys(values), (value) => {
-		if (
-			_isEmpty(values[value]) &&
-			value !== 'image' &&
-			value !== 'skills' &&
-			value !== 'studentId' &&
-			value !== 'bio'
-		)
-			errors[value] = 'Required'
-	})
-
-	if (!values.studentId) errors.studentId = 'Required'
-
-	if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-		errors.email = 'Invalid email address'
-	}
-
-	if (values.password !== values.confirmPassword) {
-		errors.password = errors.confirmPassword = "Passwords don't match!"
-	}
-
-	return errors
-}
-
-function Individual(props) {
-	const { auth, history, db } = props
-	const [loading, toggle] = useToggle(false)
-	const [userSkills, setSkills] = useState([])
-
-	const onSubmit = useCallback(
-		async ({ confirmPassword, ...values }) => {
-			toggle()
-			await createUserWithCredentials('Individual', auth, db, {
-				...values,
-				skills: userSkills
-			})
-			history.push(VERIFY, { details: 'new user' })
-		},
-		[userSkills, history, auth, db, toggle]
-	)
-
-	const registration = useFormik({
-		initialValues: initialUser,
-		validate,
-		onSubmit
-	})
+function Individual() {
+	const { onSubmit, loading, values, onChange, toggle, errors, touched } =
+		useRegisterActions('Individual')
 
 	return (
 		<>
@@ -78,79 +25,64 @@ function Individual(props) {
 						classes={classes}
 						name='studentId'
 						type='number'
-						value={registration.values.studentId}
-						error={
-							registration.touched.studentId && registration.errors.studentId
-						}
-						onChange={registration.handleChange}
+						value={values.studentId}
+						error={touched.studentId && errors.studentId}
+						onChange={onChange}
 					/>
 					<Input
 						placeholder='Email ID*'
 						name='email'
 						classes={classes}
 						type='email'
-						value={registration.values.email}
-						error={registration.touched.email && registration.errors.email}
-						onChange={registration.handleChange}
+						value={values.email}
+						onChange={onChange}
+						error={touched.email && errors.email}
+						// disabled
+						// value={`${values.studentId ?? ''}@daiict.ac.in`}
 					/>
 				</div>
-				<Input
-					placeholder='Username*'
-					name='username'
-					classes={classes}
-					value={registration.values.username}
-					error={registration.touched.username && registration.errors.username}
-					onChange={registration.handleChange}
-				/>
 				<Input
 					placeholder='Password*'
 					name='password'
 					type='password'
 					classes={classes}
-					value={registration.values.password}
-					error={registration.touched.password && registration.errors.password}
-					onChange={registration.handleChange}
+					value={values.password}
+					error={touched.password && errors.password}
+					onChange={onChange}
 				/>
 				<Input
 					placeholder='Re-enter password*'
 					name='confirmPassword'
 					type='password'
 					classes={classes}
-					value={registration.values.confirmPassword}
-					error={
-						registration.touched.confirmPassword &&
-						registration.errors.confirmPassword
-					}
-					onChange={registration.handleChange}
+					value={values.confirmPassword}
+					error={touched.confirmPassword && errors.confirmPassword}
+					onChange={onChange}
 				/>
 				<Input
 					placeholder='Bio(200 characters max)'
 					name='bio'
 					classes={classes}
-					value={registration.values.bio}
-					error={registration.touched.bio && registration.errors.bio}
-					onChange={registration.handleChange}
+					value={values.bio}
+					error={touched.bio && errors.bio}
+					onChange={onChange}
 				/>
 				<div className='flex gap-x-3 w-full flex-1'>
 					<Input
 						placeholder='Firstname*'
 						name='firstName'
 						classes={classes}
-						error={
-							registration.touched.firstName && registration.errors.firstName
-						}
-						value={registration.values.firstName}
-						onChange={registration.handleChange}
+						error={touched.firstName && errors.firstName}
+						value={values.firstName}
+						onChange={onChange}
 					/>
 					<Input
 						name='lastName'
 						placeholder='Lastname*'
 						classes={classes}
-						value={registration.values.lastName}
-						error={
-							registration.touched.lastName && registration.errors.lastName
-						}
-						onChange={registration.handleChange}
+						value={values.lastName}
+						error={touched.lastName && errors.lastName}
+						onChange={onChange}
 					/>
 				</div>
 				<div className='flex gap-x-3 w-full flex-1'>
@@ -158,69 +90,69 @@ function Individual(props) {
 						name='city'
 						placeholder='City*'
 						classes={classes}
-						value={registration.values.city}
-						error={registration.touched.city && registration.errors.city}
-						onChange={registration.handleChange}
+						value={values.city}
+						error={touched.city && errors.city}
+						onChange={onChange}
 					/>
 					<Input
 						name='state'
 						placeholder='State*'
 						classes={classes}
-						value={registration.values.state}
-						error={registration.touched.state && registration.errors.state}
-						onChange={registration.handleChange}
+						value={values.state}
+						error={touched.state && errors.state}
+						onChange={onChange}
 					/>
 					<Input
 						name='country'
 						placeholder='Country*'
 						classes={classes}
-						value={registration.values.country}
-						error={registration.touched.country && registration.errors.country}
-						onChange={registration.handleChange}
+						value={values.country}
+						error={touched.country && errors.country}
+						onChange={onChange}
 					/>
 				</div>
 				<div className='flex gap-x-3 w-full flex-1'>
 					<Select
 						placeholder='Gender*'
 						name='gender'
-						value={registration.values.gender}
-						error={registration.touched.gender && registration.errors.gender}
-						onChange={registration.handleChange}
+						value={values.gender}
+						error={touched.gender && errors.gender}
+						onChange={onChange}
 						options={['Male', 'Female', 'Prefer Not Say']}
 					/>
 					<Input
 						placeholder='Birthdate*'
 						type='date'
 						classes={{ ...classes, input: 'p-1.5' }}
-						value={registration.values.dob}
-						error={registration.touched.dob && registration.errors.dob}
+						value={values.dob}
+						error={touched.dob && errors.dob}
 						name='dob'
-						onChange={registration.handleChange}
+						onChange={onChange}
 					/>
 				</div>
 				<div className='flex gap-x-3 w-full flex-1'>
 					<Select
 						placeholder='Course*'
 						name='course'
-						value={registration.values.course}
-						error={registration.touched.course && registration.errors.course}
-						onChange={registration.handleChange}
+						value={values.course}
+						error={touched.course && errors.course}
+						onChange={onChange}
 						options={['ICT', 'ICT-CS', 'MnC', 'IT', 'ML']}
 					/>
 					<Select
 						placeholder='Degree*'
 						name='degree'
-						value={registration.values.degree}
-						error={registration.touched.degree && registration.errors.degree}
-						onChange={registration.handleChange}
+						value={values.degree}
+						error={touched.degree && errors.degree}
+						onChange={onChange}
 						options={['B.Tech', 'M.Tech', 'PhD', 'MscIT', 'MDes']}
 					/>
 					<Select
 						placeholder='Batch*'
 						name='batch'
-						value={registration.values.batch}
-						error={registration.touched.batch && registration.errors.batch}
-						onChange={registration.handleChange}
+						value={values.batch}
+						error={touched.batch && errors.batch}
+						onChange={onChange}
 						options={[2018, 2019, 2020, 2021, 2022]}
 					/>
 				</div>
@@ -228,13 +160,14 @@ function Individual(props) {
 					label='Skills'
 					placeholder='Select Skills'
 					name='skills'
-					onChange={setSkills}
+					onChange={onChange}
+					error={errors.skills}
 				/>
 			</div>
 			<Button
 				size='large'
 				variant='filled'
-				callback={registration.handleSubmit}
+				callback={onSubmit}
 				text='Sign Up'
 				type='submit'
 				className='mx-auto mt-12'
@@ -249,4 +182,4 @@ function Individual(props) {
 	)
 }
 
-export default React.memo(Individual)
+export default Individual

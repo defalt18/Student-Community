@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
 import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close'
 import CheckIcon from '@material-ui/icons/Check'
+import _isEmpty from 'lodash/isEmpty'
 
 const InputWrapper = styled('div')`
 	width: 100%;
@@ -82,7 +83,7 @@ const ListBox = styled('ul')`
 	}
 `
 
-export default function MultiSelect(props) {
+function MultiSelect(props) {
 	const {
 		getRootProps,
 		getInputProps,
@@ -100,9 +101,9 @@ export default function MultiSelect(props) {
 		getOptionLabel: (option) => option
 	})
 
-	const { onChange: formikChange, placeholder } = props
+	const { onChange: formikChange, placeholder, error } = props
 
-	formikChange(value)
+	formikChange({ target: { name: 'skills', value } })
 
 	return (
 		<div>
@@ -132,9 +133,14 @@ export default function MultiSelect(props) {
 					))}
 				</ListBox>
 			) : null}
+			{!_isEmpty(error) && (
+				<p className='text-secondary text-red-400'>{error}</p>
+			)}
 		</div>
 	)
 }
+
+export default React.memo(MultiSelect)
 
 const SKILLS = [
 	'App Development',

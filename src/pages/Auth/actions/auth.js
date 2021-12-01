@@ -16,10 +16,11 @@ export async function signInWithCredentials(auth, credentials) {
 	const userToken = await auth
 		.signInWithEmailAndPassword(credentials.email, credentials.password)
 		.catch((error) => {
+			alert(error.message)
 			status = error.message
 		})
 
-	return { user: userToken.user, error: status }
+	return { user: userToken?.user, error: status }
 }
 
 export async function createUserWithCredentials(

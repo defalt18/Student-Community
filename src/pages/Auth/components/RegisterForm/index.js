@@ -3,15 +3,9 @@ import Individual from './Individual'
 import Club from './Club'
 import { VIEWS } from '../../fixtures'
 import c from 'classnames'
-import { useAuth, useFirestore } from 'reactfire'
-import { useHistory } from 'react-router-dom'
 
 function RegisterForm() {
 	const [view, setView] = useState(VIEWS.Individual)
-	const auth = useAuth()
-	const history = useHistory()
-	const db = useFirestore()
-	const content = { auth, db, history }
 	const onClick = useCallback(
 		(_event) => {
 			const { value } = _event.currentTarget
@@ -20,9 +14,9 @@ function RegisterForm() {
 		[setView]
 	)
 	const renderContent = () => {
-		if (view === VIEWS.Individual) return <Individual {...content} />
+		if (view === VIEWS.Individual) return <Individual />
 
-		return <Club {...content} />
+		return <Club />
 	}
 
 	return (

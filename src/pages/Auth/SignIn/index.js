@@ -1,14 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import daLogo from 'assets/images/DA-logo.png'
 import Button from 'components/Button'
-import { SIGN_UP, HOME, VERIFY } from 'constants/routes'
-import { useAuth } from 'reactfire'
-import { signInWithCredentials } from '../actions/auth'
-import { useHistory } from 'react-router-dom'
-import { useToggle } from 'react-use'
+import { SIGN_UP } from 'constants/routes'
 import Input from '../components/RegisterForm/components/Input'
 import Dialog from 'components/Dialog'
 import PageLoader from 'components/PageLoader'
+import { useLoginActions } from '../hooks/useLoginActions'
 
 const classes = {
 	container: 'mt-8',
@@ -16,41 +13,12 @@ const classes = {
 }
 
 function SignIn() {
-	const auth = useAuth()
-	const history = useHistory()
-	const [loading, toggle] = useToggle(false)
-	const [credentials, setCredentials] = useState({
-		email: '',
-		password: ''
-	})
-
-	const onChange = useCallback(
-		(_event) => {
-			const { name, value } = _event.target
-			setCredentials({ ...credentials, [name]: value })
-		},
-		[credentials, setCredentials]
-	)
-
-	const onSignIn = useCallback(
-		async (_event) => {
-			_event.preventDefault()
-			toggle()
-			const { user, error } = await signInWithCredentials(auth, credentials)
-			if (user?.emailVerified && error === 'SUCCESS') {
-				if (!user.emailVerified) history.push(VERIFY)
-				else history.replace(HOME)
-			}
-			toggle()
-		},
-		[auth, credentials, history, toggle]
-	)
-
+	const { values, onChange, loading, toggle, onSignIn } = useLoginActions()
 	return (
 		<div className='h-screen w-screen bg-body_blue flex text-white'>
 			<div className='w-1/2 pl-24 flex items-center'>
 				<div>
-					<img src={daLogo} className='h-44 w-44 mb-16' />
+					<img src={daLogo} className='h-44 w-44 mb-16' alt='da logo' />
 					<p className='text-prompt text-white'>Welcome to DAIICT</p>
 					<p className='text-prompt text-darker_blue mb-4'>Student Community</p>
 					<p className='text-secondary-02 text-white'>
@@ -67,14 +35,14 @@ function SignIn() {
 						name='email'
 						onChange={onChange}
 						classes={classes}
-						value={credentials.email}
+						value={values.email}
 						placeholder='Email ID'
 					/>
 					<Input
 						name='password'
 						onChange={onChange}
 						classes={classes}
-						value={credentials.password}
+						value={values.password}
 						placeholder='Password'
 						type='password'
 					/>
