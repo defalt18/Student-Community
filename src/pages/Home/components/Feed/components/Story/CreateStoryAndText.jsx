@@ -7,25 +7,20 @@ import Button from 'components/Button'
 import TextEditor from 'components/TextEditor'
 import { Photo } from 'components/Icons'
 import { VIEWS } from '../../../../../../components/NewHeader/components/CreatePostDialog/types'
-// import { Smiley } from 'components/Icons'
-// import Dialog from 'components/Dialog'
-// import { useToggle } from 'react-use'
-// import ReactQuill from 'react-quill'
-// import 'react-quill/dist/quill.bubble.css'
 import { createStory } from 'services/story-utils'
 import _map from 'lodash/map'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function CreateStoryAndText(props) {
 
 	const { userdata, user, toggleView, toggle  } = props
 	const { NO_ID_FIELD: uid } = userdata
 	const inputRef = useRef()
-	// const [, setImage] = React.useState(null)
 	const [disabled, setDisabled] = useState(false)
 	const [active, setActive] = useState(1)
 	const [caption, setCaption] = useState('')
 	const [storyImage, setAttachments] = useState(null)
-		
+
 	const attachmentInput = useRef()
 
 	const storyData = React.useMemo(
@@ -45,9 +40,10 @@ function CreateStoryAndText(props) {
 	 useCallback(
 		async (storyImage) => {
 				const storyContent = { ...storyData, image: storyImage}
-				await createStory(storyContent.id, storyContent)
+				try {
+					await createStory(storyContent.id, storyContent)
+				} catch (error) { console.log(error); }
 				toggleView(VIEWS.Success)
-			//  else alert('add an image')
 		},
 		[storyData]
 	)
@@ -64,17 +60,6 @@ function CreateStoryAndText(props) {
 		inputRef.current.click()
 	}, [inputRef])
 
-	
-	
-	// const handleChange = useCallback(
-	// 	(content, delta, source, Editor) => {
-	// 		const html = Editor.getHTML()
-	// 		setCaption(html)
-	// 	},
-	// 	[setCaption]
-	// )
-
-
 	const onClick = useCallback(() => {
 		attachmentInput.current.click()
 	}, [attachmentInput])
@@ -90,34 +75,6 @@ function CreateStoryAndText(props) {
 		[setAttachments, onUploadStory]
 	)
 
-	// const handleChange = useCallback(
-	// 	(_event) => {
-	// 		const files = _head(_event.target.files)
-	// 		setImage(files)
-	// 		onUploadStory(files)
-	// 	},
-	// 	[setImage, onUploadStory]
-	// )
-
-	// const onUploadStory = useCallback(async () => {
-	// 	const storyId = uuid()
-	// 	if (caption !== '') {
-	// 		const imageURL = await uploadImageInDirectory(
-	// 			'stories',
-	// 			storyId,
-	// 			storyImage
-	// 		)
-	// 		const storyContent = {
-	// 			...storyData,
-	// 			caption: caption,
-	// 			image: imageURL ?? '',
-	// 			id: storyId
-	// 		}
-	// 		await createPost(storyContent, storyId)
-	// 		toggleView(VIEWS.Success)
-	// 	} else alert('Add a caption!')
-	// }, [storyData, storyImage, caption, toggleView])
-
 	const renderContent = () => {
 		switch (active) {
 			case 1:
@@ -125,15 +82,20 @@ function CreateStoryAndText(props) {
 					<>
 					{caption !== ""?
 
-						(<div className='border border-outline_dark border-opacity-40 rounded p-2 text-sm m-2 grid justify-items-center text-white bg-darker_blue w-full'>
-						<p>Preview</p>
-						<p dangerouslySetInnerHTML={{ __html: caption }}></p>
+						(<div className='border border-outline_dark border-opacity-40 rounded p-2 h-50 w-full'>
+								<div>
+									<p className='justify-items-center grid text-white'>Preview</p>
+								</div>
+								<div className='p-2 break-words text-sm m-1 text-center grid text-white bg-darker_blue h-72 max-h-full w-64'>
+									<Scrollbars>
+										<p dangerouslySetInnerHTML={{ __html: caption }}></p>
+									</Scrollbars>
+								</div>
 					</div>
 					):
-					(	
+					( 
 					<div className='border border-outline_dark border-opacity-40 rounded p-2 text-sm m-2 grid justify-items-center text-white bg-header_blue w-full'>
 						<p>Preview</p>
-						{/* <p dangerouslySetInnerHTML={{ __html: caption }}></p> */}
 					</div>
 					)}
 					</>)
@@ -149,11 +111,10 @@ function CreateStoryAndText(props) {
 										<p>Preview</p>
 										{storyImage && <img className='object-cover w-48'
 										src={URL.createObjectURL(storyImage)} />}
-								<p 
-								 dangerouslySetInnerHTML={{ __html: caption }}></p>
-										</div>
+								<p className='text-center overflow-x-scroll w-64' dangerouslySetInnerHTML={{ __html: caption }}></p>
+								</div>
 							):
-							(	
+							( 
 							<div className='border border-outline_dark border-opacity-40 rounded p-2 text-sm m-2 grid justify-items-center text-white bg-header_blue w-full'>
 							<p>Preview</p>
 							{storyImage && 
@@ -214,13 +175,13 @@ function CreateStoryAndText(props) {
 					maxlength="50"
 					placeholder="Type Something..."
 					onChange={event => setCaption(event.target.value)}>
-					
+
 					</textarea>
 					<p className='pl-7 text-xs text-outline_blue'>Max 50 characters allowed </p>
 				</div>
-			
+   
 			</div>
-		
+	 
 			
 			{renderContent()}
 			
@@ -231,7 +192,7 @@ function CreateStoryAndText(props) {
 				size='medium'
 				className='mt-8'
 				callback={onUploadStory}
-			/>		
+			/>  
 	</>
 	)
 }
