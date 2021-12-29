@@ -23,15 +23,13 @@ function Feed(props) {
 	const [page, setPage] = useState(1)
 	const [posts, setPosts] = useState([])
 	const [pageLoading, setPageLoading] = useState(true)
-	const [lastItem, setLastItem] = useState('')
 	useEffect(() => {
-		; (async () => {
+		;(async () => {
 			setPageLoading(true)
 			const data = await db
 				.collection('posts')
 				.orderBy('timestamp', 'desc')
 				.limit(POST_PER_PAGE)
-				.offset(page * POST_PER_PAGE)
 				.get()
 
 			let arr = []
@@ -39,7 +37,6 @@ function Feed(props) {
 				arr.push(d.data())
 			})
 
-			setLastItem(arr[arr.length - 1].timestamp)
 			setPosts(arr)
 			setPageLoading(false)
 		})()
