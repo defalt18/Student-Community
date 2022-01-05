@@ -9,7 +9,6 @@ import { Photo } from 'components/Icons'
 import { VIEWS } from '../../../../../../components/NewHeader/components/CreatePostDialog/types'
 import { createStory } from 'services/story-utils'
 import _map from 'lodash/map'
-import { Scrollbars } from 'react-custom-scrollbars';
 
 function CreateStoryAndText(props) {
 
@@ -87,9 +86,9 @@ function CreateStoryAndText(props) {
 									<p className='justify-items-center grid text-white'>Preview</p>
 								</div>
 								<div className='p-2 break-words text-sm m-1 text-center grid text-white bg-darker_blue h-72 max-h-full w-64'>
-									<Scrollbars>
+
 										<p dangerouslySetInnerHTML={{ __html: caption }}></p>
-									</Scrollbars>
+
 								</div>
 					</div>
 					):
