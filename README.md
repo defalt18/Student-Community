@@ -2,7 +2,7 @@
 
 <img alt="DA Logo" align="right" width="200" height="200" src="https://upload.wikimedia.org/wikipedia/en/thumb/b/b1/Dhirubhai_Ambani_Institute_of_Information_and_Communication_Technology_logo.png/220px-Dhirubhai_Ambani_Institute_of_Information_and_Communication_Technology_logo.png">
 
-### Website : https://da-student-connect.web.app
+### Website : https://student-community.vercel.app
 An exclusive social network for DA flaunting all the typical features of a social network.
 
 To get started hit 
