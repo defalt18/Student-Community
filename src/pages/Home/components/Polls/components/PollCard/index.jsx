@@ -6,6 +6,7 @@ import { updatePoll } from 'services/poll-utils'
 import _has from 'lodash/has'
 import { useAuthListener } from 'hooks'
 import { Link } from 'react-router-dom'
+import { noop } from 'lodash'
 
 function PollCard(props) {
 	const { user } = useAuthListener()
@@ -47,10 +48,14 @@ function PollCard(props) {
 		]
 	)
 
+	const onClick = React.useCallback(() => {
+		return !showResults ? toggle : noop
+	}, [toggle, showResults])
+
 	return (
 		<div className='bg-component_core bg-opacity-20 p-8 flex rounded'>
 			<div className='w-7/12'>
-				<p className='text-primary text-white mb-4' onClick={toggle}>
+				<p className='text-primary text-white mb-4' onClick={onClick}>
 					{name}
 				</p>
 				<div className='flex flex-col gap-y-3'>
