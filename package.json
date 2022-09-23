@@ -29,6 +29,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
+        "init:start": "yarn install && yarn start",
         "lintfix": "eslint --fix --ext .js,.jsx .",
         "build": "GENERATE_SOURCEMAP=false react-scripts build",
         "test": "react-scripts test",
