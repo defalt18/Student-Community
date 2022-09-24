@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
-import Feed from './components/Feed'
-import UpcomingEvent from './components/EventFeed'
+
 import Sidebar from 'components/NewSidebar'
 import Header from 'components/NewHeader'
 import { VIEWS } from './fixtures/home-model'
-import Clubs from './components/Clubs'
-import Academic from './components/Academic'
-import Polls from './components/Polls'
-import Events from './components/Events'
+
 import useHomeData from './hooks/useHomeData'
 import PageLoader from 'components/PageLoader'
 import { useToggle } from 'react-use'
@@ -15,6 +11,13 @@ import Dialog from 'components/Dialog'
 import _isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
 import Greetings from './components/Greetings'
+
+const Feed = React.lazy(() => import('./components/Feed'))
+const UpcomingEvent = React.lazy(() => import('./components/EventFeed'))
+const Clubs = React.lazy(() => import('./components/Clubs'))
+const Polls = React.lazy(() => import('./components/Polls'))
+const Events = React.lazy(() => import('./components/Events'))
+const Academic = React.lazy(() => import('./components/Academic'))
 
 function NewHome(props) {
 	const { user } = props
@@ -63,7 +66,13 @@ function NewHome(props) {
 			<div className='w-screen min-h-screen bg-body_blue flex'>
 				<Header />
 				<Sidebar view={view} navigator={navigator} />
-				{loading ? <PageLoader type='home' /> : renderContent()}
+				{loading ? (
+					<PageLoader type='home' />
+				) : (
+					<React.Suspense fallback={<PageLoader type='home' />}>
+						{renderContent()}
+					</React.Suspense>
+				)}
 			</div>
 			<Dialog open={greet} toggle={toggle}>
 				<Greetings toggle={toggle} />
