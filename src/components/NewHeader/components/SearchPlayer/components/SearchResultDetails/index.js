@@ -53,8 +53,8 @@ function SearchResultDetails(props) {
 		if (fetching) return <Loader style={LoaderStyles} />
 		return (
 			<div className='flex flex-col gap-y-2'>
-				{_map(content, (user) => (
-					<UserCard {...user} userdata={userdata} />
+				{_map(content, (user, index) => (
+					<UserCard {...user} userdata={userdata} key={index} />
 				))}
 			</div>
 		)
