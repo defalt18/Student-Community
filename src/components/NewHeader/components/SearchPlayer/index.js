@@ -16,7 +16,7 @@ function SearchPlayer(props) {
 	const [open, toggle] = useToggle(false)
 	const [searchString, setSearch] = useState('')
 
-	const throttledValue = useDebouncedValue(searchString, 1500)
+	const throttledValue = useDebouncedValue(searchString, 1000)
 
 	const onChange = useCallback(
 		(_event) => {
