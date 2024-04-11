@@ -1,7 +1,9 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
+import { useAuthListener } from '../hooks'
 
-export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
+export function IsUserRedirect({ loggedInPath, children, ...rest }) {
+	const { user } = useAuthListener()
 	return (
 		<Route
 			{...rest}
@@ -26,7 +28,8 @@ export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
 	)
 }
 
-export function ProtectedRoute({ user, children, ...rest }) {
+export function ProtectedRoute({ children, ...rest }) {
+	const { user } = useAuthListener()
 	return (
 		<Route
 			{...rest}

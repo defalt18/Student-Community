@@ -11,6 +11,7 @@ import Dialog from 'components/Dialog'
 import _isEmpty from 'lodash/isEmpty'
 import { useLocation } from 'react-router-dom'
 import Greetings from './components/Greetings'
+import { useAuthListener } from '../../hooks'
 
 const Feed = React.lazy(() => import('./components/Feed'))
 const UpcomingEvent = React.lazy(() => import('./components/EventFeed'))
@@ -20,7 +21,7 @@ const Events = React.lazy(() => import('./components/Events'))
 const Academic = React.lazy(() => import('./components/Academic'))
 
 function NewHome(props) {
-	const { user } = props
+	const { user } = useAuthListener()
 	const location = useLocation()
 	const [greet, toggle] = useToggle(!_isEmpty(location.state))
 	const [view, navigator] = useState(VIEWS.HOME)
