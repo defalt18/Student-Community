@@ -13,6 +13,7 @@ import _size from 'lodash/size'
 import FriendCard from './components/FriendCard'
 import _keys from 'lodash/keys'
 import _has from 'lodash/has'
+import _get from 'lodash/get'
 
 const lockStyles = {
 	height: 70,
@@ -50,7 +51,7 @@ function PerformanceDetails(props) {
 			if (!contentPermissions) {
 				if (
 					!_has(userdata?.friends, user.uid) &&
-					userdata?.friends[user.uid]?.status !== 1
+					_get(userdata ,`friends[${user.uid}].status`) !== 1
 				)
 					return (
 						<div className='pt-8 grid place-items-center text-secondary text-white'>

@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react'
 import SearchIcon from '@material-ui/icons/Search'
 import { Close } from '@material-ui/icons'
 import Button from 'components/Button'
-import { useThrottle, useToggle } from 'react-use'
+import { useToggle } from 'react-use'
+import { useDebouncedValue } from './hooks/useDebouncedValue'
 import { default as Portal } from 'react-portalize'
 import SearchResultDetails from './components/SearchResultDetails'
 
@@ -15,7 +16,7 @@ function SearchPlayer(props) {
 	const [open, toggle] = useToggle(false)
 	const [searchString, setSearch] = useState('')
 
-	const throttledValue = useThrottle(searchString, 2500)
+	const throttledValue = useDebouncedValue(searchString, 1000)
 
 	const onChange = useCallback(
 		(_event) => {

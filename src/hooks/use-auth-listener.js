@@ -8,8 +8,8 @@ export default function useAuthListener() {
 	useEffect(() => {
 		const listener = auth.onAuthStateChanged((authUser) => {
 			if (authUser) {
-				localStorage.setItem('authUser', JSON.stringify(authUser))
 				setUser(authUser)
+				localStorage.setItem('authUser', JSON.stringify(authUser))
 			} else {
 				localStorage.removeItem('authUser')
 				setUser(null)

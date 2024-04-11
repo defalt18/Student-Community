@@ -13,7 +13,8 @@ const classes = {
 }
 
 function SignIn() {
-	const { values, onChange, loading, toggle, onSignIn } = useLoginActions()
+	const { values, onChange, loading, toggle, onSignIn, onDemoSignIn } =
+		useLoginActions()
 	return (
 		<div className='h-screen w-screen bg-body_blue flex text-white'>
 			<div className='w-1/2 pl-24 flex items-center'>
@@ -31,6 +32,14 @@ function SignIn() {
 			<div className='pl-16'>
 				<form className='bg-black bg-opacity-50 border-0-5 p-12 rounded flex flex-col justify-center w-525 h-5/6'>
 					<p className='text-primary text-white mb-12'>Sign In</p>
+					<Button
+						callback={onDemoSignIn}
+						awaitResponse={false}
+						className='my-4 grid place-items-center'
+						text='Use Demo User Login'
+						variant='filled'
+						size='large'
+					/>
 					<Input
 						name='email'
 						onChange={onChange}
